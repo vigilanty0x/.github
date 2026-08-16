@@ -1,0 +1,20 @@
+{
+  "template": {
+    "steps": [
+      {
+        "id": "prepare",
+        "value": "hello {{NAME}}"
+      },
+      {
+        "id": "publish",
+        "depends_on": [
+          "prepare"
+        ]
+      }
+    ]
+  },
+  "variables": {
+    "NAME": "world"
+  }
+}
+
