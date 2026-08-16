@@ -1,0 +1,30 @@
+name: Bounded feature
+description: Propose a falsifiable behavior and its acceptance evidence.
+title: "feature: "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and user
+    validations:
+      required: true
+  - type: textarea
+    id: contract
+    attributes:
+      label: Falsifiable behavior contract
+    validations:
+      required: true
+  - type: textarea
+    id: non_goals
+    attributes:
+      label: Non-goals
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Acceptance evidence and counter-proof
+    validations:
+      required: true
+

@@ -1,0 +1,21 @@
+name: Governance policy
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Validate governance and public boundary
+        run: node scripts/check-governance.mjs --root .
+      - name: Run counter-proofs
+        run: node --test test/*.test.mjs
+

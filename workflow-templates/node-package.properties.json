@@ -1,0 +1,7 @@
+{
+  "name": "Node evidence baseline",
+  "description": "Install, test, and build a lockfile-backed Node project.",
+  "iconName": "octicon shield-check",
+  "categories": ["JavaScript", "TypeScript"]
+}
+

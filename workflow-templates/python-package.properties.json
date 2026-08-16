@@ -1,0 +1,7 @@
+{
+  "name": "Python evidence baseline",
+  "description": "Compile, test, build, install, and inspect a Python package.",
+  "iconName": "octicon shield-check",
+  "categories": ["Python"]
+}
+
