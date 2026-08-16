@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "target": ".github",
+  "base": null,
+  "baseHeadSha": null,
+  "sources": [
+    {
+      "repository": "workflow-templates",
+      "prefix": "packages/workflow-templates",
+      "headSha": "f210986b2fa7917c1b70ce0f82b10f23e87f63b7",
+      "treeSha": "c9c199cfaff02b48e49c9008a830bbca8ae042ae",
+      "ancestor": true,
+      "treeMatch": true
+    }
+  ],
+  "state": "REHEARSAL_ONLY",
+  "archiveGate": "BLOCKED",
+  "reason": "Tests, compatibility, release, redirect, consumer, rollback, and human gates are not all verified."
+}
