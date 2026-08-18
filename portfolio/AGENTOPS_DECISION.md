@@ -21,6 +21,10 @@ On the explicit Ubuntu 24.04 runner, both Python 3.11 and 3.12 jobs passed:
 
 The one-time assembly verified the archive digest, exact membership, every file digest and byte count, regular-file type, and path containment before the resulting tree was committed. Temporary bootstrap material was removed.
 
+## Evidence lifetime
+
+The implementation, source-inventory, receipt, and CI observations were recorded at `2026-08-18T02:26:33Z` and expire at `2026-09-17T02:26:33Z`. An expired or inaccessible proof returns the AgentOps evidence gate to `BLOCKED`; it never inherits a permanent green status.
+
 ## Why this base
 
 The selected repository already exposes durable SQLite state, strict workflow schemas, idempotent submissions, bounded retries and deadlines, digest-bound approvals, atomic leases, budgets, kill switches, recovery, a tamper-evident audit chain, machine-readable CLI behavior, a loopback-only read-only surface, and broad negative/concurrency tests.
