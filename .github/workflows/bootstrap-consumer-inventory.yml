@@ -85,8 +85,12 @@ jobs:
                       raise SystemExit(f"file byte count mismatch: {normalized}")
                   if sha256(data).hexdigest() != metadata["sha256"]:
                       raise SystemExit(f"file SHA-256 mismatch: {normalized}")
-                  destination = root.joinpath(*relative.parts).resolve()
-                  if root not in destination.parents:
+
+                  if normalized == ".github/workflows/portfolio-consumers.yml":
+                      destination = root / "portfolio" / "_staged-portfolio-consumers.yml"
+                  else:
+                      destination = root.joinpath(*relative.parts).resolve()
+                  if root not in destination.resolve().parents:
                       raise SystemExit(f"path escapes repository: {normalized}")
                   destination.parent.mkdir(parents=True, exist_ok=True)
                   destination.write_bytes(data)
@@ -97,7 +101,6 @@ jobs:
               raise SystemExit(f"archive membership mismatch; missing={missing}")
 
           shutil.rmtree(bootstrap)
-          (root / ".github" / "workflows" / "bootstrap-consumer-inventory.yml").unlink()
           PY
       - name: Run scanner and portfolio counter-proofs
         shell: bash
@@ -108,7 +111,7 @@ jobs:
           node --test test/*.test.mjs
           node scripts/check-portfolio.mjs --root .
           node scripts/check-governance.mjs --root .
-      - name: Commit the reviewed consumer inventory tree
+      - name: Commit the reviewed non-workflow tree
         shell: bash
         run: |
           set -euo pipefail
