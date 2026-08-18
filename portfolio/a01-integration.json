@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "scope": "PUBLIC_ONLY",
+  "owner": "A01_GPT_5_6_SOL_1",
+  "status": "VERIFIED_SCOPE_COMPLETE",
+  "generatedAt": "2026-08-18T16:55:00Z",
+  "architecture": {
+    "transitionalTargetCount": 18,
+    "finalEntityCount": 16,
+    "finalActiveRepositoryCount": 17,
+    "eventualArchiveCandidateCount": 95,
+    "activationRequiresHumanApproval": true
+  },
+  "mergedDeliverables": [
+    {
+      "target": "community-governance",
+      "repository": ".github",
+      "mergeCommit": "b5a99b401eb26deaad7b6aa144afed64f0db70b1",
+      "verifiedHead": "c8c9c66728cf7865015a271678071b472f1a9430",
+      "evidenceRuns": [32151870826, 32151870815, 32151870800],
+      "state": "MERGED"
+    },
+    {
+      "target": "portfolio-profile",
+      "repository": "vigilanty0x",
+      "mergeCommit": "2f66106e4a9d852249483eda69c77974b2d44b7a",
+      "verifiedHead": "37597a471950c842424933f0dd0037840fe1816c",
+      "evidenceRuns": [32161326340],
+      "state": "MERGED"
+    },
+    {
+      "target": "portfolio-profile",
+      "repository": "portfolio-kit",
+      "mergeCommit": "0fc4b0dcf065d63c68556aea1bb25f86f1bab30d",
+      "verifiedHead": "84c5cfe9b2e8fe3eea40a355fa610f128993b886",
+      "evidenceRuns": [32161823025],
+      "state": "MERGED"
+    },
+    {
+      "target": "devdocs",
+      "repository": "devdocs",
+      "mergeCommit": "dbae7c5d40ef38ca04a4f3b9f7c06d8251c46660",
+      "verifiedHead": "0fd2fad97f0c8e3af72b58ca55f5a83fff667904",
+      "evidenceRuns": [32162160300],
+      "state": "MERGED"
+    }
+  ],
+  "invariants": {
+    "maxActiveConsolidations": 2,
+    "maxOpenPullRequestsBeforeStop": 50,
+    "automaticMerge": false,
+    "automaticArchive": false,
+    "automaticRedirect": false,
+    "privateBoundaryExcluded": true,
+    "requiredArchiveGates": [
+      "release",
+      "compatibility",
+      "consumers",
+      "redirect",
+      "rollback",
+      "humanApproval"
+    ]
+  },
+  "remainingProgramBlocks": [
+    {
+      "id": "PRODUCT_MIGRATIONS",
+      "owner": "OTHER_ASSIGNED_AGENTS",
+      "status": "BLOCKED_OUTSIDE_A01_SCOPE",
+      "reason": "Product-level migrations, package identities, releases, compatibility aliases, consumer moves, redirects and rollback rehearsals remain with their assigned product owners."
+    },
+    {
+      "id": "PROFILE_GENERATED_LIVE_DASHBOARD",
+      "owner": "A01_GPT_5_6_SOL_1",
+      "status": "BLOCKED",
+      "reason": "The human-facing profile is merged and evidence-bound, but P1-004 still requires a dashboard generated from the exact live registry/snapshot with TTL rather than a manually curated page."
+    },
+    {
+      "id": "ACCOUNT_METADATA_AND_PINS",
+      "owner": "A01_GPT_5_6_SOL_1",
+      "status": "BLOCKED",
+      "reason": "Repository content is aligned, but account-level homepage, pinned repositories and related profile settings still require a supported account-setting path plus verified target state."
+    },
+    {
+      "id": "ARCHIVE_QUEUE",
+      "owner": "HUMAN_FINAL_GATE",
+      "status": "BLOCKED",
+      "reason": "No eventual archive candidate may be archived until every target-specific technical gate and explicit human approval pass."
+    }
+  ],
+  "irreversibleActionsPerformedByA01": []
+}
