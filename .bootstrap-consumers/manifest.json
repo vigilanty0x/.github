@@ -12,7 +12,7 @@
     },
     {
       "path": "portfolio/CONSUMER_INVENTORY.md",
-      "bytes": 1885,
+      "bytes": 1878,
       "sha256": "9b8121da2884516f48ea2263c6fdd9abd0216119d379ab1518d5dba672749640"
     },
     {
@@ -22,7 +22,7 @@
     },
     {
       "path": "test/consumer-inventory.test.mjs",
-      "bytes": 6666,
+      "bytes": 6675,
       "sha256": "711429b7e68a9d5a2ae305f54bea587414db2a07e337e338162595123898f7b4"
     }
   ]
