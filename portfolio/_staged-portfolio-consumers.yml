@@ -1,0 +1,127 @@
+name: Public portfolio consumer inventory
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "portfolio/**"
+      - "scripts/consumer-inventory.mjs"
+      - "test/consumer-inventory.test.mjs"
+      - ".github/workflows/portfolio-consumers.yml"
+  workflow_dispatch:
+  schedule:
+    - cron: "43 5 * * 1"
+
+concurrency:
+  group: public-portfolio-consumers-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  inventory:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Validate scanner counter-proofs and canonical registry
+        run: |
+          node --check scripts/consumer-inventory.mjs
+          node --test test/consumer-inventory.test.mjs
+          node scripts/check-portfolio.mjs --root .
+      - name: Derive the exact public repository set
+        run: |
+          node scripts/consumer-inventory.mjs \
+            --root . \
+            --list-repositories consumer-live/repositories.txt
+          test "$(wc -l < consumer-live/repositories.txt)" -eq 112
+      - name: Materialize current public default-branch trees read-only
+        id: materialize
+        continue-on-error: true
+        shell: bash
+        env:
+          OWNER: vigilanty0x
+        run: |
+          set -euo pipefail
+          workspace="$RUNNER_TEMP/public-consumer-workspace"
+          errors="$RUNNER_TEMP/public-consumer-clone-errors"
+          mkdir -p "$workspace" "$errors"
+
+          mkdir -p "$workspace/.github"
+          git archive HEAD | tar -x -C "$workspace/.github"
+          git rev-parse HEAD > "$workspace/.github/.consumer-head"
+
+          clone_one() {
+            local repository="$1"
+            local destination="$workspace/$repository"
+            if [[ "$repository" == ".github" ]]; then
+              return 0
+            fi
+            local attempt
+            for attempt in 1 2 3; do
+              rm -rf "$destination"
+              if GIT_TERMINAL_PROMPT=0 git -c protocol.version=2 clone \
+                --quiet \
+                --depth 1 \
+                --single-branch \
+                --no-tags \
+                "https://github.com/${OWNER}/${repository}.git" \
+                "$destination"; then
+                git -C "$destination" rev-parse HEAD > "$destination/.consumer-head"
+                return 0
+              fi
+              sleep "$attempt"
+            done
+            printf '%s\n' "$repository" > "$errors/${repository}.txt"
+            return 0
+          }
+          export -f clone_one
+          export workspace errors OWNER
+          xargs -r -P 8 -n 1 bash -c 'clone_one "$1"' _ < consumer-live/repositories.txt
+
+          if find "$errors" -type f -print -quit | grep -q .; then
+            printf '%s\n' 'Repository materialization failures:' >&2
+            cat "$errors"/*.txt >&2
+          fi
+          printf 'workspace=%s\n' "$workspace" >> "$GITHUB_OUTPUT"
+      - name: Build the bounded consumer and dependency evidence
+        id: inventory
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/consumer-inventory.mjs \
+            --root . \
+            --workspace "${{ steps.materialize.outputs.workspace }}" \
+            --strict \
+            --output-json consumer-live/snapshot.json \
+            --output-markdown consumer-live/snapshot.md \
+            --output-manifest consumer-live/manifest.json
+      - name: Publish the bounded report to the job summary
+        if: always()
+        shell: bash
+        run: |
+          if [[ -f consumer-live/snapshot.md ]]; then
+            cat consumer-live/snapshot.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            printf '%s\n' '## Public consumer inventory' '' 'Collection did not produce a report.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Persist dated consumer inventory evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: public-consumer-inventory-${{ github.run_id }}
+          path: |
+            consumer-live/repositories.txt
+            consumer-live/snapshot.json
+            consumer-live/snapshot.md
+            consumer-live/manifest.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Enforce fail-closed inventory result
+        if: steps.materialize.outcome != 'success' || steps.inventory.outcome != 'success'
+        run: exit 1
