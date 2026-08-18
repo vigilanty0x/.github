@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-18T00:00:00Z",
+  "definitionOfDone": [
+    "PREPARED",
+    "MERGED",
+    "TAGGED",
+    "RELEASED",
+    "VERIFIED"
+  ],
+  "actions": [
+    {
+      "id": "P0-001",
+      "priority": "P0",
+      "target": "portfolio",
+      "title": "Publish the canonical target registry",
+      "status": "PREPARED",
+      "owner": "vigilanty0x",
+      "dependsOn": [],
+      "dueAt": "2026-08-20T23:59:59Z",
+      "verification": "node scripts/check-portfolio.mjs --root .",
+      "counterProof": "Duplicate one source repository across two targets; validation must fail.",
+      "closureEvidence": [],
+      "rollback": "Revert the registry commit; no repository mutation is performed."
+    },
+    {
+      "id": "P0-002",
+      "priority": "P0",
+      "target": "portfolio",
+      "title": "Activate consolidation freeze and stop-the-line limits",
+      "status": "PREPARED",
+      "owner": "vigilanty0x",
+      "dependsOn": [
+        "P0-001"
+      ],
+      "dueAt": "2026-08-20T23:59:59Z",
+      "verification": "node scripts/check-portfolio.mjs --root .",
+      "counterProof": "Set autoClose or disable human approval for archive; validation must fail.",
+      "closureEvidence": [],
+      "rollback": "Human-approved freeze update only; no automatic unfreeze."
+    },
+    {
+      "id": "P0-003",
+      "priority": "P0",
+      "target": "portfolio",
+      "title": "Generate live repository and pull-request triage evidence",
+      "status": "PREPARED",
+      "owner": "vigilanty0x",
+      "dependsOn": [
+        "P0-001",
+        "P0-002"
+      ],
+      "dueAt": "2026-08-21T23:59:59Z",
+      "verification": "node scripts/live-portfolio.mjs --strict --output-json snapshot.json --output-markdown snapshot.md",
+      "counterProof": "Remove one registered repository from the live response; strict mode must stop the line.",
+      "closureEvidence": [],
+      "rollback": "Disable the read-only scheduled workflow; generated reports are disposable."
+    },
+    {
+      "id": "P0-004",
+      "priority": "P0",
+      "target": "agentops",
+      "title": "Use automation-control-plane as the prepared AgentOps base",
+      "status": "PREPARED",
+      "owner": "vigilanty0x",
+      "dependsOn": [
+        "P0-001"
+      ],
+      "dueAt": "2026-08-22T23:59:59Z",
+      "verification": "Review the base decision, compatibility map, package boundaries, and negative tests before any import.",
+      "counterProof": "Demonstrate a required AgentOps invariant that the selected base cannot implement without weakening safety.",
+      "closureEvidence": [],
+      "rollback": "Change selectedBase in the registry before imports; no new repository is created."
+    },
+    {
+      "id": "P0-005",
+      "priority": "P0",
+      "target": "shipcheck",
+      "title": "Resolve the three Shipcheck identities",
+      "status": "BLOCKED",
+      "owner": "vigilanty0x",
+      "dependsOn": [
+        "P0-003"
+      ],
+      "dueAt": "2026-08-25T23:59:59Z",
+      "verification": "One canonical package/CLI plus tested compatibility aliases and migration documentation.",
+      "counterProof": "Change README branding without changing package and CLI; the identity check must fail.",
+      "closureEvidence": [],
+      "rollback": "Keep existing repositories active and unarchived until the target release is verified."
+    },
+    {
+      "id": "P0-006",
+      "priority": "P0",
+      "target": "portfolio",
+      "title": "Enforce archive gates and human approval",
+      "status": "PREPARED",
+      "owner": "vigilanty0x",
+      "dependsOn": [
+        "P0-001"
+      ],
+      "dueAt": "2026-08-22T23:59:59Z",
+      "verification": "Counter-proof tests reject ARCHIVED unless release, compatibility, consumers, redirect, rollback, and human gates pass.",
+      "counterProof": "Mark a source ARCHIVED while one gate is BLOCKED; validation must fail.",
+      "closureEvidence": [],
+      "rollback": "Revert state to ACTIVE_SOURCE or ROLLED_BACK; repository settings remain unchanged."
+    },
+    {
+      "id": "P0-007",
+      "priority": "P0",
+      "target": "portfolio",
+      "title": "Cap active consolidation review at two targets",
+      "status": "PREPARED",
+      "owner": "vigilanty0x",
+      "dependsOn": [
+        "P0-002",
+        "P0-003"
+      ],
+      "dueAt": "2026-08-21T23:59:59Z",
+      "verification": "Live snapshot fails strict mode when active consolidation count exceeds the policy limit.",
+      "counterProof": "Inject a third active consolidation PR into the synthetic snapshot; stop-the-line must trigger.",
+      "closureEvidence": [],
+      "rollback": "Adjust the limit only by reviewed policy change."
+    },
+    {
+      "id": "P1-001",
+      "priority": "P1",
+      "target": "community-governance",
+      "title": "Make runner and runtime support explicit",
+      "status": "PREPARED",
+      "owner": "vigilanty0x",
+      "dependsOn": [
+        "P0-001"
+      ],
+      "dueAt": "2026-08-28T23:59:59Z",
+      "verification": "Reusable workflows use explicit runner images and documented runtime matrices.",
+      "counterProof": "Replace the runner with a mutable alias; governance validation must fail.",
+      "closureEvidence": [],
+      "rollback": "Revert workflow change; consumers stay pinned to an earlier SHA."
+    },
+    {
+      "id": "P1-002",
+      "priority": "P1",
+      "target": "community-governance",
+      "title": "Add installed artifact smoke and sdist/wheel parity checks",
+      "status": "BLOCKED",
+      "owner": "vigilanty0x",
+      "dependsOn": [
+        "P1-001"
+      ],
+      "dueAt": "2026-09-02T23:59:59Z",
+      "verification": "Install each built format in a clean environment and execute help/version/minimal scenario.",
+      "counterProof": "Remove the console entry point from one artifact; the smoke test must fail.",
+      "closureEvidence": [],
+      "rollback": "Consumers retain the previous reusable workflow SHA."
+    },
+    {
+      "id": "P1-003",
+      "priority": "P1",
+      "target": "community-governance",
+      "title": "Add release SBOM, provenance, and trusted publishing policy",
+      "status": "BLOCKED",
+      "owner": "vigilanty0x",
+      "dependsOn": [
+        "P1-002"
+      ],
+      "dueAt": "2026-09-07T23:59:59Z",
+      "verification": "A release candidate contains SBOM, provenance, digest, protected environment, and post-publication verification.",
+      "counterProof": "Delete one attestation from the candidate; release gate must become BLOCKED.",
+      "closureEvidence": [],
+      "rollback": "Do not publish; retain the previous release."
+    },
+    {
+      "id": "P1-004",
+      "priority": "P1",
+      "target": "portfolio-profile",
+      "title": "Generate one evidence-first public dashboard from the registry",
+      "status": "BLOCKED",
+      "owner": "vigilanty0x",
+      "dependsOn": [
+        "P0-003"
+      ],
+      "dueAt": "2026-09-01T23:59:59Z",
+      "verification": "Dashboard values are generated from the exact registry/live snapshot SHA and expire with its TTL.",
+      "counterProof": "Change a displayed status without changing the source snapshot; the build must fail.",
+      "closureEvidence": [],
+      "rollback": "Keep the existing profile entry point until the generated site is verified."
+    },
+    {
+      "id": "P1-005",
+      "priority": "P1",
+      "target": "portfolio",
+      "title": "Inventory consumers before any redirect or archive",
+      "status": "BLOCKED",
+      "owner": "vigilanty0x",
+      "dependsOn": [
+        "P0-003"
+      ],
+      "dueAt": "2026-09-04T23:59:59Z",
+      "verification": "Scan imports, packages, workflows, links, documentation, dependants, and examples.",
+      "counterProof": "Add a synthetic consumer after inventory; the archive gate must return BLOCKED.",
+      "closureEvidence": [],
+      "rollback": "Restore source support and reverse redirects when a missed consumer appears."
+    },
+    {
+      "id": "P1-006",
+      "priority": "P1",
+      "target": "promptops",
+      "title": "Separate release preparation from published release",
+      "status": "BLOCKED",
+      "owner": "vigilanty0x",
+      "dependsOn": [
+        "P1-003"
+      ],
+      "dueAt": "2026-09-06T23:59:59Z",
+      "verification": "Tag, release, artifacts, smoke, changelog, and post-publication checks all point to one commit.",
+      "counterProof": "Remove the tag or artifact; the status must fall back to PREPARED.",
+      "closureEvidence": [],
+      "rollback": "Delete an unpublished candidate tag only after review; do not claim release."
+    },
+    {
+      "id": "P1-007",
+      "priority": "P1",
+      "target": "portfolio-profile",
+      "title": "Complete professional profile metadata and topics",
+      "status": "BLOCKED",
+      "owner": "vigilanty0x",
+      "dependsOn": [
+        "P1-004"
+      ],
+      "dueAt": "2026-09-03T23:59:59Z",
+      "verification": "Profile metadata, homepage, pinned targets, and repository topics match verified target state.",
+      "counterProof": "Point the profile to an unreleased target; profile validation must fail.",
+      "closureEvidence": [],
+      "rollback": "Restore previous profile metadata and pinned repositories."
+    }
+  ]
+}

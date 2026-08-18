@@ -1,0 +1,264 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/vigilanty0x/.github/portfolio/targets.schema.json",
+  "title": "Vigilanty0x public portfolio target registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "owner",
+    "scope",
+    "generatedAt",
+    "observedAt",
+    "expiresAt",
+    "expectedTargetCount",
+    "expectedSourceRepositoryCount",
+    "expectedPublicRepositoryCount",
+    "statusVocabulary",
+    "standaloneRepositories",
+    "targets"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "owner": {"type": "string", "pattern": "^[A-Za-z0-9-]+$"},
+    "scope": {"const": "PUBLIC_ONLY"},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "observedAt": {"type": "string", "format": "date-time"},
+    "expiresAt": {"type": "string", "format": "date-time"},
+    "expectedTargetCount": {"type": "integer", "minimum": 1},
+    "expectedSourceRepositoryCount": {"type": "integer", "minimum": 1},
+    "expectedPublicRepositoryCount": {"type": "integer", "minimum": 1},
+    "statusVocabulary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target", "source", "evidence", "gate"],
+      "properties": {
+        "target": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+        "source": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+        "evidence": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+        "gate": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true}
+      }
+    },
+    "standaloneRepositories": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/standaloneRepository"}
+    },
+    "targets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/target"}
+    }
+  },
+  "$defs": {
+    "repositoryName": {
+      "type": "string",
+      "pattern": "^(?:\\.github|[a-z0-9]+(?:[._-][a-z0-9]+)*)$"
+    },
+    "nullableSha": {
+      "anyOf": [
+        {"type": "null"},
+        {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      ]
+    },
+    "nullableDigest": {
+      "anyOf": [
+        {"type": "null"},
+        {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      ]
+    },
+    "gateState": {
+      "enum": ["PASS", "BLOCKED", "NOT_RUN", "WAIVED"]
+    },
+    "targetState": {
+      "enum": ["PROPOSED", "REHEARSAL", "READY", "RELEASED", "VERIFIED", "ROLLED_BACK"]
+    },
+    "sourceState": {
+      "enum": [
+        "ACTIVE_SOURCE",
+        "ACTIVE_TARGET",
+        "FROZEN_SOURCE",
+        "MIGRATION_IN_PROGRESS",
+        "TARGET_RELEASED",
+        "REDIRECTED",
+        "ARCHIVE_CANDIDATE",
+        "ARCHIVE_APPROVED",
+        "ARCHIVED",
+        "ROLLED_BACK"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "source", "observedAt", "expiresAt"],
+      "properties": {
+        "status": {"enum": ["OBSERVED", "CALCULATED", "INFERRED", "NOT_PROVEN", "BLOCKED", "VERIFIED"]},
+        "source": {"type": "string", "minLength": 1},
+        "observedAt": {"type": "string", "format": "date-time"},
+        "expiresAt": {"type": "string", "format": "date-time"}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "role", "state", "sourceSha", "treeSha", "targetPath", "importCommit"],
+      "properties": {
+        "repository": {"$ref": "#/$defs/repositoryName"},
+        "role": {"enum": ["SOURCE", "TARGET"]},
+        "state": {"$ref": "#/$defs/sourceState"},
+        "sourceSha": {"$ref": "#/$defs/nullableSha"},
+        "treeSha": {"$ref": "#/$defs/nullableSha"},
+        "targetPath": {"type": ["string", "null"]},
+        "importCommit": {"$ref": "#/$defs/nullableSha"}
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "status", "selectedBase", "candidates", "rationale"],
+      "properties": {
+        "kind": {"enum": ["KEEP_AND_CONSOLIDATE", "KEEP_STANDALONE", "MERGE", "ARCHIVE", "DECISION_REQUIRED"]},
+        "status": {"enum": ["PREPARED", "APPROVED", "REJECTED", "BLOCKED"]},
+        "selectedBase": {"type": ["string", "null"]},
+        "candidates": {"type": "array", "items": {"$ref": "#/$defs/repositoryName"}, "uniqueItems": true},
+        "rationale": {"type": "string", "minLength": 20}
+      }
+    },
+    "implementationRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "repository", "ref"],
+      "properties": {
+        "kind": {"enum": ["MAIN", "DRAFT_PR", "MAIN_OR_DRAFT_UNVERIFIED", "BASE_CANDIDATE", "NONE"]},
+        "repository": {"type": ["string", "null"]},
+        "ref": {"type": ["string", "null"]}
+      }
+    },
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "version", "tag", "url", "artifactSha256", "publishedAt"],
+      "properties": {
+        "status": {"enum": ["NOT_RELEASED", "PREPARED", "TAGGED", "RELEASED", "VERIFIED"]},
+        "version": {"type": ["string", "null"]},
+        "tag": {"type": ["string", "null"]},
+        "url": {"type": ["string", "null"]},
+        "artifactSha256": {"$ref": "#/$defs/nullableDigest"},
+        "publishedAt": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "consumers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "checkedAt", "repositories"],
+      "properties": {
+        "status": {"enum": ["NOT_INVENTORIED", "INVENTORIED", "VERIFIED"]},
+        "checkedAt": {"type": ["string", "null"], "format": "date-time"},
+        "repositories": {"type": "array", "items": {"$ref": "#/$defs/repositoryName"}, "uniqueItems": true}
+      }
+    },
+    "rollback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "lastRehearsedAt", "evidenceUrl"],
+      "properties": {
+        "status": {"enum": ["NOT_PROVEN", "DOCUMENTED", "REHEARSED", "VERIFIED"]},
+        "lastRehearsedAt": {"type": ["string", "null"], "format": "date-time"},
+        "evidenceUrl": {"type": ["string", "null"]}
+      }
+    },
+    "humanApproval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["approved", "approver", "approvedAt", "rationale"],
+      "properties": {
+        "approved": {"type": "boolean"},
+        "approver": {"type": ["string", "null"]},
+        "approvedAt": {"type": ["string", "null"], "format": "date-time"},
+        "rationale": {"type": ["string", "null"]}
+      }
+    },
+    "waiver": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate", "approver", "approvedAt", "expiresAt", "rationale"],
+      "properties": {
+        "gate": {"type": "string"},
+        "approver": {"type": "string", "minLength": 1},
+        "approvedAt": {"type": "string", "format": "date-time"},
+        "expiresAt": {"type": "string", "format": "date-time"},
+        "rationale": {"type": "string", "minLength": 20}
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "import", "compatibility", "release", "consumers", "redirect", "rollback", "humanApproval"],
+      "properties": {
+        "decision": {"$ref": "#/$defs/gateState"},
+        "import": {"$ref": "#/$defs/gateState"},
+        "compatibility": {"$ref": "#/$defs/gateState"},
+        "release": {"$ref": "#/$defs/gateState"},
+        "consumers": {"$ref": "#/$defs/gateState"},
+        "redirect": {"$ref": "#/$defs/gateState"},
+        "rollback": {"$ref": "#/$defs/gateState"},
+        "humanApproval": {"$ref": "#/$defs/gateState"}
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "canonicalRepository",
+        "companionRepositories",
+        "owner",
+        "priority",
+        "status",
+        "maturity",
+        "evidence",
+        "risk",
+        "decision",
+        "implementationRef",
+        "sources",
+        "release",
+        "consumers",
+        "rollback",
+        "humanApproval",
+        "waivers",
+        "gates"
+      ],
+      "properties": {
+        "id": {"$ref": "#/$defs/repositoryName"},
+        "canonicalRepository": {"$ref": "#/$defs/repositoryName"},
+        "companionRepositories": {"type": "array", "items": {"$ref": "#/$defs/repositoryName"}, "uniqueItems": true},
+        "owner": {"type": "string", "minLength": 1},
+        "priority": {"enum": ["P0", "P1", "P2", "P3"]},
+        "status": {"$ref": "#/$defs/targetState"},
+        "maturity": {"enum": ["EXPERIMENTAL", "PROTOTYPE", "BETA", "STABLE", "DEPRECATED"]},
+        "evidence": {"$ref": "#/$defs/evidence"},
+        "risk": {"type": "string", "minLength": 20},
+        "decision": {"$ref": "#/$defs/decision"},
+        "implementationRef": {"$ref": "#/$defs/implementationRef"},
+        "sources": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/source"}},
+        "release": {"$ref": "#/$defs/release"},
+        "consumers": {"$ref": "#/$defs/consumers"},
+        "rollback": {"$ref": "#/$defs/rollback"},
+        "humanApproval": {"$ref": "#/$defs/humanApproval"},
+        "waivers": {"type": "array", "items": {"$ref": "#/$defs/waiver"}},
+        "gates": {"$ref": "#/$defs/gates"}
+      }
+    },
+    "standaloneRepository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "state", "decision", "owner", "evidenceStatus"],
+      "properties": {
+        "repository": {"$ref": "#/$defs/repositoryName"},
+        "state": {"enum": ["ACTIVE", "DECISION_REQUIRED", "DEPRECATED", "ARCHIVED"]},
+        "decision": {"type": "string", "minLength": 1},
+        "owner": {"type": "string", "minLength": 1},
+        "evidenceStatus": {"enum": ["OBSERVED", "CALCULATED", "INFERRED", "NOT_PROVEN", "BLOCKED", "VERIFIED"]}
+      }
+    }
+  }
+}

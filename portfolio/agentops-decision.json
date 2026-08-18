@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "target": "agentops",
+  "status": "PREPARED",
+  "selectedBase": "automation-control-plane",
+  "selectedBaseEvidence": {
+    "observedAt": "2026-08-17T23:59:59Z",
+    "expiresAt": "2026-09-17T23:59:59Z",
+    "properties": [
+      "durable SQLite state",
+      "strict versioned workflow schema",
+      "idempotent submission",
+      "bounded retries and deadlines",
+      "digest-bound approvals",
+      "atomic worker leases",
+      "budgets and kill switches",
+      "recovery and audit verification",
+      "machine-readable CLI",
+      "loopback-only read-only dashboard",
+      "broad negative and concurrency tests"
+    ]
+  },
+  "moduleMapping": [
+    {
+      "repository": "agentmesh",
+      "module": "routing_evidence",
+      "disposition": "IMPORT_AFTER_CONTRACT_TESTS"
+    },
+    {
+      "repository": "agent-budgeter",
+      "module": "budgets",
+      "disposition": "COMPARE_AND_DEDUPLICATE"
+    },
+    {
+      "repository": "agent-inbox",
+      "module": "operator_inbox",
+      "disposition": "IMPORT_AFTER_SCHEMA_REVIEW"
+    },
+    {
+      "repository": "agent-quota-simulator",
+      "module": "quota_simulation",
+      "disposition": "IMPORT_AS_TEST_LAB"
+    },
+    {
+      "repository": "agent-retry-kit",
+      "module": "retry_policy",
+      "disposition": "COMPARE_AND_DEDUPLICATE"
+    },
+    {
+      "repository": "agent-session-recorder",
+      "module": "session_evidence",
+      "disposition": "IMPORT_AFTER_REDACTION_REVIEW"
+    },
+    {
+      "repository": "circuit-breaker-lab",
+      "module": "circuit_breakers",
+      "disposition": "IMPORT_AS_TEST_LAB"
+    },
+    {
+      "repository": "context-window-budgeter",
+      "module": "context_budgets",
+      "disposition": "IMPORT_AFTER_SCHEMA_REVIEW"
+    },
+    {
+      "repository": "human-in-the-loop-queue",
+      "module": "approvals_queue",
+      "disposition": "COMPARE_AND_DEDUPLICATE"
+    },
+    {
+      "repository": "idempotency-kit",
+      "module": "idempotency",
+      "disposition": "COMPARE_AND_DEDUPLICATE"
+    },
+    {
+      "repository": "taskgraph",
+      "module": "task_graph",
+      "disposition": "COMPARE_AND_DEDUPLICATE"
+    },
+    {
+      "repository": "timeout-toolkit",
+      "module": "timeouts",
+      "disposition": "COMPARE_AND_DEDUPLICATE"
+    },
+    {
+      "repository": "automation-control-plane",
+      "module": "core",
+      "disposition": "SELECTED_BASE"
+    }
+  ],
+  "nonGoals": [
+    "No new repository during the active freeze.",
+    "No arbitrary shell, subprocess, network, dynamic import, or executable workflow handler.",
+    "No archive before release, compatibility, consumers, redirect, rollback, and human approval gates pass."
+  ],
+  "gates": {
+    "humanDecision": "BLOCKED",
+    "sourceShaInventory": "NOT_RUN",
+    "collisionReport": "NOT_RUN",
+    "compatibilityContract": "NOT_RUN",
+    "importRehearsal": "NOT_RUN",
+    "release": "BLOCKED"
+  }
+}
