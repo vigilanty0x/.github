@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "active": true,
+  "reason": "Consolidation review debt exceeds the safe review capacity defined by the audit.",
+  "activatedAt": "2026-08-18T00:00:00Z",
+  "reviewAt": "2026-08-25T00:00:00Z",
+  "limits": {
+    "maxOpenPullRequests": 50,
+    "maxActiveConsolidations": 2,
+    "maxDraftAgeDays": 14,
+    "maxEvidenceAgeDays": 30
+  },
+  "blockedActions": [
+    "CREATE_PUBLIC_REPOSITORY",
+    "OPEN_NON_URGENT_PULL_REQUEST",
+    "ARCHIVE_SOURCE",
+    "PUBLISH_UNVERIFIED_RELEASE"
+  ],
+  "exceptions": [
+    {
+      "id": "SECURITY_CRITICAL",
+      "requiresHumanApproval": true,
+      "requiresEvidence": true
+    },
+    {
+      "id": "RELEASE_BLOCKER",
+      "requiresHumanApproval": true,
+      "requiresEvidence": true
+    }
+  ],
+  "humanApprovalRequiredFor": [
+    "DISABLE_FREEZE",
+    "ARCHIVE_SOURCE",
+    "PUBLISH_STABLE_RELEASE",
+    "WAIVE_GATE"
+  ],
+  "automaticMutation": false
+}

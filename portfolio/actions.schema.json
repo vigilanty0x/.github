@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/vigilanty0x/.github/portfolio/actions.schema.json",
+  "title": "Public portfolio action register",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "generatedAt", "definitionOfDone", "actions"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "definitionOfDone": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "PREPARED"},
+        {"const": "MERGED"},
+        {"const": "TAGGED"},
+        {"const": "RELEASED"},
+        {"const": "VERIFIED"}
+      ],
+      "items": false
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "priority", "target", "title", "status", "owner", "dependsOn", "dueAt", "verification", "counterProof", "closureEvidence", "rollback"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^P[0-3]-[0-9]{3}$"},
+          "priority": {"enum": ["P0", "P1", "P2", "P3"]},
+          "target": {"type": "string", "minLength": 1},
+          "title": {"type": "string", "minLength": 10},
+          "status": {"enum": ["PREPARED", "IN_PROGRESS", "BLOCKED", "VERIFIED", "CANCELLED"]},
+          "owner": {"type": "string", "minLength": 1},
+          "dependsOn": {"type": "array", "items": {"type": "string", "pattern": "^P[0-3]-[0-9]{3}$"}, "uniqueItems": true},
+          "dueAt": {"type": "string", "format": "date-time"},
+          "verification": {"type": "string", "minLength": 10},
+          "counterProof": {"type": "string", "minLength": 10},
+          "closureEvidence": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "rollback": {"type": "string", "minLength": 10}
+        }
+      }
+    }
+  }
+}

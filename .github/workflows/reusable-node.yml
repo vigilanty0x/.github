@@ -7,21 +7,55 @@ on:
   workflow_call:
     inputs:
       node-version:
+        description: Deprecated single-version override retained for compatibility
         required: false
         type: string
-        default: "22"
+        default: ""
+      node-versions:
+        description: JSON array of explicitly supported Node.js LTS versions
+        required: false
+        type: string
+        default: '["22", "24"]'
+      smoke-command:
+        description: Optional product-specific installed-package smoke command
+        required: false
+        type: string
+        default: ""
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ${{ fromJSON(inputs.node-version != '' && format('["{0}"]', inputs.node-version) || inputs.node-versions) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: ${{ inputs.node-version }}
+          node-version: ${{ matrix.node-version }}
           cache: npm
-      - run: npm ci --ignore-scripts
-      - run: npm test
-      - run: npm run build --if-present
-
+      - name: Install without lifecycle scripts
+        run: npm ci --ignore-scripts
+      - name: Unit and negative tests
+        run: npm test
+      - name: Build when the package declares a build contract
+        run: npm run build --if-present
+      - name: Pack and install the produced package in a clean project
+        shell: bash
+        run: |
+          set -euo pipefail
+          package_file="$(npm pack --ignore-scripts --silent | tail -n 1)"
+          test -n "$package_file"
+          mkdir -p "$RUNNER_TEMP/npm-artifact"
+          cd "$RUNNER_TEMP/npm-artifact"
+          npm init --yes >/dev/null
+          npm install --ignore-scripts --no-audit --no-fund "$GITHUB_WORKSPACE/$package_file"
+          npm ls --all
+      - name: Smoke the installed package
+        if: inputs.smoke-command != ''
+        shell: bash
+        env:
+          SMOKE_COMMAND: ${{ inputs.smoke-command }}
+        run: cd "$RUNNER_TEMP/npm-artifact" && PATH="$PWD/node_modules/.bin:$PATH" bash -euo pipefail -c "$SMOKE_COMMAND"

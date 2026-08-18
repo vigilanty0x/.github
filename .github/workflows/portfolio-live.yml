@@ -1,0 +1,74 @@
+name: Public portfolio live evidence
+
+permissions:
+  contents: read
+  pull-requests: read
+  checks: read
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "portfolio/**"
+      - "scripts/live-portfolio.mjs"
+      - "test/live-portfolio.test.mjs"
+      - ".github/workflows/portfolio-live.yml"
+  workflow_dispatch:
+  schedule:
+    - cron: "17 4 * * 1"
+
+concurrency:
+  group: public-portfolio-live-evidence-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Validate the local canonical registry first
+        run: node scripts/check-portfolio.mjs --root .
+      - name: Collect read-only live repository and pull-request evidence
+        id: live
+        continue-on-error: true
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          set -euo pipefail
+          strict_args=()
+          if [[ "$EVENT_NAME" != "pull_request" ]]; then
+            strict_args+=(--strict)
+          fi
+          node scripts/live-portfolio.mjs \
+            --root . \
+            "${strict_args[@]}" \
+            --output-json portfolio-live/snapshot.json \
+            --output-markdown portfolio-live/snapshot.md
+      - name: Require a complete report during pull-request review
+        if: github.event_name == 'pull_request'
+        run: test -s portfolio-live/snapshot.json && test -s portfolio-live/snapshot.md
+      - name: Publish the bounded report to the job summary
+        if: always()
+        shell: bash
+        run: |
+          if [[ -f portfolio-live/snapshot.md ]]; then
+            cat portfolio-live/snapshot.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            printf '%s\n' '## Portfolio live evidence' '' 'Collection did not produce a report.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Persist dated raw evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: public-portfolio-live-${{ github.run_id }}
+          path: |
+            portfolio-live/snapshot.json
+            portfolio-live/snapshot.md
+          if-no-files-found: error
+          retention-days: 30
+      - name: Enforce scheduled stop-the-line result
+        if: github.event_name != 'pull_request' && steps.live.outcome != 'success'
+        run: exit 1

@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "autoClose": false,
+  "autoMerge": false,
+  "categories": [
+    {
+      "id": "SECURITY",
+      "precedence": 10,
+      "slaHours": 24,
+      "patterns": [
+        "security",
+        "vulnerability",
+        "cve-",
+        "secret"
+      ],
+      "action": "REVIEW_FIRST"
+    },
+    {
+      "id": "CONSOLIDATION",
+      "precedence": 20,
+      "slaHours": 72,
+      "patterns": [
+        "consolidat",
+        "rehearsal",
+        "migration",
+        "import"
+      ],
+      "action": "CAPACITY_GATED_REVIEW"
+    },
+    {
+      "id": "RELEASE",
+      "precedence": 30,
+      "slaHours": 48,
+      "patterns": [
+        "release",
+        "publish",
+        "version",
+        "changelog"
+      ],
+      "action": "RELEASE_GATE"
+    },
+    {
+      "id": "DEPENDABOT",
+      "precedence": 40,
+      "slaHours": 168,
+      "patterns": [
+        "dependabot",
+        "bump "
+      ],
+      "action": "CHECK_TARGET_BEFORE_MERGE"
+    },
+    {
+      "id": "SUPERSEDED_CANDIDATE",
+      "precedence": 50,
+      "slaHours": 168,
+      "patterns": [],
+      "action": "PORT_USEFUL_CHANGE_THEN_HUMAN_CLOSE"
+    },
+    {
+      "id": "REVIEW",
+      "precedence": 60,
+      "slaHours": 168,
+      "patterns": [],
+      "action": "NORMAL_REVIEW"
+    }
+  ],
+  "supersession": {
+    "requiresTargetRelease": true,
+    "requiresUsefulChangePorted": true,
+    "requiresHumanClosure": true,
+    "closeAutomatically": false
+  }
+}
