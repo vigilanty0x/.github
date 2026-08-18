@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "status": "PREPARED",
+  "decisionOwner": "A01_GPT_5_6_SOL_1",
+  "scope": "PUBLIC_ONLY",
+  "activationRequiresHumanApproval": true,
+  "currentSafePlan": {
+    "targetCount": 18,
+    "purpose": "Transitional review registry. It remains valid while source migrations, compatibility, consumer inventory, rollback, and human gates are incomplete."
+  },
+  "finalState": {
+    "entityCount": 16,
+    "activeRepositoryCount": 17,
+    "activeRepositories": [
+      ".github",
+      "ai-assistance-manifest",
+      "ai-software-factory",
+      "apprentice-ai",
+      "automation-control-plane",
+      "contract-lab",
+      "devdocs",
+      "local-ai-stack",
+      "model-router",
+      "portfolio-kit",
+      "promptops",
+      "proofgate",
+      "rag-lab",
+      "repo-doctor",
+      "shipcheck",
+      "trustkit",
+      "vigilanty0x"
+    ],
+    "entities": [
+      {
+        "id": "community-governance",
+        "repositories": [".github"]
+      },
+      {
+        "id": "ai-assistance-manifest",
+        "repositories": ["ai-assistance-manifest"]
+      },
+      {
+        "id": "ai-software-factory",
+        "repositories": ["ai-software-factory"]
+      },
+      {
+        "id": "apprentice-ai",
+        "repositories": ["apprentice-ai"],
+        "standalone": true
+      },
+      {
+        "id": "agentops",
+        "repositories": ["automation-control-plane"]
+      },
+      {
+        "id": "contract-lab",
+        "repositories": ["contract-lab"]
+      },
+      {
+        "id": "devdocs",
+        "repositories": ["devdocs"]
+      },
+      {
+        "id": "local-ai-stack",
+        "repositories": ["local-ai-stack"]
+      },
+      {
+        "id": "model-router",
+        "repositories": ["model-router"]
+      },
+      {
+        "id": "portfolio-profile",
+        "repositories": ["portfolio-kit", "vigilanty0x"]
+      },
+      {
+        "id": "promptops",
+        "repositories": ["promptops"]
+      },
+      {
+        "id": "proofgate",
+        "repositories": ["proofgate"]
+      },
+      {
+        "id": "rag-lab",
+        "repositories": ["rag-lab"]
+      },
+      {
+        "id": "repo-doctor",
+        "repositories": ["repo-doctor"]
+      },
+      {
+        "id": "shipcheck",
+        "repositories": ["shipcheck"]
+      },
+      {
+        "id": "trustkit",
+        "repositories": ["trustkit"]
+      }
+    ]
+  },
+  "transitionalAbsorptions": [
+    {
+      "sourceProductIdentity": "agent-dashboard",
+      "targetEntity": "agentops",
+      "targetRepository": "automation-control-plane",
+      "state": "PENDING_GATES"
+    },
+    {
+      "sourceProductIdentity": "agent-handoff",
+      "targetEntity": "agentops",
+      "targetRepository": "automation-control-plane",
+      "state": "PENDING_GATES"
+    },
+    {
+      "sourceProductIdentity": "agent-worktrees",
+      "targetEntity": "agentops",
+      "targetRepository": "automation-control-plane",
+      "state": "PENDING_GATES"
+    },
+    {
+      "sourceProductIdentity": "safe-merge-gate",
+      "targetEntity": "shipcheck",
+      "targetRepository": "shipcheck",
+      "state": "PENDING_GATES"
+    },
+    {
+      "sourceProductIdentity": "shipcheck-release-gate",
+      "targetEntity": "shipcheck",
+      "targetRepository": "shipcheck",
+      "state": "PENDING_GATES"
+    }
+  ],
+  "archivePolicy": {
+    "eventualCandidateCount": 95,
+    "automatic": false,
+    "requiredGates": [
+      "release",
+      "compatibility",
+      "consumers",
+      "redirect",
+      "rollback",
+      "humanApproval"
+    ]
+  },
+  "activationRule": "Do not reduce targets.json from the 18-target transitional registry to the 16-entity final state until every affected migration has current evidence and explicit human approval."
+}
