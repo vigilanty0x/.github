@@ -3,7 +3,7 @@
   "scope": "PUBLIC_ONLY",
   "owner": "A01_GPT_5_6_SOL_1",
   "status": "VERIFIED_SCOPE_COMPLETE",
-  "generatedAt": "2026-08-18T17:20:00Z",
+  "generatedAt": "2026-08-18T17:24:00Z",
   "architecture": {
     "transitionalTargetCount": 18,
     "finalEntityCount": 16,
@@ -56,6 +56,32 @@
       "upstreamSnapshotSha256": "1d7fb8cb01232accecc8b26df356e8e263df506f56a54938144c790e252eef0f",
       "expiresAt": "2026-09-17T23:59:59Z",
       "state": "VERIFIED"
+    },
+    {
+      "id": "P1-003",
+      "target": "community-governance",
+      "repository": ".github",
+      "verifiedHead": "07260df8cdf41c7711bd9e74901d0f60fc79cbf7",
+      "evidenceRun": 32165272750,
+      "state": "VERIFIED",
+      "scope": "COMMON_POLICY_ONLY",
+      "realProductReleaseClaimed": false
+    },
+    {
+      "id": "P1-005",
+      "target": "portfolio",
+      "repository": ".github",
+      "verifiedHead": "07260df8cdf41c7711bd9e74901d0f60fc79cbf7",
+      "evidenceRun": 32165272798,
+      "artifactId": 9335162364,
+      "artifactDigest": "sha256:93fe77ac52efc3e35e8a61e55b50cb871c4a03b53c35eb73ea8f252bf3b3246f",
+      "evidenceSha256": "150b783f18c5a6b3537a455a80cb6d141401c9d2730bf00ac22e100a95ec485b",
+      "expiresAt": "2026-09-17T17:22:58.124Z",
+      "registeredRepositories": 112,
+      "scannedRepositories": 112,
+      "errors": 0,
+      "state": "VERIFIED",
+      "limitationsPreserved": true
     }
   ],
   "invariants": {
@@ -65,14 +91,7 @@
     "automaticArchive": false,
     "automaticRedirect": false,
     "privateBoundaryExcluded": true,
-    "requiredArchiveGates": [
-      "release",
-      "compatibility",
-      "consumers",
-      "redirect",
-      "rollback",
-      "humanApproval"
-    ]
+    "requiredArchiveGates": ["release", "compatibility", "consumers", "redirect", "rollback", "humanApproval"]
   },
   "remainingProgramBlocks": [
     {
@@ -86,12 +105,6 @@
       "owner": "PRODUCT_RELEASE_OWNERS",
       "status": "BLOCKED_OUTSIDE_A01_SCOPE",
       "reason": "A01 supplies the common release-evidence policy; real non-synthetic release candidates remain target-owner evidence."
-    },
-    {
-      "id": "CONSUMER_INVENTORY",
-      "owner": "A01_GPT_5_6_SOL_1",
-      "status": "BLOCKED",
-      "reason": "The portfolio consumer-inventory workflow is present; P1-005 stays blocked until a current bounded scan is tied to the action register."
     },
     {
       "id": "ACCOUNT_METADATA_AND_PINS",

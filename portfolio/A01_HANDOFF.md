@@ -32,7 +32,7 @@ A01 also verified the common runner/runtime and installed-artifact contracts alr
 - reusable Python uses explicit `ubuntu-24.04`, explicit Python versions, independent wheel/sdist installation, `pip check`, parity and optional installed smokes;
 - reusable Node uses explicit `ubuntu-24.04`, explicit Node versions, pack/install into a clean project and optional installed smokes.
 
-The release-evidence policy is now prepared as a common fail-closed contract. The synthetic fixture proves the policy can distinguish a complete evidence record from missing SBOM/provenance/digests/protected-environment/trusted-publishing/post-publication evidence. This **does not claim any real product release**.
+The release-evidence policy is now **VERIFIED as a common fail-closed contract** on exact-head governance run `32165272750`. The synthetic fixture proves the policy can distinguish a complete evidence record from missing SBOM/provenance/digests/protected-environment/trusted-publishing/post-publication evidence. This **does not claim any real product release**.
 
 ## Architecture arbitration
 
@@ -43,13 +43,18 @@ The release-evidence policy is now prepared as a common fail-closed contract. Th
 - AgentOps and Shipcheck satellites remain transitional until their assigned product owners complete migration gates;
 - **95 repositories are eventual archive candidates only**, never immediate archive instructions.
 
+## P1-005 follow-up — completed for the public portfolio boundary
+
+Exact-head run `32165272798` scanned **112/112 registered public default branches**, 2,225 text files and 1,223 references with 0 errors. Evidence is bound to artifact `9335162364`, artifact digest `sha256:93fe77ac52efc3e35e8a61e55b50cb871c4a03b53c35eb73ea8f252bf3b3246f`, evidence SHA-256 `150b783f18c5a6b3537a455a80cb6d141401c9d2730bf00ac22e100a95ec485b`, and expiry `2026-09-17T17:22:58.124Z`.
+
+The report's limits remain part of the proof: no private or third-party repositories, Git history, runtime-generated references, or every dynamic import form. This closes the bounded public-portfolio inventory action; it is **not** migration completion or archive authorization.
+
 ## What remains blocked — intentionally
 
 1. Product migrations/releases/compatibility/redirect/rollback remain with assigned product owners.
 2. Real release candidates must satisfy the A01 release-evidence policy; the committed candidate is synthetic by design.
-3. P1-005 consumer inventory remains in progress until a current bounded scan is tied to the action register.
-4. P1-007 account-level metadata, homepage, pins, topics and Pages settings remain blocked because the connected GitHub tool surface exposes profile read but no supported mutation for those settings. See `P1_007_PROFILE_SETTINGS_BLOCKED.md`.
-5. Archive remains blocked until all target-specific gates plus explicit human approval pass.
+3. P1-007 account-level metadata, homepage, pins, topics and Pages settings remain blocked because the connected GitHub tool surface exposes profile read but no supported mutation for those settings. See `P1_007_PROFILE_SETTINGS_BLOCKED.md`.
+4. Archive remains blocked until all target-specific gates plus explicit human approval pass.
 
 ## Irreversible actions
 
