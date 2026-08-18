@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "scope": "A01_PUBLIC_ONLY",
+  "status": "VERIFIED_ZERO_OPEN_PRS",
+  "observedAt": "2026-08-18T17:35:00Z",
+  "repositoriesChecked": [
+    ".github",
+    "vigilanty0x",
+    "portfolio-kit",
+    "devdocs",
+    "open-source-portfolio-generator",
+    "github-profile-dashboard",
+    "build-metrics-collector",
+    "codebase-onboarding-guide-generator",
+    "document-factory",
+    "event-log-explorer",
+    "failure-postmortem-kit",
+    "runbook-builder",
+    "state-machine-visualizer",
+    "system-map-generator"
+  ],
+  "openPullRequestCount": 0,
+  "supersededClosures": [
+    {
+      "repository": "build-metrics-collector",
+      "pullRequest": 4,
+      "title": "Harden CI baseline",
+      "reason": "Equivalent or stronger CI hardening was already present in the canonical Portfolio Kit target.",
+      "replacementRepository": "portfolio-kit",
+      "replacementMergeCommit": "0fc4b0dcf065d63c68556aea1bb25f86f1bab30d",
+      "replacementVerifiedHead": "84c5cfe9b2e8fe3eea40a355fa610f128993b886",
+      "replacementCiRun": 32161823025,
+      "sourceArchived": false,
+      "redirectCreated": false
+    },
+    {
+      "repository": "build-metrics-collector",
+      "pullRequest": 2,
+      "title": "Bump actions/setup-python from 5 to 7",
+      "reason": "The setup-python v7 update was ported to Portfolio Kit by exact upstream SHA and verified across the full target matrix before source closure.",
+      "replacementRepository": "portfolio-kit",
+      "replacementMergeCommit": "ef7ab3c56421b0a7b716d7a6dc41d4c3df99f699",
+      "replacementVerifiedHead": "88d30319a70cd308951df0482a37d37f0521fb7f",
+      "replacementCiRun": 32166134823,
+      "upstreamActionSha": "5fda3b95a4ea91299a34e894583c3862153e4b97",
+      "sourceArchived": false,
+      "redirectCreated": false
+    },
+    {
+      "repository": "build-metrics-collector",
+      "pullRequest": 3,
+      "title": "Bump actions/checkout from 4 to 7",
+      "reason": "The checkout v7 update was ported to Portfolio Kit by exact upstream SHA and verified across the full target matrix before source closure.",
+      "replacementRepository": "portfolio-kit",
+      "replacementMergeCommit": "ef7ab3c56421b0a7b716d7a6dc41d4c3df99f699",
+      "replacementVerifiedHead": "88d30319a70cd308951df0482a37d37f0521fb7f",
+      "replacementCiRun": 32166134823,
+      "upstreamActionSha": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+      "sourceArchived": false,
+      "redirectCreated": false
+    }
+  ],
+  "closurePolicy": {
+    "usefulChangeMustBePortedFirst": true,
+    "replacementEvidenceRequired": true,
+    "automaticClosure": false,
+    "archiveAuthorized": false
+  },
+  "remainingA01Blocker": {
+    "id": "P1-007",
+    "status": "BLOCKED",
+    "reason": "The connected GitHub tool surface has no supported mutation for account bio, homepage, pinned repositories, topics, or Pages settings."
+  }
+}
