@@ -3,7 +3,7 @@
   "scope": "PUBLIC_ONLY",
   "owner": "A01_GPT_5_6_SOL_1",
   "status": "VERIFIED_SCOPE_COMPLETE",
-  "generatedAt": "2026-08-18T16:55:00Z",
+  "generatedAt": "2026-08-18T17:20:00Z",
   "architecture": {
     "transitionalTargetCount": 18,
     "finalEntityCount": 16,
@@ -45,6 +45,19 @@
       "state": "MERGED"
     }
   ],
+  "completedFollowUps": [
+    {
+      "id": "P1-004",
+      "target": "portfolio-profile",
+      "repository": "vigilanty0x",
+      "mergeCommit": "c82569cafd253017d5ba7ebbcce4887ba893641c",
+      "verifiedHead": "63dd65b3a92d819c81a2e37533679f361f62cd45",
+      "evidenceRun": 32164177693,
+      "upstreamSnapshotSha256": "1d7fb8cb01232accecc8b26df356e8e263df506f56a54938144c790e252eef0f",
+      "expiresAt": "2026-09-17T23:59:59Z",
+      "state": "VERIFIED"
+    }
+  ],
   "invariants": {
     "maxActiveConsolidations": 2,
     "maxOpenPullRequestsBeforeStop": 50,
@@ -69,16 +82,22 @@
       "reason": "Product-level migrations, package identities, releases, compatibility aliases, consumer moves, redirects and rollback rehearsals remain with their assigned product owners."
     },
     {
-      "id": "PROFILE_GENERATED_LIVE_DASHBOARD",
+      "id": "REAL_RELEASE_CANDIDATES",
+      "owner": "PRODUCT_RELEASE_OWNERS",
+      "status": "BLOCKED_OUTSIDE_A01_SCOPE",
+      "reason": "A01 supplies the common release-evidence policy; real non-synthetic release candidates remain target-owner evidence."
+    },
+    {
+      "id": "CONSUMER_INVENTORY",
       "owner": "A01_GPT_5_6_SOL_1",
       "status": "BLOCKED",
-      "reason": "The human-facing profile is merged and evidence-bound, but P1-004 still requires a dashboard generated from the exact live registry/snapshot with TTL rather than a manually curated page."
+      "reason": "The portfolio consumer-inventory workflow is present; P1-005 stays blocked until a current bounded scan is tied to the action register."
     },
     {
       "id": "ACCOUNT_METADATA_AND_PINS",
       "owner": "A01_GPT_5_6_SOL_1",
       "status": "BLOCKED",
-      "reason": "Repository content is aligned, but account-level homepage, pinned repositories and related profile settings still require a supported account-setting path plus verified target state."
+      "reason": "P1-007 requires account/profile metadata, homepage, pins and topics, but the connected GitHub tool surface currently exposes profile read only and no supported mutation for these settings."
     },
     {
       "id": "ARCHIVE_QUEUE",
