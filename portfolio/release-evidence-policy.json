@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "status": "PREPARED",
+  "scope": "PUBLIC_ONLY",
+  "requiredEvidence": [
+    "exactCommit",
+    "protectedEnvironment",
+    "artifactDigests",
+    "sbom",
+    "provenance",
+    "trustedPublishing",
+    "postPublicationVerification"
+  ],
+  "publishing": {
+    "mode": "OIDC",
+    "longLivedTokenAllowed": false,
+    "protectedEnvironmentRequired": true
+  },
+  "stableReleaseRequires": {
+    "sbom": true,
+    "provenance": true,
+    "artifactSha256": true,
+    "postPublicationVerification": true
+  }
+}

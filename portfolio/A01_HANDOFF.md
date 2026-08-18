@@ -2,9 +2,9 @@
 
 ## Scope closed by A01
 
-A01 owned program direction, `.github` governance, the public profile, Portfolio Kit, the program-level DevDocs integration layer, and final architecture arbitration. It did **not** take over product internals assigned to the other agents.
+A01 owns program direction, `.github` governance, the public profile, Portfolio Kit, the program-level DevDocs integration layer, and final architecture arbitration. Product internals assigned to other agents remain outside this scope.
 
-### Merged evidence
+## Merged core evidence
 
 | Target | Repository | Merged commit | Verified pre-merge head | CI evidence |
 |---|---|---|---|---|
@@ -13,47 +13,55 @@ A01 owned program direction, `.github` governance, the public profile, Portfolio
 | Portfolio Kit | `portfolio-kit` | `0fc4b0dcf065d63c68556aea1bb25f86f1bab30d` | `84c5cfe9b2e8fe3eea40a355fa610f128993b886` | `32161823025` |
 | DevDocs integration | `devdocs` | `dbae7c5d40ef38ca04a4f3b9f7c06d8251c46660` | `0fd2fad97f0c8e3af72b58ca55f5a83fff667904` | `32162160300` |
 
-## Architecture arbitration
+## P1-004 follow-up — completed
 
-The apparent conflict between the 18-target safe plan and the 16-entity recommendation is resolved explicitly:
+The public profile dashboard is now generated from TTL-bound live evidence rather than hand-written metrics.
+
+- merge commit: `c82569cafd253017d5ba7ebbcce4887ba893641c`;
+- verified pre-merge head: `63dd65b3a92d819c81a2e37533679f361f62cd45`;
+- CI: `32164177693` = success;
+- upstream live snapshot SHA-256: `1d7fb8cb01232accecc8b26df356e8e263df506f56a54938144c790e252eef0f`;
+- registry TTL: `2026-09-17T23:59:59Z`.
+
+The page and JSON are regenerated in CI, manual output drift is rejected, the source must remain read-only, and expired evidence becomes stale rather than silently current.
+
+## Community-governance progress
+
+A01 also verified the common runner/runtime and installed-artifact contracts already present in `.github`:
+
+- reusable Python uses explicit `ubuntu-24.04`, explicit Python versions, independent wheel/sdist installation, `pip check`, parity and optional installed smokes;
+- reusable Node uses explicit `ubuntu-24.04`, explicit Node versions, pack/install into a clean project and optional installed smokes.
+
+The release-evidence policy is now **VERIFIED as a common fail-closed contract** on exact-head governance run `32165272750`. The synthetic fixture proves the policy can distinguish a complete evidence record from missing SBOM/provenance/digests/protected-environment/trusted-publishing/post-publication evidence. This **does not claim any real product release**.
+
+## Architecture arbitration
 
 - **18 targets** remain the transitional review registry while migration gates are incomplete;
 - **16 entities / 17 active repositories** are the prepared final topology;
-- `portfolio-profile` intentionally spans both `portfolio-kit` and `vigilanty0x`;
+- `portfolio-profile` intentionally spans `portfolio-kit` and `vigilanty0x`;
 - `apprentice-ai` remains standalone;
-- AgentOps satellites and Shipcheck satellites remain transitional until their assigned product owners complete the required migration gates;
+- AgentOps and Shipcheck satellites remain transitional until their assigned product owners complete migration gates;
 - **95 repositories are eventual archive candidates only**, never immediate archive instructions.
 
-## A01 quality gates
+## P1-005 follow-up — completed for the public portfolio boundary
 
-The A01 changes added or retained fail-closed counter-proofs for:
+Exact-head run `32165272798` scanned **112/112 registered public default branches**, 2,225 text files and 1,223 references with 0 errors. Evidence is bound to artifact `9335162364`, artifact digest `sha256:93fe77ac52efc3e35e8a61e55b50cb871c4a03b53c35eb73ea8f252bf3b3246f`, evidence SHA-256 `150b783f18c5a6b3537a455a80cb6d141401c9d2730bf00ac22e100a95ec485b`, and expiry `2026-09-17T17:22:58.124Z`.
 
-- architecture count drift and duplicate final repository identities;
-- silent absorption of Apprentice AI;
-- incorrect AgentOps/Shipcheck transition mapping;
-- automatic archive or removal of rollback/human approval;
-- transitional products returning to the featured profile;
-- mutable runner/action references in the profile contract;
-- Portfolio Kit source-history/tree evidence regression;
-- DevDocs module, role, order, history and tree drift.
-
-One A01 Portfolio Kit workflow edit did initially fail because an existing safe-relative artifact-path contract was changed to an absolute path. That failure was investigated, the unsafe integration edit was corrected, and the **full matrix was rerun green before merge**. No failure was reclassified as success.
+The report's limits remain part of the proof: no private or third-party repositories, Git history, runtime-generated references, or every dynamic import form. This closes the bounded public-portfolio inventory action; it is **not** migration completion or archive authorization.
 
 ## What remains blocked — intentionally
 
-A01 does not declare the whole public portfolio `DONE`.
-
-1. **Product migrations** remain with their assigned product owners: package/CLI identity, compatibility aliases, consumer migrations, stable releases, redirects and real rollback rehearsals.
-2. **P1-004** remains blocked: the profile page is evidence-bound, but the required dashboard must be generated from the exact live registry/snapshot and inherit its TTL rather than rely on manually curated values.
-3. **P1-007** remains blocked: account-level homepage/pins/profile settings still need a supported mutation path and must follow verified target state.
-4. **Archive remains blocked** until release, compatibility, consumers, redirect, rollback and explicit human approval pass for each affected source.
+1. Product migrations/releases/compatibility/redirect/rollback remain with assigned product owners.
+2. Real release candidates must satisfy the A01 release-evidence policy; the committed candidate is synthetic by design.
+3. P1-007 account-level metadata, homepage, pins, topics and Pages settings remain blocked because the connected GitHub tool surface exposes profile read but no supported mutation for those settings. See `P1_007_PROFILE_SETTINGS_BLOCKED.md`.
+4. Archive remains blocked until all target-specific gates plus explicit human approval pass.
 
 ## Irreversible actions
 
-A01 performed no source archive, source deletion, redirect, stable release publication, ruleset bypass, or automatic PR closure as part of this integration.
+A01 performed no source archive, source deletion, redirect, stable release publication, ruleset bypass, unsupported account-setting mutation, or automatic PR closure.
 
-## Final A01 verdict
+## Verdict
 
 **A01 SCOPE: VERIFIED. PROGRAM FINAL STATE: NOT YET VERIFIED.**
 
-The governance, profile, Portfolio Kit and DevDocs integration layers are merged with exact evidence. The remaining blockers are deliberately visible and must be resolved by the responsible product owners or explicit human gates; they are not converted into fake green states.
+A01's own completed work is evidence-bound. Wider program blockers remain visible instead of being converted into fake green states.

@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "fixture": true,
+  "product": "synthetic-release-target",
+  "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "tag": "v0.0.0-synthetic",
+  "environment": {
+    "name": "synthetic-release",
+    "protected": true
+  },
+  "artifacts": [
+    {
+      "path": "dist/synthetic-release-target-0.0.0.whl",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ],
+  "sbom": {
+    "path": "dist/sbom.json",
+    "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "provenance": {
+    "path": "dist/provenance.json",
+    "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "subjectCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "publishing": {
+    "mode": "OIDC",
+    "longLivedTokenUsed": false,
+    "environmentProtected": true
+  },
+  "postPublication": {
+    "status": "VERIFIED",
+    "checkedCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "artifactDigestsMatch": true,
+    "installSmokePassed": true
+  }
+}

@@ -14,9 +14,13 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
       - name: Validate governance, portfolio truth, and public boundary
         run: |
           node scripts/check-governance.mjs --root .
           node scripts/check-final-architecture.mjs portfolio/final-architecture.json
+      - name: Validate common release evidence policy
+        run: node scripts/check-release-evidence.mjs portfolio/fixtures/release-candidate.synthetic.json
       - name: Run counter-proofs
         run: node --test test/*.test.mjs
