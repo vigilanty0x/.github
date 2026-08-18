@@ -916,8 +916,19 @@ function validateTriageDocument(findings, triage) {
 function validateAgentOpsDocument(findings, agentops, targetsDocument, now) {
   const path = REQUIRED_FILES.agentops;
   if (!requireRecord(findings, agentops, path)) return;
-  requireExactKeys(findings, agentops, ["schemaVersion", "target", "status", "selectedBase", "selectedBaseEvidence", "moduleMapping", "nonGoals", "gates"], path);
-  if (agentops.schemaVersion !== 1) push(findings, "schema-version", `${path}.schemaVersion`, "Expected schemaVersion=1.");
+  requireExactKeys(findings, agentops, [
+    "schemaVersion",
+    "target",
+    "status",
+    "selectedBase",
+    "selectedBaseEvidence",
+    "implementationRef",
+    "moduleMapping",
+    "receipts",
+    "nonGoals",
+    "gates",
+  ], path);
+  if (agentops.schemaVersion !== 2) push(findings, "schema-version", `${path}.schemaVersion`, "Expected schemaVersion=2.");
   if (agentops.target !== "agentops") push(findings, "agentops-target", `${path}.target`, "Expected target=agentops.");
   requireEnum(findings, agentops.status, ["PREPARED", "APPROVED", "REJECTED", "BLOCKED"], `${path}.status`);
   validateRepositoryName(findings, agentops.selectedBase, `${path}.selectedBase`);
@@ -947,6 +958,27 @@ function validateAgentOpsDocument(findings, agentops, targetsDocument, now) {
     }
   }
 
+  if (requireRecord(findings, agentops.implementationRef, `${path}.implementationRef`)) {
+    const referencePath = `${path}.implementationRef`;
+    requireExactKeys(findings, agentops.implementationRef, ["kind", "repository", "pullRequest", "headSha", "ciRun", "ciStatus", "observedAt", "expiresAt"], referencePath);
+    requireEnum(findings, agentops.implementationRef.kind, ["DRAFT_PR"], `${referencePath}.kind`);
+    validateRepositoryName(findings, agentops.implementationRef.repository, `${referencePath}.repository`);
+    requireInteger(findings, agentops.implementationRef.pullRequest, `${referencePath}.pullRequest`, 1);
+    validateSha(findings, agentops.implementationRef.headSha, `${referencePath}.headSha`, { nullable: false });
+    requireInteger(findings, agentops.implementationRef.ciRun, `${referencePath}.ciRun`, 1);
+    requireEnum(findings, agentops.implementationRef.ciStatus, ["PASS", "BLOCKED", "NOT_RUN"], `${referencePath}.ciStatus`);
+    const observedAt = requireDate(findings, agentops.implementationRef.observedAt, `${referencePath}.observedAt`);
+    const expiresAt = requireDate(findings, agentops.implementationRef.expiresAt, `${referencePath}.expiresAt`);
+    if (observedAt && expiresAt && observedAt >= expiresAt) push(findings, "agentops-implementation-window", referencePath, "Implementation evidence expiry must be later than observation.");
+    if (expiresAt && expiresAt <= now) push(findings, "stale-agentops-implementation", referencePath, "AgentOps implementation evidence has expired.");
+    if (agentops.implementationRef.repository !== target.implementationRef?.repository) {
+      push(findings, "agentops-implementation-drift", `${referencePath}.repository`, "Decision and target implementation repositories differ.");
+    }
+    if (!String(target.implementationRef?.ref ?? "").includes(String(agentops.implementationRef.headSha ?? ""))) {
+      push(findings, "agentops-implementation-drift", `${referencePath}.headSha`, "Target implementationRef is not bound to the recorded AgentOps head.");
+    }
+  }
+
   const mappedRepositories = [];
   const modules = [];
   let selectedBaseCount = 0;
@@ -973,20 +1005,70 @@ function validateAgentOpsDocument(findings, agentops, targetsDocument, now) {
   }
   if (selectedBaseCount !== 1) push(findings, "agentops-selected-base-count", `${path}.moduleMapping`, "Exactly one module must be SELECTED_BASE.");
 
+  const receiptKeys = ["inventory", "routing", "contextBudget", "quotaSimulation", "sessionRecord", "circuitSimulation", "inboxProjection"];
+  if (requireRecord(findings, agentops.receipts, `${path}.receipts`)) {
+    requireExactKeys(findings, agentops.receipts, receiptKeys, `${path}.receipts`);
+    for (const key of receiptKeys) validateDigest(findings, agentops.receipts[key], `${path}.receipts.${key}`, { nullable: false });
+  }
+
   if (requireArray(findings, agentops.nonGoals, `${path}.nonGoals`)) {
     if (agentops.nonGoals.length < 3) push(findings, "agentops-non-goals", `${path}.nonGoals`, "AgentOps decision requires explicit safety non-goals.");
     for (const [index, nonGoal] of agentops.nonGoals.entries()) requireString(findings, nonGoal, `${path}.nonGoals[${index}]`, { minLength: 10 });
   }
 
   if (requireRecord(findings, agentops.gates, `${path}.gates`)) {
-    const gateKeys = ["humanDecision", "sourceShaInventory", "collisionReport", "compatibilityContract", "importRehearsal", "release"];
+    const gateKeys = [
+      "humanDecision",
+      "sourceShaInventory",
+      "collisionReport",
+      "compatibilityContract",
+      "contractRehearsal",
+      "sourceHistoryImport",
+      "consumerInventory",
+      "release",
+      "redirect",
+      "rollback",
+      "archive",
+    ];
     requireExactKeys(findings, agentops.gates, gateKeys, `${path}.gates`);
     for (const gate of gateKeys) requireEnum(findings, agentops.gates[gate], ["PASS", "BLOCKED", "NOT_RUN"], `${path}.gates.${gate}`);
     if (agentops.status === "APPROVED" && agentops.gates.humanDecision !== "PASS") {
       push(findings, "agentops-human-decision", path, "APPROVED AgentOps decision requires humanDecision=PASS.");
     }
-    if (agentops.gates.release === "PASS" && target.release?.status === "NOT_RELEASED") {
-      push(findings, "agentops-release-drift", `${path}.gates.release`, "Release gate cannot pass while the target is NOT_RELEASED.");
+    if (agentops.gates.contractRehearsal === "PASS") {
+      for (const prerequisite of ["sourceShaInventory", "collisionReport", "compatibilityContract"]) {
+        if (agentops.gates[prerequisite] !== "PASS") {
+          push(findings, "agentops-rehearsal-prerequisite", `${path}.gates.contractRehearsal`, `contractRehearsal=PASS requires ${prerequisite}=PASS.`);
+        }
+      }
+      if (agentops.implementationRef?.ciStatus !== "PASS") {
+        push(findings, "agentops-rehearsal-ci", `${path}.gates.contractRehearsal`, "contractRehearsal=PASS requires current passing CI evidence.");
+      }
+    }
+    if (agentops.gates.sourceHistoryImport === "PASS" && target.gates?.import !== "PASS") {
+      push(findings, "agentops-import-drift", `${path}.gates.sourceHistoryImport`, "Source-history import cannot pass while the canonical target import gate is not PASS.");
+    }
+    if (agentops.gates.consumerInventory === "PASS" && target.gates?.consumers !== "PASS") {
+      push(findings, "agentops-consumer-drift", `${path}.gates.consumerInventory`, "Consumer inventory cannot pass while the canonical target consumer gate is not PASS.");
+    }
+    if (agentops.gates.release === "PASS" && (target.gates?.release !== "PASS" || target.release?.status === "NOT_RELEASED")) {
+      push(findings, "agentops-release-drift", `${path}.gates.release`, "Release cannot pass without a canonical target release and release gate.");
+    }
+    if (agentops.gates.redirect === "PASS" && target.gates?.redirect !== "PASS") {
+      push(findings, "agentops-redirect-drift", `${path}.gates.redirect`, "Redirect cannot pass while the canonical target redirect gate is not PASS.");
+    }
+    if (agentops.gates.rollback === "PASS" && target.gates?.rollback !== "PASS") {
+      push(findings, "agentops-rollback-drift", `${path}.gates.rollback`, "Rollback cannot pass while the canonical target rollback gate is not PASS.");
+    }
+    if (agentops.gates.archive === "PASS") {
+      for (const prerequisite of ["humanDecision", "sourceHistoryImport", "consumerInventory", "release", "redirect", "rollback"]) {
+        if (agentops.gates[prerequisite] !== "PASS") {
+          push(findings, "agentops-archive-gate", `${path}.gates.archive`, `archive=PASS requires ${prerequisite}=PASS.`);
+        }
+      }
+      if (target.status !== "VERIFIED") {
+        push(findings, "agentops-archive-state", `${path}.gates.archive`, "archive=PASS requires the canonical target to be VERIFIED.");
+      }
     }
   }
 }

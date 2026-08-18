@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-18T00:00:00Z",
+  "generatedAt": "2026-08-18T02:26:33Z",
   "definitionOfDone": [
     "PREPARED",
     "MERGED",
@@ -61,15 +61,21 @@
       "priority": "P0",
       "target": "agentops",
       "title": "Use automation-control-plane as the prepared AgentOps base",
-      "status": "PREPARED",
+      "status": "IN_PROGRESS",
       "owner": "vigilanty0x",
       "dependsOn": [
         "P0-001"
       ],
       "dueAt": "2026-08-22T23:59:59Z",
-      "verification": "Review the base decision, compatibility map, package boundaries, and negative tests before any import.",
+      "verification": "Review draft PR 4, head cc89dce628202c0ec590567fc7f41ad9637a8012, CI run 32091685544, source SHA inventory, collision report, compatibility contract, installed artifact parity, and 102-test counter-proof suite.",
       "counterProof": "Demonstrate a required AgentOps invariant that the selected base cannot implement without weakening safety.",
-      "closureEvidence": [],
+      "closureEvidence": [
+        "https://github.com/vigilanty0x/automation-control-plane/pull/4",
+        "cc89dce628202c0ec590567fc7f41ad9637a8012",
+        "https://github.com/vigilanty0x/automation-control-plane/actions/runs/32091685544",
+        "automation-control-plane/docs/AGENTOPS_REHEARSAL.md",
+        "automation-control-plane/docs/AGENTOPS_ASSEMBLY_EVIDENCE.md"
+      ],
       "rollback": "Change selectedBase in the registry before imports; no new repository is created."
     },
     {

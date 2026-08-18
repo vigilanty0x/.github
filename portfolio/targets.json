@@ -1,1 +1,2174 @@
-{"schemaVersion":1,"owner":"vigilanty0x","scope":"PUBLIC_ONLY","generatedAt":"2026-08-18T00:00:00Z","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z","expectedTargetCount":18,"expectedSourceRepositoryCount":100,"expectedPublicRepositoryCount":112,"statusVocabulary":{"target":["PROPOSED","REHEARSAL","READY","RELEASED","VERIFIED","ROLLED_BACK"],"source":["ACTIVE_SOURCE","ACTIVE_TARGET","FROZEN_SOURCE","MIGRATION_IN_PROGRESS","TARGET_RELEASED","REDIRECTED","ARCHIVE_CANDIDATE","ARCHIVE_APPROVED","ARCHIVED","ROLLED_BACK"],"evidence":["OBSERVED","CALCULATED","INFERRED","NOT_PROVEN","BLOCKED","VERIFIED"],"gate":["PASS","BLOCKED","NOT_RUN","WAIVED"]},"standaloneRepositories":[{"repository":"apprentice-ai","state":"DECISION_REQUIRED","decision":"KEEP_STANDALONE_OR_IMPORT_AGENTOPS","owner":"vigilanty0x","evidenceStatus":"OBSERVED"},{"repository":"shipcheck-release-gate","state":"DECISION_REQUIRED","decision":"MERGE_AS_SHIPCHECK_PACKAGE_OR_PROVE_DISTINCT_RELEASE_PERSONA","owner":"vigilanty0x","evidenceStatus":"OBSERVED"}],"targets":[{"id":"ai-software-factory","canonicalRepository":"ai-software-factory","companionRepositories":[],"owner":"vigilanty0x","priority":"P1","status":"REHEARSAL","maturity":"PROTOTYPE","evidence":{"status":"OBSERVED","source":"public-portfolio-audit-2026-08-17","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z"},"risk":"The factory and starter kit need one release, provenance, and compatibility contract.","decision":{"kind":"KEEP_AND_CONSOLIDATE","status":"PREPARED","selectedBase":"ai-software-factory","candidates":["ai-software-factory"],"rationale":"Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."},"implementationRef":{"kind":"MAIN_OR_DRAFT_UNVERIFIED","repository":"ai-software-factory","ref":null},"sources":[{"repository":"ai-software-factory","role":"TARGET","state":"ACTIVE_TARGET","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"ai-software-factory-starter-kit","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null}],"release":{"status":"NOT_RELEASED","version":null,"tag":null,"url":null,"artifactSha256":null,"publishedAt":null},"consumers":{"status":"NOT_INVENTORIED","checkedAt":null,"repositories":[]},"rollback":{"status":"NOT_PROVEN","lastRehearsedAt":null,"evidenceUrl":null},"humanApproval":{"approved":false,"approver":null,"approvedAt":null,"rationale":null},"waivers":[],"gates":{"decision":"BLOCKED","import":"NOT_RUN","compatibility":"NOT_RUN","release":"BLOCKED","consumers":"NOT_RUN","redirect":"BLOCKED","rollback":"NOT_RUN","humanApproval":"BLOCKED"}},{"id":"agent-dashboard","canonicalRepository":"agent-dashboard","companionRepositories":[],"owner":"vigilanty0x","priority":"P1","status":"REHEARSAL","maturity":"PROTOTYPE","evidence":{"status":"OBSERVED","source":"public-portfolio-audit-2026-08-17","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z"},"risk":"Two dashboards can publish conflicting productivity and health truth models.","decision":{"kind":"KEEP_AND_CONSOLIDATE","status":"PREPARED","selectedBase":"agent-dashboard","candidates":["agent-dashboard"],"rationale":"Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."},"implementationRef":{"kind":"MAIN_OR_DRAFT_UNVERIFIED","repository":"agent-dashboard","ref":null},"sources":[{"repository":"agent-dashboard","role":"TARGET","state":"ACTIVE_TARGET","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"agent-productivity-dashboard","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null}],"release":{"status":"NOT_RELEASED","version":null,"tag":null,"url":null,"artifactSha256":null,"publishedAt":null},"consumers":{"status":"NOT_INVENTORIED","checkedAt":null,"repositories":[]},"rollback":{"status":"NOT_PROVEN","lastRehearsedAt":null,"evidenceUrl":null},"humanApproval":{"approved":false,"approver":null,"approvedAt":null,"rationale":null},"waivers":[],"gates":{"decision":"BLOCKED","import":"NOT_RUN","compatibility":"NOT_RUN","release":"BLOCKED","consumers":"NOT_RUN","redirect":"BLOCKED","rollback":"NOT_RUN","humanApproval":"BLOCKED"}},{"id":"agent-handoff","canonicalRepository":"agent-handoff","companionRepositories":[],"owner":"vigilanty0x","priority":"P1","status":"REHEARSAL","maturity":"PROTOTYPE","evidence":{"status":"OBSERVED","source":"public-portfolio-audit-2026-08-17","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z"},"risk":"The handoff schema and CLI must remain compatible through consolidation.","decision":{"kind":"KEEP_AND_CONSOLIDATE","status":"PREPARED","selectedBase":"agent-handoff","candidates":["agent-handoff"],"rationale":"Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."},"implementationRef":{"kind":"MAIN_OR_DRAFT_UNVERIFIED","repository":"agent-handoff","ref":null},"sources":[{"repository":"agent-handoff","role":"TARGET","state":"ACTIVE_TARGET","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"handoff-markdown-cli","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null}],"release":{"status":"NOT_RELEASED","version":null,"tag":null,"url":null,"artifactSha256":null,"publishedAt":null},"consumers":{"status":"NOT_INVENTORIED","checkedAt":null,"repositories":[]},"rollback":{"status":"NOT_PROVEN","lastRehearsedAt":null,"evidenceUrl":null},"humanApproval":{"approved":false,"approver":null,"approvedAt":null,"rationale":null},"waivers":[],"gates":{"decision":"BLOCKED","import":"NOT_RUN","compatibility":"NOT_RUN","release":"BLOCKED","consumers":"NOT_RUN","redirect":"BLOCKED","rollback":"NOT_RUN","humanApproval":"BLOCKED"}},{"id":"agent-worktrees","canonicalRepository":"agent-worktrees","companionRepositories":[],"owner":"vigilanty0x","priority":"P1","status":"REHEARSAL","maturity":"PROTOTYPE","evidence":{"status":"OBSERVED","source":"public-portfolio-audit-2026-08-17","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z"},"risk":"Worktree ownership and conflict visualization need one ownership contract.","decision":{"kind":"KEEP_AND_CONSOLIDATE","status":"PREPARED","selectedBase":"agent-worktrees","candidates":["agent-worktrees"],"rationale":"Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."},"implementationRef":{"kind":"MAIN_OR_DRAFT_UNVERIFIED","repository":"agent-worktrees","ref":null},"sources":[{"repository":"agent-worktrees","role":"TARGET","state":"ACTIVE_TARGET","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"worktree-conflict-visualizer","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null}],"release":{"status":"NOT_RELEASED","version":null,"tag":null,"url":null,"artifactSha256":null,"publishedAt":null},"consumers":{"status":"NOT_INVENTORIED","checkedAt":null,"repositories":[]},"rollback":{"status":"NOT_PROVEN","lastRehearsedAt":null,"evidenceUrl":null},"humanApproval":{"approved":false,"approver":null,"approvedAt":null,"rationale":null},"waivers":[],"gates":{"decision":"BLOCKED","import":"NOT_RUN","compatibility":"NOT_RUN","release":"BLOCKED","consumers":"NOT_RUN","redirect":"BLOCKED","rollback":"NOT_RUN","humanApproval":"BLOCKED"}},{"id":"ai-assistance-manifest","canonicalRepository":"ai-assistance-manifest","companionRepositories":[],"owner":"vigilanty0x","priority":"P1","status":"REHEARSAL","maturity":"PROTOTYPE","evidence":{"status":"OBSERVED","source":"public-portfolio-audit-2026-08-17","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z"},"risk":"The manifest and provenance badge must share one schema and version policy.","decision":{"kind":"KEEP_AND_CONSOLIDATE","status":"PREPARED","selectedBase":"ai-assistance-manifest","candidates":["ai-assistance-manifest"],"rationale":"Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."},"implementationRef":{"kind":"MAIN_OR_DRAFT_UNVERIFIED","repository":"ai-assistance-manifest","ref":null},"sources":[{"repository":"ai-assistance-manifest","role":"TARGET","state":"ACTIVE_TARGET","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"ai-project-provenance-badge","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null}],"release":{"status":"NOT_RELEASED","version":null,"tag":null,"url":null,"artifactSha256":null,"publishedAt":null},"consumers":{"status":"NOT_INVENTORIED","checkedAt":null,"repositories":[]},"rollback":{"status":"NOT_PROVEN","lastRehearsedAt":null,"evidenceUrl":null},"humanApproval":{"approved":false,"approver":null,"approvedAt":null,"rationale":null},"waivers":[],"gates":{"decision":"BLOCKED","import":"NOT_RUN","compatibility":"NOT_RUN","release":"BLOCKED","consumers":"NOT_RUN","redirect":"BLOCKED","rollback":"NOT_RUN","humanApproval":"BLOCKED"}},{"id":"model-router","canonicalRepository":"model-router","companionRepositories":[],"owner":"vigilanty0x","priority":"P1","status":"REHEARSAL","maturity":"PROTOTYPE","evidence":{"status":"OBSERVED","source":"public-portfolio-audit-2026-08-17","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z"},"risk":"The standalone target is aligned, but release and evidence policy remain incomplete.","decision":{"kind":"KEEP_AND_CONSOLIDATE","status":"PREPARED","selectedBase":"model-router","candidates":["model-router"],"rationale":"Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."},"implementationRef":{"kind":"MAIN_OR_DRAFT_UNVERIFIED","repository":"model-router","ref":null},"sources":[{"repository":"model-router","role":"TARGET","state":"ACTIVE_TARGET","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null}],"release":{"status":"NOT_RELEASED","version":null,"tag":null,"url":null,"artifactSha256":null,"publishedAt":null},"consumers":{"status":"NOT_INVENTORIED","checkedAt":null,"repositories":[]},"rollback":{"status":"NOT_PROVEN","lastRehearsedAt":null,"evidenceUrl":null},"humanApproval":{"approved":false,"approver":null,"approvedAt":null,"rationale":null},"waivers":[],"gates":{"decision":"BLOCKED","import":"NOT_RUN","compatibility":"NOT_RUN","release":"BLOCKED","consumers":"NOT_RUN","redirect":"BLOCKED","rollback":"NOT_RUN","humanApproval":"BLOCKED"}},{"id":"proofgate","canonicalRepository":"proofgate","companionRepositories":[],"owner":"vigilanty0x","priority":"P1","status":"REHEARSAL","maturity":"PROTOTYPE","evidence":{"status":"OBSERVED","source":"public-portfolio-audit-2026-08-17","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z"},"risk":"Evidence contracts need one canonical status vocabulary and replay boundary.","decision":{"kind":"KEEP_AND_CONSOLIDATE","status":"PREPARED","selectedBase":"proofgate","candidates":["proofgate"],"rationale":"Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."},"implementationRef":{"kind":"MAIN_OR_DRAFT_UNVERIFIED","repository":"proofgate","ref":null},"sources":[{"repository":"audit-trail-lite","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"evidence-ledger","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"proofgate","role":"TARGET","state":"ACTIVE_TARGET","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"run-replay","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"status-truth","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"structured-output-guard","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null}],"release":{"status":"NOT_RELEASED","version":null,"tag":null,"url":null,"artifactSha256":null,"publishedAt":null},"consumers":{"status":"NOT_INVENTORIED","checkedAt":null,"repositories":[]},"rollback":{"status":"NOT_PROVEN","lastRehearsedAt":null,"evidenceUrl":null},"humanApproval":{"approved":false,"approver":null,"approvedAt":null,"rationale":null},"waivers":[],"gates":{"decision":"BLOCKED","import":"NOT_RUN","compatibility":"NOT_RUN","release":"BLOCKED","consumers":"NOT_RUN","redirect":"BLOCKED","rollback":"NOT_RUN","humanApproval":"BLOCKED"}},{"id":"shipcheck","canonicalRepository":"shipcheck","companionRepositories":[],"owner":"vigilanty0x","priority":"P0","status":"REHEARSAL","maturity":"PROTOTYPE","evidence":{"status":"OBSERVED","source":"public-portfolio-audit-2026-08-17","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z"},"risk":"Three overlapping identities exist around merge and release gating.","decision":{"kind":"KEEP_AND_CONSOLIDATE","status":"PREPARED","selectedBase":"shipcheck","candidates":["shipcheck"],"rationale":"Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."},"implementationRef":{"kind":"MAIN_OR_DRAFT_UNVERIFIED","repository":"shipcheck","ref":null},"sources":[{"repository":"ci-failure-summarizer","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"ci-matrix-generator","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"deploy-truth","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"diff-risk-scorer","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"flaky-test-tracker","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"local-ci-runner","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"pr-review-council","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"release-readiness","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"reproducible-demo-harness","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"rollback-drill","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"safe-merge-gate","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"test-evidence-pack","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"test-gap-finder","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null}],"release":{"status":"NOT_RELEASED","version":null,"tag":null,"url":null,"artifactSha256":null,"publishedAt":null},"consumers":{"status":"NOT_INVENTORIED","checkedAt":null,"repositories":[]},"rollback":{"status":"NOT_PROVEN","lastRehearsedAt":null,"evidenceUrl":null},"humanApproval":{"approved":false,"approver":null,"approvedAt":null,"rationale":null},"waivers":[],"gates":{"decision":"BLOCKED","import":"NOT_RUN","compatibility":"NOT_RUN","release":"BLOCKED","consumers":"NOT_RUN","redirect":"BLOCKED","rollback":"NOT_RUN","humanApproval":"BLOCKED"}},{"id":"repo-doctor","canonicalRepository":"repo-doctor","companionRepositories":[],"owner":"vigilanty0x","priority":"P1","status":"REHEARSAL","maturity":"PROTOTYPE","evidence":{"status":"OBSERVED","source":"public-portfolio-audit-2026-08-17","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z"},"risk":"Fifteen modules and an inherited root package identity can diverge.","decision":{"kind":"KEEP_AND_CONSOLIDATE","status":"PREPARED","selectedBase":"repo-doctor","candidates":["repo-doctor"],"rationale":"Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."},"implementationRef":{"kind":"MAIN_OR_DRAFT_UNVERIFIED","repository":"repo-doctor","ref":null},"sources":[{"repository":"ai-setup-doctor","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"backup-verifier","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"config-drift-detector","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"container-resource-profiler","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"dependency-drift-reporter","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"docker-stack-doctor","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"duplicate-finder","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"healthcheck-hub","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"migration-verifier","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"port-conflict-doctor","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"repo-dependency-graph","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"repo-doctor-ai","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"service-doctor","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"sqlite-health-doctor","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"sqlite-query-plan-visualizer","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null}],"release":{"status":"NOT_RELEASED","version":null,"tag":null,"url":null,"artifactSha256":null,"publishedAt":null},"consumers":{"status":"NOT_INVENTORIED","checkedAt":null,"repositories":[]},"rollback":{"status":"NOT_PROVEN","lastRehearsedAt":null,"evidenceUrl":null},"humanApproval":{"approved":false,"approver":null,"approvedAt":null,"rationale":null},"waivers":[],"gates":{"decision":"BLOCKED","import":"NOT_RUN","compatibility":"NOT_RUN","release":"BLOCKED","consumers":"NOT_RUN","redirect":"BLOCKED","rollback":"NOT_RUN","humanApproval":"BLOCKED"}},{"id":"promptops","canonicalRepository":"promptops","companionRepositories":[],"owner":"vigilanty0x","priority":"P1","status":"REHEARSAL","maturity":"PROTOTYPE","evidence":{"status":"OBSERVED","source":"public-portfolio-audit-2026-08-17","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z"},"risk":"Release preparation exists without a verified release, while the root package retains an older identity.","decision":{"kind":"KEEP_AND_CONSOLIDATE","status":"PREPARED","selectedBase":"promptops","candidates":["promptops"],"rationale":"Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."},"implementationRef":{"kind":"MAIN_OR_DRAFT_UNVERIFIED","repository":"promptops","ref":null},"sources":[{"repository":"answer-diff","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"benchmark-run-recorder","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"consensus-engine","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"eval-dataset-builder","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"llm-jury","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"model-scorecard","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"multi-agent-failure-corpus","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"prompt-package-manager","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"prompt-regression","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"promptbench","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null}],"release":{"status":"NOT_RELEASED","version":null,"tag":null,"url":null,"artifactSha256":null,"publishedAt":null},"consumers":{"status":"NOT_INVENTORIED","checkedAt":null,"repositories":[]},"rollback":{"status":"NOT_PROVEN","lastRehearsedAt":null,"evidenceUrl":null},"humanApproval":{"approved":false,"approver":null,"approvedAt":null,"rationale":null},"waivers":[],"gates":{"decision":"BLOCKED","import":"NOT_RUN","compatibility":"NOT_RUN","release":"BLOCKED","consumers":"NOT_RUN","redirect":"BLOCKED","rollback":"NOT_RUN","humanApproval":"BLOCKED"}},{"id":"rag-lab","canonicalRepository":"rag-lab","companionRepositories":[],"owner":"vigilanty0x","priority":"P1","status":"REHEARSAL","maturity":"PROTOTYPE","evidence":{"status":"OBSERVED","source":"public-portfolio-audit-2026-08-17","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z"},"risk":"Nine data, retrieval, citation, and index schemas can diverge during import.","decision":{"kind":"KEEP_AND_CONSOLIDATE","status":"PREPARED","selectedBase":"rag-lab","candidates":["rag-lab"],"rationale":"Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."},"implementationRef":{"kind":"MAIN_OR_DRAFT_UNVERIFIED","repository":"rag-lab","ref":null},"sources":[{"repository":"data-freshness-monitor","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"dataset-versioner","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"embedding-lab","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"file-intake-pipeline","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"hybrid-search-playground","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"rag-citation-explorer","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"rag-corpus-doctor","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"rag-quality-bench","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"semantic-index-doctor","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null}],"release":{"status":"NOT_RELEASED","version":null,"tag":null,"url":null,"artifactSha256":null,"publishedAt":null},"consumers":{"status":"NOT_INVENTORIED","checkedAt":null,"repositories":[]},"rollback":{"status":"NOT_PROVEN","lastRehearsedAt":null,"evidenceUrl":null},"humanApproval":{"approved":false,"approver":null,"approvedAt":null,"rationale":null},"waivers":[],"gates":{"decision":"BLOCKED","import":"NOT_RUN","compatibility":"NOT_RUN","release":"BLOCKED","consumers":"NOT_RUN","redirect":"BLOCKED","rollback":"NOT_RUN","humanApproval":"BLOCKED"}},{"id":"local-ai-stack","canonicalRepository":"local-ai-stack","companionRepositories":[],"owner":"vigilanty0x","priority":"P2","status":"REHEARSAL","maturity":"PROTOTYPE","evidence":{"status":"OBSERVED","source":"public-portfolio-audit-2026-08-17","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z"},"risk":"Hardware, model, and provider compatibility need reproducible matrices.","decision":{"kind":"KEEP_AND_CONSOLIDATE","status":"PREPARED","selectedBase":"local-ai-stack","candidates":["local-ai-stack"],"rationale":"Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."},"implementationRef":{"kind":"MAIN_OR_DRAFT_UNVERIFIED","repository":"local-ai-stack","ref":null},"sources":[{"repository":"local-ai-stack","role":"TARGET","state":"ACTIVE_TARGET","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"local-model-benchmark","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"model-fallback-proxy","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"ollama-fleet-manager","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null}],"release":{"status":"NOT_RELEASED","version":null,"tag":null,"url":null,"artifactSha256":null,"publishedAt":null},"consumers":{"status":"NOT_INVENTORIED","checkedAt":null,"repositories":[]},"rollback":{"status":"NOT_PROVEN","lastRehearsedAt":null,"evidenceUrl":null},"humanApproval":{"approved":false,"approver":null,"approvedAt":null,"rationale":null},"waivers":[],"gates":{"decision":"BLOCKED","import":"NOT_RUN","compatibility":"NOT_RUN","release":"BLOCKED","consumers":"NOT_RUN","redirect":"BLOCKED","rollback":"NOT_RUN","humanApproval":"BLOCKED"}},{"id":"trustkit","canonicalRepository":"trustkit","companionRepositories":[],"owner":"vigilanty0x","priority":"P1","status":"REHEARSAL","maturity":"PROTOTYPE","evidence":{"status":"OBSERVED","source":"public-portfolio-audit-2026-08-17","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z"},"risk":"Security demonstrations must remain bounded and must not imply certification.","decision":{"kind":"KEEP_AND_CONSOLIDATE","status":"PREPARED","selectedBase":"trustkit","candidates":["trustkit"],"rationale":"Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."},"implementationRef":{"kind":"MAIN_OR_DRAFT_UNVERIFIED","repository":"trustkit","ref":null},"sources":[{"repository":"env-example-guard","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"permission-matrix","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"secrets-hygiene","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"security-headers-lab","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"ssrf-guard-demo","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null}],"release":{"status":"NOT_RELEASED","version":null,"tag":null,"url":null,"artifactSha256":null,"publishedAt":null},"consumers":{"status":"NOT_INVENTORIED","checkedAt":null,"repositories":[]},"rollback":{"status":"NOT_PROVEN","lastRehearsedAt":null,"evidenceUrl":null},"humanApproval":{"approved":false,"approver":null,"approvedAt":null,"rationale":null},"waivers":[],"gates":{"decision":"BLOCKED","import":"NOT_RUN","compatibility":"NOT_RUN","release":"BLOCKED","consumers":"NOT_RUN","redirect":"BLOCKED","rollback":"NOT_RUN","humanApproval":"BLOCKED"}},{"id":"contract-lab","canonicalRepository":"contract-lab","companionRepositories":[],"owner":"vigilanty0x","priority":"P1","status":"REHEARSAL","maturity":"PROTOTYPE","evidence":{"status":"OBSERVED","source":"public-portfolio-audit-2026-08-17","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z"},"risk":"Three tools need a shared event, schema, and adversarial fixture corpus.","decision":{"kind":"KEEP_AND_CONSOLIDATE","status":"PREPARED","selectedBase":"contract-lab","candidates":["contract-lab"],"rationale":"Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."},"implementationRef":{"kind":"MAIN_OR_DRAFT_UNVERIFIED","repository":"contract-lab","ref":null},"sources":[{"repository":"api-contract-mock-server","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"schema-contract-tester","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"webhook-sandbox","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null}],"release":{"status":"NOT_RELEASED","version":null,"tag":null,"url":null,"artifactSha256":null,"publishedAt":null},"consumers":{"status":"NOT_INVENTORIED","checkedAt":null,"repositories":[]},"rollback":{"status":"NOT_PROVEN","lastRehearsedAt":null,"evidenceUrl":null},"humanApproval":{"approved":false,"approver":null,"approvedAt":null,"rationale":null},"waivers":[],"gates":{"decision":"BLOCKED","import":"NOT_RUN","compatibility":"NOT_RUN","release":"BLOCKED","consumers":"NOT_RUN","redirect":"BLOCKED","rollback":"NOT_RUN","humanApproval":"BLOCKED"}},{"id":"devdocs","canonicalRepository":"devdocs","companionRepositories":[],"owner":"vigilanty0x","priority":"P1","status":"REHEARSAL","maturity":"PROTOTYPE","evidence":{"status":"OBSERVED","source":"public-portfolio-audit-2026-08-17","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z"},"risk":"Generators must produce code-linked evidence rather than generic prose.","decision":{"kind":"KEEP_AND_CONSOLIDATE","status":"PREPARED","selectedBase":"devdocs","candidates":["devdocs"],"rationale":"Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."},"implementationRef":{"kind":"MAIN_OR_DRAFT_UNVERIFIED","repository":"devdocs","ref":null},"sources":[{"repository":"codebase-onboarding-guide-generator","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"document-factory","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"event-log-explorer","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"failure-postmortem-kit","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"runbook-builder","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"state-machine-visualizer","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"system-map-generator","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null}],"release":{"status":"NOT_RELEASED","version":null,"tag":null,"url":null,"artifactSha256":null,"publishedAt":null},"consumers":{"status":"NOT_INVENTORIED","checkedAt":null,"repositories":[]},"rollback":{"status":"NOT_PROVEN","lastRehearsedAt":null,"evidenceUrl":null},"humanApproval":{"approved":false,"approver":null,"approvedAt":null,"rationale":null},"waivers":[],"gates":{"decision":"BLOCKED","import":"NOT_RUN","compatibility":"NOT_RUN","release":"BLOCKED","consumers":"NOT_RUN","redirect":"BLOCKED","rollback":"NOT_RUN","humanApproval":"BLOCKED"}},{"id":"portfolio-profile","canonicalRepository":"portfolio-kit","companionRepositories":["vigilanty0x"],"owner":"vigilanty0x","priority":"P0","status":"REHEARSAL","maturity":"PROTOTYPE","evidence":{"status":"OBSERVED","source":"public-portfolio-audit-2026-08-17","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z"},"risk":"Profile, dashboard, metrics, and generated portfolio data can become stale or contradictory.","decision":{"kind":"KEEP_AND_CONSOLIDATE","status":"PREPARED","selectedBase":"portfolio-kit","candidates":["portfolio-kit"],"rationale":"Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."},"implementationRef":{"kind":"MAIN_OR_DRAFT_UNVERIFIED","repository":"portfolio-kit","ref":null},"sources":[{"repository":"build-metrics-collector","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"github-profile-dashboard","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"open-source-portfolio-generator","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null}],"release":{"status":"NOT_RELEASED","version":null,"tag":null,"url":null,"artifactSha256":null,"publishedAt":null},"consumers":{"status":"NOT_INVENTORIED","checkedAt":null,"repositories":[]},"rollback":{"status":"NOT_PROVEN","lastRehearsedAt":null,"evidenceUrl":null},"humanApproval":{"approved":false,"approver":null,"approvedAt":null,"rationale":null},"waivers":[],"gates":{"decision":"BLOCKED","import":"NOT_RUN","compatibility":"NOT_RUN","release":"BLOCKED","consumers":"NOT_RUN","redirect":"BLOCKED","rollback":"NOT_RUN","humanApproval":"BLOCKED"}},{"id":"community-governance","canonicalRepository":".github","companionRepositories":[],"owner":"vigilanty0x","priority":"P0","status":"REHEARSAL","maturity":"PROTOTYPE","evidence":{"status":"OBSERVED","source":"public-portfolio-audit-2026-08-17","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z"},"risk":"Static workflow defaults do not yet prove live repository, release, consumer, or archive state.","decision":{"kind":"KEEP_AND_CONSOLIDATE","status":"PREPARED","selectedBase":".github","candidates":[".github"],"rationale":"Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."},"implementationRef":{"kind":"MAIN_OR_DRAFT_UNVERIFIED","repository":".github","ref":null},"sources":[{"repository":"workflow-templates","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null}],"release":{"status":"NOT_RELEASED","version":null,"tag":null,"url":null,"artifactSha256":null,"publishedAt":null},"consumers":{"status":"NOT_INVENTORIED","checkedAt":null,"repositories":[]},"rollback":{"status":"NOT_PROVEN","lastRehearsedAt":null,"evidenceUrl":null},"humanApproval":{"approved":false,"approver":null,"approvedAt":null,"rationale":null},"waivers":[],"gates":{"decision":"BLOCKED","import":"NOT_RUN","compatibility":"NOT_RUN","release":"BLOCKED","consumers":"NOT_RUN","redirect":"BLOCKED","rollback":"NOT_RUN","humanApproval":"BLOCKED"}},{"id":"agentops","canonicalRepository":"automation-control-plane","companionRepositories":[],"owner":"vigilanty0x","priority":"P0","status":"PROPOSED","maturity":"EXPERIMENTAL","evidence":{"status":"INFERRED","source":"public-portfolio-audit-2026-08-17","observedAt":"2026-08-17T23:59:59Z","expiresAt":"2026-09-17T23:59:59Z"},"risk":"Thirteen source repositories have no completed canonical consolidation or verified migration.","decision":{"kind":"KEEP_AND_CONSOLIDATE","status":"PREPARED","selectedBase":"automation-control-plane","candidates":["automation-control-plane","agentmesh"],"rationale":"The selected base already provides durable state, bounded retries, approvals, leases, budgets, kill switches, recovery, audit, CLI, tests, and a read-only local surface. AgentMesh remains a focused route/health/ownership module to import behind compatibility tests."},"implementationRef":{"kind":"BASE_CANDIDATE","repository":"automation-control-plane","ref":null},"sources":[{"repository":"agent-budgeter","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"agent-inbox","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"agent-quota-simulator","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"agent-retry-kit","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"agent-session-recorder","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"agentmesh","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"automation-control-plane","role":"TARGET","state":"ACTIVE_TARGET","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"circuit-breaker-lab","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"context-window-budgeter","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"human-in-the-loop-queue","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"idempotency-kit","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"taskgraph","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null},{"repository":"timeout-toolkit","role":"SOURCE","state":"ACTIVE_SOURCE","sourceSha":null,"treeSha":null,"targetPath":null,"importCommit":null}],"release":{"status":"NOT_RELEASED","version":null,"tag":null,"url":null,"artifactSha256":null,"publishedAt":null},"consumers":{"status":"NOT_INVENTORIED","checkedAt":null,"repositories":[]},"rollback":{"status":"NOT_PROVEN","lastRehearsedAt":null,"evidenceUrl":null},"humanApproval":{"approved":false,"approver":null,"approvedAt":null,"rationale":null},"waivers":[],"gates":{"decision":"BLOCKED","import":"NOT_RUN","compatibility":"NOT_RUN","release":"BLOCKED","consumers":"NOT_RUN","redirect":"BLOCKED","rollback":"NOT_RUN","humanApproval":"BLOCKED"}}]}
+{
+  "schemaVersion": 1,
+  "owner": "vigilanty0x",
+  "scope": "PUBLIC_ONLY",
+  "generatedAt": "2026-08-18T02:26:33Z",
+  "observedAt": "2026-08-17T23:59:59Z",
+  "expiresAt": "2026-09-17T23:59:59Z",
+  "expectedTargetCount": 18,
+  "expectedSourceRepositoryCount": 100,
+  "expectedPublicRepositoryCount": 112,
+  "statusVocabulary": {
+    "target": [
+      "PROPOSED",
+      "REHEARSAL",
+      "READY",
+      "RELEASED",
+      "VERIFIED",
+      "ROLLED_BACK"
+    ],
+    "source": [
+      "ACTIVE_SOURCE",
+      "ACTIVE_TARGET",
+      "FROZEN_SOURCE",
+      "MIGRATION_IN_PROGRESS",
+      "TARGET_RELEASED",
+      "REDIRECTED",
+      "ARCHIVE_CANDIDATE",
+      "ARCHIVE_APPROVED",
+      "ARCHIVED",
+      "ROLLED_BACK"
+    ],
+    "evidence": [
+      "OBSERVED",
+      "CALCULATED",
+      "INFERRED",
+      "NOT_PROVEN",
+      "BLOCKED",
+      "VERIFIED"
+    ],
+    "gate": [
+      "PASS",
+      "BLOCKED",
+      "NOT_RUN",
+      "WAIVED"
+    ]
+  },
+  "standaloneRepositories": [
+    {
+      "repository": "apprentice-ai",
+      "state": "DECISION_REQUIRED",
+      "decision": "KEEP_STANDALONE_OR_IMPORT_AGENTOPS",
+      "owner": "vigilanty0x",
+      "evidenceStatus": "OBSERVED"
+    },
+    {
+      "repository": "shipcheck-release-gate",
+      "state": "DECISION_REQUIRED",
+      "decision": "MERGE_AS_SHIPCHECK_PACKAGE_OR_PROVE_DISTINCT_RELEASE_PERSONA",
+      "owner": "vigilanty0x",
+      "evidenceStatus": "OBSERVED"
+    }
+  ],
+  "targets": [
+    {
+      "id": "ai-software-factory",
+      "canonicalRepository": "ai-software-factory",
+      "companionRepositories": [],
+      "owner": "vigilanty0x",
+      "priority": "P1",
+      "status": "REHEARSAL",
+      "maturity": "PROTOTYPE",
+      "evidence": {
+        "status": "OBSERVED",
+        "source": "public-portfolio-audit-2026-08-17",
+        "observedAt": "2026-08-17T23:59:59Z",
+        "expiresAt": "2026-09-17T23:59:59Z"
+      },
+      "risk": "The factory and starter kit need one release, provenance, and compatibility contract.",
+      "decision": {
+        "kind": "KEEP_AND_CONSOLIDATE",
+        "status": "PREPARED",
+        "selectedBase": "ai-software-factory",
+        "candidates": [
+          "ai-software-factory"
+        ],
+        "rationale": "Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."
+      },
+      "implementationRef": {
+        "kind": "MAIN_OR_DRAFT_UNVERIFIED",
+        "repository": "ai-software-factory",
+        "ref": null
+      },
+      "sources": [
+        {
+          "repository": "ai-software-factory",
+          "role": "TARGET",
+          "state": "ACTIVE_TARGET",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "ai-software-factory-starter-kit",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        }
+      ],
+      "release": {
+        "status": "NOT_RELEASED",
+        "version": null,
+        "tag": null,
+        "url": null,
+        "artifactSha256": null,
+        "publishedAt": null
+      },
+      "consumers": {
+        "status": "NOT_INVENTORIED",
+        "checkedAt": null,
+        "repositories": []
+      },
+      "rollback": {
+        "status": "NOT_PROVEN",
+        "lastRehearsedAt": null,
+        "evidenceUrl": null
+      },
+      "humanApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null,
+        "rationale": null
+      },
+      "waivers": [],
+      "gates": {
+        "decision": "BLOCKED",
+        "import": "NOT_RUN",
+        "compatibility": "NOT_RUN",
+        "release": "BLOCKED",
+        "consumers": "NOT_RUN",
+        "redirect": "BLOCKED",
+        "rollback": "NOT_RUN",
+        "humanApproval": "BLOCKED"
+      }
+    },
+    {
+      "id": "agent-dashboard",
+      "canonicalRepository": "agent-dashboard",
+      "companionRepositories": [],
+      "owner": "vigilanty0x",
+      "priority": "P1",
+      "status": "REHEARSAL",
+      "maturity": "PROTOTYPE",
+      "evidence": {
+        "status": "OBSERVED",
+        "source": "public-portfolio-audit-2026-08-17",
+        "observedAt": "2026-08-17T23:59:59Z",
+        "expiresAt": "2026-09-17T23:59:59Z"
+      },
+      "risk": "Two dashboards can publish conflicting productivity and health truth models.",
+      "decision": {
+        "kind": "KEEP_AND_CONSOLIDATE",
+        "status": "PREPARED",
+        "selectedBase": "agent-dashboard",
+        "candidates": [
+          "agent-dashboard"
+        ],
+        "rationale": "Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."
+      },
+      "implementationRef": {
+        "kind": "MAIN_OR_DRAFT_UNVERIFIED",
+        "repository": "agent-dashboard",
+        "ref": null
+      },
+      "sources": [
+        {
+          "repository": "agent-dashboard",
+          "role": "TARGET",
+          "state": "ACTIVE_TARGET",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "agent-productivity-dashboard",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        }
+      ],
+      "release": {
+        "status": "NOT_RELEASED",
+        "version": null,
+        "tag": null,
+        "url": null,
+        "artifactSha256": null,
+        "publishedAt": null
+      },
+      "consumers": {
+        "status": "NOT_INVENTORIED",
+        "checkedAt": null,
+        "repositories": []
+      },
+      "rollback": {
+        "status": "NOT_PROVEN",
+        "lastRehearsedAt": null,
+        "evidenceUrl": null
+      },
+      "humanApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null,
+        "rationale": null
+      },
+      "waivers": [],
+      "gates": {
+        "decision": "BLOCKED",
+        "import": "NOT_RUN",
+        "compatibility": "NOT_RUN",
+        "release": "BLOCKED",
+        "consumers": "NOT_RUN",
+        "redirect": "BLOCKED",
+        "rollback": "NOT_RUN",
+        "humanApproval": "BLOCKED"
+      }
+    },
+    {
+      "id": "agent-handoff",
+      "canonicalRepository": "agent-handoff",
+      "companionRepositories": [],
+      "owner": "vigilanty0x",
+      "priority": "P1",
+      "status": "REHEARSAL",
+      "maturity": "PROTOTYPE",
+      "evidence": {
+        "status": "OBSERVED",
+        "source": "public-portfolio-audit-2026-08-17",
+        "observedAt": "2026-08-17T23:59:59Z",
+        "expiresAt": "2026-09-17T23:59:59Z"
+      },
+      "risk": "The handoff schema and CLI must remain compatible through consolidation.",
+      "decision": {
+        "kind": "KEEP_AND_CONSOLIDATE",
+        "status": "PREPARED",
+        "selectedBase": "agent-handoff",
+        "candidates": [
+          "agent-handoff"
+        ],
+        "rationale": "Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."
+      },
+      "implementationRef": {
+        "kind": "MAIN_OR_DRAFT_UNVERIFIED",
+        "repository": "agent-handoff",
+        "ref": null
+      },
+      "sources": [
+        {
+          "repository": "agent-handoff",
+          "role": "TARGET",
+          "state": "ACTIVE_TARGET",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "handoff-markdown-cli",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        }
+      ],
+      "release": {
+        "status": "NOT_RELEASED",
+        "version": null,
+        "tag": null,
+        "url": null,
+        "artifactSha256": null,
+        "publishedAt": null
+      },
+      "consumers": {
+        "status": "NOT_INVENTORIED",
+        "checkedAt": null,
+        "repositories": []
+      },
+      "rollback": {
+        "status": "NOT_PROVEN",
+        "lastRehearsedAt": null,
+        "evidenceUrl": null
+      },
+      "humanApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null,
+        "rationale": null
+      },
+      "waivers": [],
+      "gates": {
+        "decision": "BLOCKED",
+        "import": "NOT_RUN",
+        "compatibility": "NOT_RUN",
+        "release": "BLOCKED",
+        "consumers": "NOT_RUN",
+        "redirect": "BLOCKED",
+        "rollback": "NOT_RUN",
+        "humanApproval": "BLOCKED"
+      }
+    },
+    {
+      "id": "agent-worktrees",
+      "canonicalRepository": "agent-worktrees",
+      "companionRepositories": [],
+      "owner": "vigilanty0x",
+      "priority": "P1",
+      "status": "REHEARSAL",
+      "maturity": "PROTOTYPE",
+      "evidence": {
+        "status": "OBSERVED",
+        "source": "public-portfolio-audit-2026-08-17",
+        "observedAt": "2026-08-17T23:59:59Z",
+        "expiresAt": "2026-09-17T23:59:59Z"
+      },
+      "risk": "Worktree ownership and conflict visualization need one ownership contract.",
+      "decision": {
+        "kind": "KEEP_AND_CONSOLIDATE",
+        "status": "PREPARED",
+        "selectedBase": "agent-worktrees",
+        "candidates": [
+          "agent-worktrees"
+        ],
+        "rationale": "Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."
+      },
+      "implementationRef": {
+        "kind": "MAIN_OR_DRAFT_UNVERIFIED",
+        "repository": "agent-worktrees",
+        "ref": null
+      },
+      "sources": [
+        {
+          "repository": "agent-worktrees",
+          "role": "TARGET",
+          "state": "ACTIVE_TARGET",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "worktree-conflict-visualizer",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        }
+      ],
+      "release": {
+        "status": "NOT_RELEASED",
+        "version": null,
+        "tag": null,
+        "url": null,
+        "artifactSha256": null,
+        "publishedAt": null
+      },
+      "consumers": {
+        "status": "NOT_INVENTORIED",
+        "checkedAt": null,
+        "repositories": []
+      },
+      "rollback": {
+        "status": "NOT_PROVEN",
+        "lastRehearsedAt": null,
+        "evidenceUrl": null
+      },
+      "humanApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null,
+        "rationale": null
+      },
+      "waivers": [],
+      "gates": {
+        "decision": "BLOCKED",
+        "import": "NOT_RUN",
+        "compatibility": "NOT_RUN",
+        "release": "BLOCKED",
+        "consumers": "NOT_RUN",
+        "redirect": "BLOCKED",
+        "rollback": "NOT_RUN",
+        "humanApproval": "BLOCKED"
+      }
+    },
+    {
+      "id": "ai-assistance-manifest",
+      "canonicalRepository": "ai-assistance-manifest",
+      "companionRepositories": [],
+      "owner": "vigilanty0x",
+      "priority": "P1",
+      "status": "REHEARSAL",
+      "maturity": "PROTOTYPE",
+      "evidence": {
+        "status": "OBSERVED",
+        "source": "public-portfolio-audit-2026-08-17",
+        "observedAt": "2026-08-17T23:59:59Z",
+        "expiresAt": "2026-09-17T23:59:59Z"
+      },
+      "risk": "The manifest and provenance badge must share one schema and version policy.",
+      "decision": {
+        "kind": "KEEP_AND_CONSOLIDATE",
+        "status": "PREPARED",
+        "selectedBase": "ai-assistance-manifest",
+        "candidates": [
+          "ai-assistance-manifest"
+        ],
+        "rationale": "Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."
+      },
+      "implementationRef": {
+        "kind": "MAIN_OR_DRAFT_UNVERIFIED",
+        "repository": "ai-assistance-manifest",
+        "ref": null
+      },
+      "sources": [
+        {
+          "repository": "ai-assistance-manifest",
+          "role": "TARGET",
+          "state": "ACTIVE_TARGET",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "ai-project-provenance-badge",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        }
+      ],
+      "release": {
+        "status": "NOT_RELEASED",
+        "version": null,
+        "tag": null,
+        "url": null,
+        "artifactSha256": null,
+        "publishedAt": null
+      },
+      "consumers": {
+        "status": "NOT_INVENTORIED",
+        "checkedAt": null,
+        "repositories": []
+      },
+      "rollback": {
+        "status": "NOT_PROVEN",
+        "lastRehearsedAt": null,
+        "evidenceUrl": null
+      },
+      "humanApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null,
+        "rationale": null
+      },
+      "waivers": [],
+      "gates": {
+        "decision": "BLOCKED",
+        "import": "NOT_RUN",
+        "compatibility": "NOT_RUN",
+        "release": "BLOCKED",
+        "consumers": "NOT_RUN",
+        "redirect": "BLOCKED",
+        "rollback": "NOT_RUN",
+        "humanApproval": "BLOCKED"
+      }
+    },
+    {
+      "id": "model-router",
+      "canonicalRepository": "model-router",
+      "companionRepositories": [],
+      "owner": "vigilanty0x",
+      "priority": "P1",
+      "status": "REHEARSAL",
+      "maturity": "PROTOTYPE",
+      "evidence": {
+        "status": "OBSERVED",
+        "source": "public-portfolio-audit-2026-08-17",
+        "observedAt": "2026-08-17T23:59:59Z",
+        "expiresAt": "2026-09-17T23:59:59Z"
+      },
+      "risk": "The standalone target is aligned, but release and evidence policy remain incomplete.",
+      "decision": {
+        "kind": "KEEP_AND_CONSOLIDATE",
+        "status": "PREPARED",
+        "selectedBase": "model-router",
+        "candidates": [
+          "model-router"
+        ],
+        "rationale": "Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."
+      },
+      "implementationRef": {
+        "kind": "MAIN_OR_DRAFT_UNVERIFIED",
+        "repository": "model-router",
+        "ref": null
+      },
+      "sources": [
+        {
+          "repository": "model-router",
+          "role": "TARGET",
+          "state": "ACTIVE_TARGET",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        }
+      ],
+      "release": {
+        "status": "NOT_RELEASED",
+        "version": null,
+        "tag": null,
+        "url": null,
+        "artifactSha256": null,
+        "publishedAt": null
+      },
+      "consumers": {
+        "status": "NOT_INVENTORIED",
+        "checkedAt": null,
+        "repositories": []
+      },
+      "rollback": {
+        "status": "NOT_PROVEN",
+        "lastRehearsedAt": null,
+        "evidenceUrl": null
+      },
+      "humanApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null,
+        "rationale": null
+      },
+      "waivers": [],
+      "gates": {
+        "decision": "BLOCKED",
+        "import": "NOT_RUN",
+        "compatibility": "NOT_RUN",
+        "release": "BLOCKED",
+        "consumers": "NOT_RUN",
+        "redirect": "BLOCKED",
+        "rollback": "NOT_RUN",
+        "humanApproval": "BLOCKED"
+      }
+    },
+    {
+      "id": "proofgate",
+      "canonicalRepository": "proofgate",
+      "companionRepositories": [],
+      "owner": "vigilanty0x",
+      "priority": "P1",
+      "status": "REHEARSAL",
+      "maturity": "PROTOTYPE",
+      "evidence": {
+        "status": "OBSERVED",
+        "source": "public-portfolio-audit-2026-08-17",
+        "observedAt": "2026-08-17T23:59:59Z",
+        "expiresAt": "2026-09-17T23:59:59Z"
+      },
+      "risk": "Evidence contracts need one canonical status vocabulary and replay boundary.",
+      "decision": {
+        "kind": "KEEP_AND_CONSOLIDATE",
+        "status": "PREPARED",
+        "selectedBase": "proofgate",
+        "candidates": [
+          "proofgate"
+        ],
+        "rationale": "Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."
+      },
+      "implementationRef": {
+        "kind": "MAIN_OR_DRAFT_UNVERIFIED",
+        "repository": "proofgate",
+        "ref": null
+      },
+      "sources": [
+        {
+          "repository": "audit-trail-lite",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "evidence-ledger",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "proofgate",
+          "role": "TARGET",
+          "state": "ACTIVE_TARGET",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "run-replay",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "status-truth",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "structured-output-guard",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        }
+      ],
+      "release": {
+        "status": "NOT_RELEASED",
+        "version": null,
+        "tag": null,
+        "url": null,
+        "artifactSha256": null,
+        "publishedAt": null
+      },
+      "consumers": {
+        "status": "NOT_INVENTORIED",
+        "checkedAt": null,
+        "repositories": []
+      },
+      "rollback": {
+        "status": "NOT_PROVEN",
+        "lastRehearsedAt": null,
+        "evidenceUrl": null
+      },
+      "humanApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null,
+        "rationale": null
+      },
+      "waivers": [],
+      "gates": {
+        "decision": "BLOCKED",
+        "import": "NOT_RUN",
+        "compatibility": "NOT_RUN",
+        "release": "BLOCKED",
+        "consumers": "NOT_RUN",
+        "redirect": "BLOCKED",
+        "rollback": "NOT_RUN",
+        "humanApproval": "BLOCKED"
+      }
+    },
+    {
+      "id": "shipcheck",
+      "canonicalRepository": "shipcheck",
+      "companionRepositories": [],
+      "owner": "vigilanty0x",
+      "priority": "P0",
+      "status": "REHEARSAL",
+      "maturity": "PROTOTYPE",
+      "evidence": {
+        "status": "OBSERVED",
+        "source": "public-portfolio-audit-2026-08-17",
+        "observedAt": "2026-08-17T23:59:59Z",
+        "expiresAt": "2026-09-17T23:59:59Z"
+      },
+      "risk": "Three overlapping identities exist around merge and release gating.",
+      "decision": {
+        "kind": "KEEP_AND_CONSOLIDATE",
+        "status": "PREPARED",
+        "selectedBase": "shipcheck",
+        "candidates": [
+          "shipcheck"
+        ],
+        "rationale": "Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."
+      },
+      "implementationRef": {
+        "kind": "MAIN_OR_DRAFT_UNVERIFIED",
+        "repository": "shipcheck",
+        "ref": null
+      },
+      "sources": [
+        {
+          "repository": "ci-failure-summarizer",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "ci-matrix-generator",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "deploy-truth",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "diff-risk-scorer",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "flaky-test-tracker",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "local-ci-runner",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "pr-review-council",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "release-readiness",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "reproducible-demo-harness",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "rollback-drill",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "safe-merge-gate",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "test-evidence-pack",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "test-gap-finder",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        }
+      ],
+      "release": {
+        "status": "NOT_RELEASED",
+        "version": null,
+        "tag": null,
+        "url": null,
+        "artifactSha256": null,
+        "publishedAt": null
+      },
+      "consumers": {
+        "status": "NOT_INVENTORIED",
+        "checkedAt": null,
+        "repositories": []
+      },
+      "rollback": {
+        "status": "NOT_PROVEN",
+        "lastRehearsedAt": null,
+        "evidenceUrl": null
+      },
+      "humanApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null,
+        "rationale": null
+      },
+      "waivers": [],
+      "gates": {
+        "decision": "BLOCKED",
+        "import": "NOT_RUN",
+        "compatibility": "NOT_RUN",
+        "release": "BLOCKED",
+        "consumers": "NOT_RUN",
+        "redirect": "BLOCKED",
+        "rollback": "NOT_RUN",
+        "humanApproval": "BLOCKED"
+      }
+    },
+    {
+      "id": "repo-doctor",
+      "canonicalRepository": "repo-doctor",
+      "companionRepositories": [],
+      "owner": "vigilanty0x",
+      "priority": "P1",
+      "status": "REHEARSAL",
+      "maturity": "PROTOTYPE",
+      "evidence": {
+        "status": "OBSERVED",
+        "source": "public-portfolio-audit-2026-08-17",
+        "observedAt": "2026-08-17T23:59:59Z",
+        "expiresAt": "2026-09-17T23:59:59Z"
+      },
+      "risk": "Fifteen modules and an inherited root package identity can diverge.",
+      "decision": {
+        "kind": "KEEP_AND_CONSOLIDATE",
+        "status": "PREPARED",
+        "selectedBase": "repo-doctor",
+        "candidates": [
+          "repo-doctor"
+        ],
+        "rationale": "Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."
+      },
+      "implementationRef": {
+        "kind": "MAIN_OR_DRAFT_UNVERIFIED",
+        "repository": "repo-doctor",
+        "ref": null
+      },
+      "sources": [
+        {
+          "repository": "ai-setup-doctor",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "backup-verifier",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "config-drift-detector",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "container-resource-profiler",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "dependency-drift-reporter",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "docker-stack-doctor",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "duplicate-finder",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "healthcheck-hub",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "migration-verifier",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "port-conflict-doctor",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "repo-dependency-graph",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "repo-doctor-ai",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "service-doctor",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "sqlite-health-doctor",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "sqlite-query-plan-visualizer",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        }
+      ],
+      "release": {
+        "status": "NOT_RELEASED",
+        "version": null,
+        "tag": null,
+        "url": null,
+        "artifactSha256": null,
+        "publishedAt": null
+      },
+      "consumers": {
+        "status": "NOT_INVENTORIED",
+        "checkedAt": null,
+        "repositories": []
+      },
+      "rollback": {
+        "status": "NOT_PROVEN",
+        "lastRehearsedAt": null,
+        "evidenceUrl": null
+      },
+      "humanApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null,
+        "rationale": null
+      },
+      "waivers": [],
+      "gates": {
+        "decision": "BLOCKED",
+        "import": "NOT_RUN",
+        "compatibility": "NOT_RUN",
+        "release": "BLOCKED",
+        "consumers": "NOT_RUN",
+        "redirect": "BLOCKED",
+        "rollback": "NOT_RUN",
+        "humanApproval": "BLOCKED"
+      }
+    },
+    {
+      "id": "promptops",
+      "canonicalRepository": "promptops",
+      "companionRepositories": [],
+      "owner": "vigilanty0x",
+      "priority": "P1",
+      "status": "REHEARSAL",
+      "maturity": "PROTOTYPE",
+      "evidence": {
+        "status": "OBSERVED",
+        "source": "public-portfolio-audit-2026-08-17",
+        "observedAt": "2026-08-17T23:59:59Z",
+        "expiresAt": "2026-09-17T23:59:59Z"
+      },
+      "risk": "Release preparation exists without a verified release, while the root package retains an older identity.",
+      "decision": {
+        "kind": "KEEP_AND_CONSOLIDATE",
+        "status": "PREPARED",
+        "selectedBase": "promptops",
+        "candidates": [
+          "promptops"
+        ],
+        "rationale": "Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."
+      },
+      "implementationRef": {
+        "kind": "MAIN_OR_DRAFT_UNVERIFIED",
+        "repository": "promptops",
+        "ref": null
+      },
+      "sources": [
+        {
+          "repository": "answer-diff",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "benchmark-run-recorder",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "consensus-engine",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "eval-dataset-builder",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "llm-jury",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "model-scorecard",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "multi-agent-failure-corpus",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "prompt-package-manager",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "prompt-regression",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "promptbench",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        }
+      ],
+      "release": {
+        "status": "NOT_RELEASED",
+        "version": null,
+        "tag": null,
+        "url": null,
+        "artifactSha256": null,
+        "publishedAt": null
+      },
+      "consumers": {
+        "status": "NOT_INVENTORIED",
+        "checkedAt": null,
+        "repositories": []
+      },
+      "rollback": {
+        "status": "NOT_PROVEN",
+        "lastRehearsedAt": null,
+        "evidenceUrl": null
+      },
+      "humanApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null,
+        "rationale": null
+      },
+      "waivers": [],
+      "gates": {
+        "decision": "BLOCKED",
+        "import": "NOT_RUN",
+        "compatibility": "NOT_RUN",
+        "release": "BLOCKED",
+        "consumers": "NOT_RUN",
+        "redirect": "BLOCKED",
+        "rollback": "NOT_RUN",
+        "humanApproval": "BLOCKED"
+      }
+    },
+    {
+      "id": "rag-lab",
+      "canonicalRepository": "rag-lab",
+      "companionRepositories": [],
+      "owner": "vigilanty0x",
+      "priority": "P1",
+      "status": "REHEARSAL",
+      "maturity": "PROTOTYPE",
+      "evidence": {
+        "status": "OBSERVED",
+        "source": "public-portfolio-audit-2026-08-17",
+        "observedAt": "2026-08-17T23:59:59Z",
+        "expiresAt": "2026-09-17T23:59:59Z"
+      },
+      "risk": "Nine data, retrieval, citation, and index schemas can diverge during import.",
+      "decision": {
+        "kind": "KEEP_AND_CONSOLIDATE",
+        "status": "PREPARED",
+        "selectedBase": "rag-lab",
+        "candidates": [
+          "rag-lab"
+        ],
+        "rationale": "Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."
+      },
+      "implementationRef": {
+        "kind": "MAIN_OR_DRAFT_UNVERIFIED",
+        "repository": "rag-lab",
+        "ref": null
+      },
+      "sources": [
+        {
+          "repository": "data-freshness-monitor",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "dataset-versioner",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "embedding-lab",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "file-intake-pipeline",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "hybrid-search-playground",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "rag-citation-explorer",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "rag-corpus-doctor",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "rag-quality-bench",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "semantic-index-doctor",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        }
+      ],
+      "release": {
+        "status": "NOT_RELEASED",
+        "version": null,
+        "tag": null,
+        "url": null,
+        "artifactSha256": null,
+        "publishedAt": null
+      },
+      "consumers": {
+        "status": "NOT_INVENTORIED",
+        "checkedAt": null,
+        "repositories": []
+      },
+      "rollback": {
+        "status": "NOT_PROVEN",
+        "lastRehearsedAt": null,
+        "evidenceUrl": null
+      },
+      "humanApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null,
+        "rationale": null
+      },
+      "waivers": [],
+      "gates": {
+        "decision": "BLOCKED",
+        "import": "NOT_RUN",
+        "compatibility": "NOT_RUN",
+        "release": "BLOCKED",
+        "consumers": "NOT_RUN",
+        "redirect": "BLOCKED",
+        "rollback": "NOT_RUN",
+        "humanApproval": "BLOCKED"
+      }
+    },
+    {
+      "id": "local-ai-stack",
+      "canonicalRepository": "local-ai-stack",
+      "companionRepositories": [],
+      "owner": "vigilanty0x",
+      "priority": "P2",
+      "status": "REHEARSAL",
+      "maturity": "PROTOTYPE",
+      "evidence": {
+        "status": "OBSERVED",
+        "source": "public-portfolio-audit-2026-08-17",
+        "observedAt": "2026-08-17T23:59:59Z",
+        "expiresAt": "2026-09-17T23:59:59Z"
+      },
+      "risk": "Hardware, model, and provider compatibility need reproducible matrices.",
+      "decision": {
+        "kind": "KEEP_AND_CONSOLIDATE",
+        "status": "PREPARED",
+        "selectedBase": "local-ai-stack",
+        "candidates": [
+          "local-ai-stack"
+        ],
+        "rationale": "Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."
+      },
+      "implementationRef": {
+        "kind": "MAIN_OR_DRAFT_UNVERIFIED",
+        "repository": "local-ai-stack",
+        "ref": null
+      },
+      "sources": [
+        {
+          "repository": "local-ai-stack",
+          "role": "TARGET",
+          "state": "ACTIVE_TARGET",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "local-model-benchmark",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "model-fallback-proxy",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "ollama-fleet-manager",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        }
+      ],
+      "release": {
+        "status": "NOT_RELEASED",
+        "version": null,
+        "tag": null,
+        "url": null,
+        "artifactSha256": null,
+        "publishedAt": null
+      },
+      "consumers": {
+        "status": "NOT_INVENTORIED",
+        "checkedAt": null,
+        "repositories": []
+      },
+      "rollback": {
+        "status": "NOT_PROVEN",
+        "lastRehearsedAt": null,
+        "evidenceUrl": null
+      },
+      "humanApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null,
+        "rationale": null
+      },
+      "waivers": [],
+      "gates": {
+        "decision": "BLOCKED",
+        "import": "NOT_RUN",
+        "compatibility": "NOT_RUN",
+        "release": "BLOCKED",
+        "consumers": "NOT_RUN",
+        "redirect": "BLOCKED",
+        "rollback": "NOT_RUN",
+        "humanApproval": "BLOCKED"
+      }
+    },
+    {
+      "id": "trustkit",
+      "canonicalRepository": "trustkit",
+      "companionRepositories": [],
+      "owner": "vigilanty0x",
+      "priority": "P1",
+      "status": "REHEARSAL",
+      "maturity": "PROTOTYPE",
+      "evidence": {
+        "status": "OBSERVED",
+        "source": "public-portfolio-audit-2026-08-17",
+        "observedAt": "2026-08-17T23:59:59Z",
+        "expiresAt": "2026-09-17T23:59:59Z"
+      },
+      "risk": "Security demonstrations must remain bounded and must not imply certification.",
+      "decision": {
+        "kind": "KEEP_AND_CONSOLIDATE",
+        "status": "PREPARED",
+        "selectedBase": "trustkit",
+        "candidates": [
+          "trustkit"
+        ],
+        "rationale": "Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."
+      },
+      "implementationRef": {
+        "kind": "MAIN_OR_DRAFT_UNVERIFIED",
+        "repository": "trustkit",
+        "ref": null
+      },
+      "sources": [
+        {
+          "repository": "env-example-guard",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "permission-matrix",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "secrets-hygiene",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "security-headers-lab",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "ssrf-guard-demo",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        }
+      ],
+      "release": {
+        "status": "NOT_RELEASED",
+        "version": null,
+        "tag": null,
+        "url": null,
+        "artifactSha256": null,
+        "publishedAt": null
+      },
+      "consumers": {
+        "status": "NOT_INVENTORIED",
+        "checkedAt": null,
+        "repositories": []
+      },
+      "rollback": {
+        "status": "NOT_PROVEN",
+        "lastRehearsedAt": null,
+        "evidenceUrl": null
+      },
+      "humanApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null,
+        "rationale": null
+      },
+      "waivers": [],
+      "gates": {
+        "decision": "BLOCKED",
+        "import": "NOT_RUN",
+        "compatibility": "NOT_RUN",
+        "release": "BLOCKED",
+        "consumers": "NOT_RUN",
+        "redirect": "BLOCKED",
+        "rollback": "NOT_RUN",
+        "humanApproval": "BLOCKED"
+      }
+    },
+    {
+      "id": "contract-lab",
+      "canonicalRepository": "contract-lab",
+      "companionRepositories": [],
+      "owner": "vigilanty0x",
+      "priority": "P1",
+      "status": "REHEARSAL",
+      "maturity": "PROTOTYPE",
+      "evidence": {
+        "status": "OBSERVED",
+        "source": "public-portfolio-audit-2026-08-17",
+        "observedAt": "2026-08-17T23:59:59Z",
+        "expiresAt": "2026-09-17T23:59:59Z"
+      },
+      "risk": "Three tools need a shared event, schema, and adversarial fixture corpus.",
+      "decision": {
+        "kind": "KEEP_AND_CONSOLIDATE",
+        "status": "PREPARED",
+        "selectedBase": "contract-lab",
+        "candidates": [
+          "contract-lab"
+        ],
+        "rationale": "Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."
+      },
+      "implementationRef": {
+        "kind": "MAIN_OR_DRAFT_UNVERIFIED",
+        "repository": "contract-lab",
+        "ref": null
+      },
+      "sources": [
+        {
+          "repository": "api-contract-mock-server",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "schema-contract-tester",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "webhook-sandbox",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        }
+      ],
+      "release": {
+        "status": "NOT_RELEASED",
+        "version": null,
+        "tag": null,
+        "url": null,
+        "artifactSha256": null,
+        "publishedAt": null
+      },
+      "consumers": {
+        "status": "NOT_INVENTORIED",
+        "checkedAt": null,
+        "repositories": []
+      },
+      "rollback": {
+        "status": "NOT_PROVEN",
+        "lastRehearsedAt": null,
+        "evidenceUrl": null
+      },
+      "humanApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null,
+        "rationale": null
+      },
+      "waivers": [],
+      "gates": {
+        "decision": "BLOCKED",
+        "import": "NOT_RUN",
+        "compatibility": "NOT_RUN",
+        "release": "BLOCKED",
+        "consumers": "NOT_RUN",
+        "redirect": "BLOCKED",
+        "rollback": "NOT_RUN",
+        "humanApproval": "BLOCKED"
+      }
+    },
+    {
+      "id": "devdocs",
+      "canonicalRepository": "devdocs",
+      "companionRepositories": [],
+      "owner": "vigilanty0x",
+      "priority": "P1",
+      "status": "REHEARSAL",
+      "maturity": "PROTOTYPE",
+      "evidence": {
+        "status": "OBSERVED",
+        "source": "public-portfolio-audit-2026-08-17",
+        "observedAt": "2026-08-17T23:59:59Z",
+        "expiresAt": "2026-09-17T23:59:59Z"
+      },
+      "risk": "Generators must produce code-linked evidence rather than generic prose.",
+      "decision": {
+        "kind": "KEEP_AND_CONSOLIDATE",
+        "status": "PREPARED",
+        "selectedBase": "devdocs",
+        "candidates": [
+          "devdocs"
+        ],
+        "rationale": "Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."
+      },
+      "implementationRef": {
+        "kind": "MAIN_OR_DRAFT_UNVERIFIED",
+        "repository": "devdocs",
+        "ref": null
+      },
+      "sources": [
+        {
+          "repository": "codebase-onboarding-guide-generator",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "document-factory",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "event-log-explorer",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "failure-postmortem-kit",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "runbook-builder",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "state-machine-visualizer",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "system-map-generator",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        }
+      ],
+      "release": {
+        "status": "NOT_RELEASED",
+        "version": null,
+        "tag": null,
+        "url": null,
+        "artifactSha256": null,
+        "publishedAt": null
+      },
+      "consumers": {
+        "status": "NOT_INVENTORIED",
+        "checkedAt": null,
+        "repositories": []
+      },
+      "rollback": {
+        "status": "NOT_PROVEN",
+        "lastRehearsedAt": null,
+        "evidenceUrl": null
+      },
+      "humanApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null,
+        "rationale": null
+      },
+      "waivers": [],
+      "gates": {
+        "decision": "BLOCKED",
+        "import": "NOT_RUN",
+        "compatibility": "NOT_RUN",
+        "release": "BLOCKED",
+        "consumers": "NOT_RUN",
+        "redirect": "BLOCKED",
+        "rollback": "NOT_RUN",
+        "humanApproval": "BLOCKED"
+      }
+    },
+    {
+      "id": "portfolio-profile",
+      "canonicalRepository": "portfolio-kit",
+      "companionRepositories": [
+        "vigilanty0x"
+      ],
+      "owner": "vigilanty0x",
+      "priority": "P0",
+      "status": "REHEARSAL",
+      "maturity": "PROTOTYPE",
+      "evidence": {
+        "status": "OBSERVED",
+        "source": "public-portfolio-audit-2026-08-17",
+        "observedAt": "2026-08-17T23:59:59Z",
+        "expiresAt": "2026-09-17T23:59:59Z"
+      },
+      "risk": "Profile, dashboard, metrics, and generated portfolio data can become stale or contradictory.",
+      "decision": {
+        "kind": "KEEP_AND_CONSOLIDATE",
+        "status": "PREPARED",
+        "selectedBase": "portfolio-kit",
+        "candidates": [
+          "portfolio-kit"
+        ],
+        "rationale": "Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."
+      },
+      "implementationRef": {
+        "kind": "MAIN_OR_DRAFT_UNVERIFIED",
+        "repository": "portfolio-kit",
+        "ref": null
+      },
+      "sources": [
+        {
+          "repository": "build-metrics-collector",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "github-profile-dashboard",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "open-source-portfolio-generator",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        }
+      ],
+      "release": {
+        "status": "NOT_RELEASED",
+        "version": null,
+        "tag": null,
+        "url": null,
+        "artifactSha256": null,
+        "publishedAt": null
+      },
+      "consumers": {
+        "status": "NOT_INVENTORIED",
+        "checkedAt": null,
+        "repositories": []
+      },
+      "rollback": {
+        "status": "NOT_PROVEN",
+        "lastRehearsedAt": null,
+        "evidenceUrl": null
+      },
+      "humanApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null,
+        "rationale": null
+      },
+      "waivers": [],
+      "gates": {
+        "decision": "BLOCKED",
+        "import": "NOT_RUN",
+        "compatibility": "NOT_RUN",
+        "release": "BLOCKED",
+        "consumers": "NOT_RUN",
+        "redirect": "BLOCKED",
+        "rollback": "NOT_RUN",
+        "humanApproval": "BLOCKED"
+      }
+    },
+    {
+      "id": "community-governance",
+      "canonicalRepository": ".github",
+      "companionRepositories": [],
+      "owner": "vigilanty0x",
+      "priority": "P0",
+      "status": "REHEARSAL",
+      "maturity": "PROTOTYPE",
+      "evidence": {
+        "status": "OBSERVED",
+        "source": "public-portfolio-audit-2026-08-17",
+        "observedAt": "2026-08-17T23:59:59Z",
+        "expiresAt": "2026-09-17T23:59:59Z"
+      },
+      "risk": "Static workflow defaults do not yet prove live repository, release, consumer, or archive state.",
+      "decision": {
+        "kind": "KEEP_AND_CONSOLIDATE",
+        "status": "PREPARED",
+        "selectedBase": ".github",
+        "candidates": [
+          ".github"
+        ],
+        "rationale": "Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."
+      },
+      "implementationRef": {
+        "kind": "MAIN_OR_DRAFT_UNVERIFIED",
+        "repository": ".github",
+        "ref": null
+      },
+      "sources": [
+        {
+          "repository": "workflow-templates",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": null,
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        }
+      ],
+      "release": {
+        "status": "NOT_RELEASED",
+        "version": null,
+        "tag": null,
+        "url": null,
+        "artifactSha256": null,
+        "publishedAt": null
+      },
+      "consumers": {
+        "status": "NOT_INVENTORIED",
+        "checkedAt": null,
+        "repositories": []
+      },
+      "rollback": {
+        "status": "NOT_PROVEN",
+        "lastRehearsedAt": null,
+        "evidenceUrl": null
+      },
+      "humanApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null,
+        "rationale": null
+      },
+      "waivers": [],
+      "gates": {
+        "decision": "BLOCKED",
+        "import": "NOT_RUN",
+        "compatibility": "NOT_RUN",
+        "release": "BLOCKED",
+        "consumers": "NOT_RUN",
+        "redirect": "BLOCKED",
+        "rollback": "NOT_RUN",
+        "humanApproval": "BLOCKED"
+      }
+    },
+    {
+      "id": "agentops",
+      "canonicalRepository": "automation-control-plane",
+      "companionRepositories": [],
+      "owner": "vigilanty0x",
+      "priority": "P0",
+      "status": "REHEARSAL",
+      "maturity": "EXPERIMENTAL",
+      "evidence": {
+        "status": "VERIFIED",
+        "source": "automation-control-plane-pr-4-ci-run-32091685544",
+        "observedAt": "2026-08-18T02:26:33Z",
+        "expiresAt": "2026-09-17T02:26:33Z"
+      },
+      "risk": "The bounded contract rehearsal is current and CI-verified, but human product approval, source-history import, legacy compatibility, consumers, release, redirects, rollback, and source archive remain separately blocked.",
+      "decision": {
+        "kind": "KEEP_AND_CONSOLIDATE",
+        "status": "PREPARED",
+        "selectedBase": "automation-control-plane",
+        "candidates": [
+          "automation-control-plane",
+          "agentmesh"
+        ],
+        "rationale": "Automation Control Plane remains the prepared durable base. Draft PR 4 proves bounded AgentOps contracts and negative tests without importing source history or weakening the existing approvals, budgets, leases, kill switches, recovery, and audit boundaries."
+      },
+      "implementationRef": {
+        "kind": "DRAFT_PR",
+        "repository": "automation-control-plane",
+        "ref": "pull/4@cc89dce628202c0ec590567fc7f41ad9637a8012"
+      },
+      "sources": [
+        {
+          "repository": "agent-budgeter",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": "cfa9c0a8830f3e2e3a11602da590e347f8483d2f",
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "agent-inbox",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": "748f237659f98a2a49478aa58913e71e59a03433",
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "agent-quota-simulator",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": "e99000cecf12432365e8ccfc8fa6e4b1d18ad15f",
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "agent-retry-kit",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": "38f97aaa6796fda6956202aad9086e3e5e8ada9f",
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "agent-session-recorder",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": "2363c4efe0c61158c523a6dfc3d29cb3d7af1c54",
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "agentmesh",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": "320f5116f6582519d1609ce87287fd9ff7267eb3",
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "automation-control-plane",
+          "role": "TARGET",
+          "state": "ACTIVE_TARGET",
+          "sourceSha": "42920b932e1eeb9acf143907a7283453cf03eb81",
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "circuit-breaker-lab",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": "2924dfb6eed8a208788491fa1d50fa6bd99e4359",
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "context-window-budgeter",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": "35bb3e05d05ad870715b740143c429f08eda25e7",
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "human-in-the-loop-queue",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": "db281bf7ff971a2fd4ca6af9e495b2c0fd6cd30b",
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "idempotency-kit",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": "80e78a4d9b73aeabb200578c2ecb5090f31a410f",
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "taskgraph",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": "937abf0d096cb1f6ff48aa09b8dd8a69d9a36c0d",
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        },
+        {
+          "repository": "timeout-toolkit",
+          "role": "SOURCE",
+          "state": "ACTIVE_SOURCE",
+          "sourceSha": "a2a053e39a6eaa40cde7d81f87ee4838cf562583",
+          "treeSha": null,
+          "targetPath": null,
+          "importCommit": null
+        }
+      ],
+      "release": {
+        "status": "NOT_RELEASED",
+        "version": null,
+        "tag": null,
+        "url": null,
+        "artifactSha256": null,
+        "publishedAt": null
+      },
+      "consumers": {
+        "status": "NOT_INVENTORIED",
+        "checkedAt": null,
+        "repositories": []
+      },
+      "rollback": {
+        "status": "NOT_PROVEN",
+        "lastRehearsedAt": null,
+        "evidenceUrl": null
+      },
+      "humanApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null,
+        "rationale": null
+      },
+      "waivers": [],
+      "gates": {
+        "decision": "BLOCKED",
+        "import": "NOT_RUN",
+        "compatibility": "BLOCKED",
+        "release": "BLOCKED",
+        "consumers": "NOT_RUN",
+        "redirect": "BLOCKED",
+        "rollback": "NOT_RUN",
+        "humanApproval": "BLOCKED"
+      }
+    }
+  ]
+}

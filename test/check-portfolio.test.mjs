@@ -123,3 +123,35 @@ test("automatic mutation safeguards cannot be weakened", async () => {
   assert.equal(hasRule(report, "triage-auto-merge"), true);
   assert.equal(hasRule(report, "supersession-auto-close"), true);
 });
+
+
+test("AgentOps contract rehearsal cannot masquerade as source-history import", async () => {
+  const root = await createPortfolioFixture();
+  const decision = await readJson(root, "portfolio/agentops-decision.json");
+  decision.gates.sourceHistoryImport = "PASS";
+  await writeJson(root, "portfolio/agentops-decision.json", decision);
+  const report = await checkPortfolio(root, { now: FIXED_NOW });
+  assert.equal(report.status, "FAIL");
+  assert.equal(hasRule(report, "agentops-import-drift"), true);
+});
+
+test("AgentOps receipt digests fail closed", async () => {
+  const root = await createPortfolioFixture();
+  const decision = await readJson(root, "portfolio/agentops-decision.json");
+  decision.receipts.inventory = "not-a-digest";
+  await writeJson(root, "portfolio/agentops-decision.json", decision);
+  const report = await checkPortfolio(root, { now: FIXED_NOW });
+  assert.equal(report.status, "FAIL");
+  assert.equal(hasRule(report, "string-pattern"), true);
+});
+
+test("AgentOps archived claim requires every irreversible gate", async () => {
+  const root = await createPortfolioFixture();
+  const decision = await readJson(root, "portfolio/agentops-decision.json");
+  decision.gates.archive = "PASS";
+  await writeJson(root, "portfolio/agentops-decision.json", decision);
+  const report = await checkPortfolio(root, { now: FIXED_NOW });
+  assert.equal(report.status, "FAIL");
+  assert.equal(hasRule(report, "agentops-archive-gate"), true);
+  assert.equal(hasRule(report, "agentops-archive-state"), true);
+});

@@ -1,11 +1,11 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "target": "agentops",
   "status": "PREPARED",
   "selectedBase": "automation-control-plane",
   "selectedBaseEvidence": {
-    "observedAt": "2026-08-17T23:59:59Z",
-    "expiresAt": "2026-09-17T23:59:59Z",
+    "observedAt": "2026-08-18T02:26:33Z",
+    "expiresAt": "2026-09-17T02:26:33Z",
     "properties": [
       "durable SQLite state",
       "strict versioned workflow schema",
@@ -17,7 +17,8 @@
       "recovery and audit verification",
       "machine-readable CLI",
       "loopback-only read-only dashboard",
-      "broad negative and concurrency tests"
+      "102 passing unit and adversarial tests per supported Python job",
+      "clean-environment sdist and wheel parity on Ubuntu 24.04"
     ]
   },
   "moduleMapping": [
@@ -90,14 +91,40 @@
   "nonGoals": [
     "No new repository during the active freeze.",
     "No arbitrary shell, subprocess, network, dynamic import, or executable workflow handler.",
-    "No archive before release, compatibility, consumers, redirect, rollback, and human approval gates pass."
+    "A passing contract rehearsal never means that source history was imported.",
+    "No legacy package, import, or CLI alias is claimed before compatibility fixtures pass.",
+    "No archive before release, consumers, redirect, rollback, and named human approval gates pass."
   ],
   "gates": {
     "humanDecision": "BLOCKED",
-    "sourceShaInventory": "NOT_RUN",
-    "collisionReport": "NOT_RUN",
-    "compatibilityContract": "NOT_RUN",
-    "importRehearsal": "NOT_RUN",
-    "release": "BLOCKED"
+    "sourceShaInventory": "PASS",
+    "collisionReport": "PASS",
+    "compatibilityContract": "PASS",
+    "contractRehearsal": "PASS",
+    "sourceHistoryImport": "NOT_RUN",
+    "consumerInventory": "NOT_RUN",
+    "release": "BLOCKED",
+    "redirect": "BLOCKED",
+    "rollback": "NOT_RUN",
+    "archive": "BLOCKED"
+  },
+  "implementationRef": {
+    "kind": "DRAFT_PR",
+    "repository": "automation-control-plane",
+    "pullRequest": 4,
+    "headSha": "cc89dce628202c0ec590567fc7f41ad9637a8012",
+    "ciRun": 32091685544,
+    "ciStatus": "PASS",
+    "observedAt": "2026-08-18T02:26:33Z",
+    "expiresAt": "2026-09-17T02:26:33Z"
+  },
+  "receipts": {
+    "inventory": "f61c6ce76cedd5e5bc5e7ad2f330fb4dc4c5ba93a41f0924c466af2ff98ef62f",
+    "routing": "168e2b01851423293eded1c03d6c1ae5be33ab70c3767ea4b240726760202cde",
+    "contextBudget": "237ec6fef34a9e004a13053cafcdc3ef028653ea14ab06f2cc31bd8fc15c0a1f",
+    "quotaSimulation": "cfcbd32b8f00a29499189f211a3938bf1202419a60246b20c825503b102cca82",
+    "sessionRecord": "241bdca092425972d12afc1b067fa7a426d71a31a2af989aeafa84b9fa8fbf72",
+    "circuitSimulation": "f5baa32c762771188aa8d23eee2431662897cb7c9802f035c91e1ce984f32a35",
+    "inboxProjection": "94e0d0e52a6a7e5b861b8377234e08ad441136131ed27ebf803585e0e1094d36"
   }
 }
