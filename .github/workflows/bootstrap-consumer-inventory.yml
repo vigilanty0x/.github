@@ -7,6 +7,9 @@ on:
   push:
     branches:
       - audit/portfolio-governance-v1-20260818
+  pull_request:
+    branches:
+      - main
 
 concurrency:
   group: consumer-inventory-assembly
