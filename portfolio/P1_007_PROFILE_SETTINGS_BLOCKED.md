@@ -4,15 +4,21 @@
 
 `BLOCKED_ON_ACCOUNT_OWNER_ACTION`.
 
-Repository-side profile content, Portfolio Kit integration, the TTL-bound generated dashboard, Pages deployment workflow, and the bounded account-settings apply/verify mechanism are merged and verified. P1-007 is no longer blocked by a missing implementation path; it is blocked only by account-owner credential/UI actions that the connected GitHub App cannot perform.
+Repository-side profile content, Portfolio Kit integration, the TTL-bound generated dashboard, Pages deployment workflow, the bounded account-settings apply/verify mechanism, and its safe diagnostic path are merged and verified. P1-007 is no longer blocked by a missing implementation path; it is blocked only by account-owner credential/UI actions that the connected GitHub App cannot perform.
 
 ## Exact implementation evidence
 
-The profile repository contains the final account-settings mechanism at merge commit `674983d59ab89734ea4e9467364b904cc9920b2f`.
+The profile repository contains the account-settings mechanism at merge commit `674983d59ab89734ea4e9467364b904cc9920b2f`.
 
-Verified pre-merge head: `76ba13a861396c61481db2b5b02f3297e9b13427`.
+Verified implementation head: `76ba13a861396c61481db2b5b02f3297e9b13427`.
 
 Profile evidence run `32202813603`: **SUCCESS**.
+
+The self-diagnosing gate is merged at `fb330f06177754bdc6264ace3acef7b87a2ac76f`.
+
+Verified diagnostics head: `136ed8245aeedd7bc0b71d4cc3bf3c9ff0c303d0`.
+
+Diagnostics CI run `32223434428`: **SUCCESS** with 21/21 profile/dashboard/profile-settings tests and counter-proofs green.
 
 Dedicated gate issue: `https://github.com/vigilanty0x/vigilanty0x/issues/4`.
 
@@ -27,17 +33,34 @@ The mechanism:
 - deploys the generated `docs/` dashboard with least-privilege Pages OIDC permissions;
 - verifies public metadata, Pages state, topic subsets and exact pin order;
 - fails closed on any mismatch;
-- never prints the privileged token.
+- reports safe gate states back to issue #4 without printing the privileged token.
+
+## Latest owner-trigger diagnostic
+
+A01 posted `/apply-profile-settings` after the diagnostic workflow was merged.
+
+Run `32223512493` produced the explicit result:
+
+`MISSING_PROFILE_ADMIN_TOKEN`.
+
+GitHub Actions posted diagnostic comment `5338387441` on issue #4 stating that `PROFILE_ADMIN_TOKEN` is not configured. The preflight stopped before account/profile mutation, so:
+
+- account mutation attempted: **false**;
+- profile metadata changed: **false**;
+- Pages activation attempted: **false**;
+- privileged token disclosed: **false**.
+
+This converts the previous inferred blocker into exact hosted evidence.
 
 ## Current observed public repository state
 
-A read after the mechanism merge still reports:
+A public repository read still reports:
 
 - `homepage: null`;
 - `has_pages: false`;
 - `topics: []` on the profile repository.
 
-That is expected because the owner-only apply command has not yet been authorized with the required account token.
+That matches the safe preflight result: no mutation was attempted because the required owner credential is absent.
 
 ## Remaining account-owner actions
 
@@ -48,7 +71,7 @@ Once those two owner-only actions exist, A01 can post `/apply-profile-settings` 
 
 ## Why pins remain manual
 
-GitHub's supported GraphQL surface exposes profile pinned items and whether the viewer may change them, but the published mutation reference does not expose a user-profile repository pin mutation. A01 therefore does not use an undocumented private endpoint or browser-session workaround.
+GitHub's supported GraphQL surface exposes profile pinned items for reading, but the published mutation surface does not expose a supported user-profile repository pin mutation. A01 therefore does not use an undocumented private endpoint or browser-session workaround.
 
 ## Safety
 

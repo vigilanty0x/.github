@@ -26,9 +26,22 @@ function validate(record) {
   if (!/^[0-9a-f]{40}$/.test(record.implementation?.mergeCommit ?? "")) errors.push("mergeCommit");
   if (!/^[0-9a-f]{40}$/.test(record.implementation?.verifiedHead ?? "")) errors.push("verifiedHead");
   if (!Number.isInteger(record.implementation?.evidenceRun) || record.implementation.evidenceRun <= 0) errors.push("evidenceRun");
+  if (!/^[0-9a-f]{40}$/.test(record.implementation?.diagnosticMergeCommit ?? "")) errors.push("diagnosticMergeCommit");
+  if (!/^[0-9a-f]{40}$/.test(record.implementation?.diagnosticVerifiedHead ?? "")) errors.push("diagnosticVerifiedHead");
+  if (!Number.isInteger(record.implementation?.diagnosticEvidenceRun) || record.implementation.diagnosticEvidenceRun <= 0) errors.push("diagnosticEvidenceRun");
   if (record.implementation?.issue !== 4) errors.push("issue");
   if (record.implementation?.command !== "/apply-profile-settings") errors.push("command");
   if (record.implementation?.secretName !== "PROFILE_ADMIN_TOKEN") errors.push("secretName");
+
+  const trigger = record.latestOwnerTrigger ?? {};
+  if (!Number.isInteger(trigger.runId) || trigger.runId <= 0) errors.push("ownerTriggerRun");
+  if (trigger.result !== "MISSING_PROFILE_ADMIN_TOKEN") errors.push("ownerTriggerResult");
+  if (!Number.isInteger(trigger.diagnosticCommentId) || trigger.diagnosticCommentId <= 0) errors.push("diagnosticCommentId");
+  for (const field of ["accountMutationAttempted", "profileMetadataChanged", "pagesActivationAttempted"]) {
+    if (trigger[field] !== false) errors.push(field);
+  }
+  if (trigger.safeDiagnosticEmitted !== true) errors.push("safeDiagnosticEmitted");
+
   if (record.currentObservedRepositoryState?.homepage !== null) errors.push("observedHomepage");
   if (record.currentObservedRepositoryState?.hasPages !== false) errors.push("observedPages");
   if (!Array.isArray(record.currentObservedRepositoryState?.topics) || record.currentObservedRepositoryState.topics.length !== 0) errors.push("observedTopics");
@@ -70,6 +83,20 @@ test("counter-proof: an unverified implementation SHA cannot satisfy the gate", 
   const candidate = clone(gate);
   candidate.implementation.verifiedHead = "main";
   assert.ok(validate(candidate).includes("verifiedHead"));
+});
+
+test("counter-proof: diagnostic evidence must remain exact and attributable", () => {
+  const candidate = clone(gate);
+  candidate.implementation.diagnosticVerifiedHead = "main";
+  candidate.latestOwnerTrigger.runId = 0;
+  assert.ok(validate(candidate).includes("diagnosticVerifiedHead"));
+  assert.ok(validate(candidate).includes("ownerTriggerRun"));
+});
+
+test("counter-proof: a missing-secret diagnostic cannot claim mutation occurred", () => {
+  const candidate = clone(gate);
+  candidate.latestOwnerTrigger.accountMutationAttempted = true;
+  assert.ok(validate(candidate).includes("accountMutationAttempted"));
 });
 
 test("counter-proof: completion cannot become automatic", () => {
