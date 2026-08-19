@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "id": "P1-007",
+  "owner": "A01_GPT_5_6_SOL_1",
+  "target": "portfolio-profile",
+  "status": "BLOCKED_ON_ACCOUNT_OWNER_ACTION",
+  "profileRepository": "vigilanty0x/vigilanty0x",
+  "implementation": {
+    "mergeCommit": "674983d59ab89734ea4e9467364b904cc9920b2f",
+    "verifiedHead": "76ba13a861396c61481db2b5b02f3297e9b13427",
+    "evidenceRun": 32202813603,
+    "issue": 4,
+    "command": "/apply-profile-settings",
+    "secretName": "PROFILE_ADMIN_TOKEN"
+  },
+  "currentObservedRepositoryState": {
+    "homepage": null,
+    "hasPages": false,
+    "topics": []
+  },
+  "expectedPins": [
+    "apprentice-ai",
+    "repo-doctor",
+    "proofgate",
+    "ai-assistance-manifest",
+    "model-router",
+    "local-ai-stack"
+  ],
+  "ownerOnlyActions": [
+    "STORE_FINE_GRAINED_TOKEN_AS_ACTIONS_SECRET",
+    "CUSTOMIZE_EXACT_SIX_PROFILE_PINS"
+  ],
+  "tokenPolicy": {
+    "pasteIntoChat": false,
+    "pasteIntoIssue": false,
+    "pasteIntoCommit": false,
+    "shortExpiry": true,
+    "accountProfileWrite": true,
+    "repositoryAdministrationWrite": true,
+    "repositoryPagesWrite": true,
+    "selectedRepositoriesOnly": true
+  },
+  "completionGate": {
+    "workflowMustPass": true,
+    "pagesMustBeEnabled": true,
+    "profileMetadataMustMatch": true,
+    "topicSubsetsMustMatch": true,
+    "exactPinsMustMatch": true,
+    "automaticCompletion": false
+  }
+}
