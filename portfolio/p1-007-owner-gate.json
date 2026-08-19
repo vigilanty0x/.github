@@ -9,9 +9,21 @@
     "mergeCommit": "674983d59ab89734ea4e9467364b904cc9920b2f",
     "verifiedHead": "76ba13a861396c61481db2b5b02f3297e9b13427",
     "evidenceRun": 32202813603,
+    "diagnosticMergeCommit": "fb330f06177754bdc6264ace3acef7b87a2ac76f",
+    "diagnosticVerifiedHead": "136ed8245aeedd7bc0b71d4cc3bf3c9ff0c303d0",
+    "diagnosticEvidenceRun": 32223434428,
     "issue": 4,
     "command": "/apply-profile-settings",
     "secretName": "PROFILE_ADMIN_TOKEN"
+  },
+  "latestOwnerTrigger": {
+    "runId": 32223512493,
+    "result": "MISSING_PROFILE_ADMIN_TOKEN",
+    "diagnosticCommentId": 5338387441,
+    "accountMutationAttempted": false,
+    "profileMetadataChanged": false,
+    "pagesActivationAttempted": false,
+    "safeDiagnosticEmitted": true
   },
   "currentObservedRepositoryState": {
     "homepage": null,
