@@ -1,0 +1,87 @@
+name: Build GPT-5.6 Sol 1 A01 source bundle
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/a01-source-bundle.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bundle:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Materialize exact A01 source snapshots
+        shell: bash
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/GPT-5.6-Sol-1_A01_SOURCE"
+          mkdir -p "$root/source"
+
+          fetch_exact() {
+            local repo="$1"
+            local sha="$2"
+            local dest="$3"
+            git init -q "$dest"
+            git -C "$dest" remote add origin "https://github.com/vigilanty0x/${repo}.git"
+            git -C "$dest" -c protocol.version=2 fetch -q --depth 1 origin "$sha"
+            git -C "$dest" checkout -q --detach FETCH_HEAD
+            test "$(git -C "$dest" rev-parse HEAD)" = "$sha"
+            rm -rf "$dest/.git"
+          }
+
+          fetch_exact ".github" "e71587f10d3ec1c8462a937dd796f541738ba9c6" "$root/source/dotgithub"
+          fetch_exact "vigilanty0x" "674983d59ab89734ea4e9467364b904cc9920b2f" "$root/source/profile"
+          fetch_exact "portfolio-kit" "ef7ab3c56421b0a7b716d7a6dc41d4c3df99f699" "$root/source/portfolio-kit"
+          fetch_exact "devdocs" "dbae7c5d40ef38ca04a4f3b9f7c06d8251c46660" "$root/source/devdocs"
+
+          cat > "$root/MANIFEST.json" <<'JSON'
+          {
+            "schemaVersion": 1,
+            "agent": "GPT-5.6 Sol 1",
+            "scope": ["program-direction", ".github", "public-profile", "portfolio-kit", "devdocs-integration", "final-arbitration"],
+            "generatedBy": "vigilanty0x/.github/.github/workflows/a01-source-bundle.yml",
+            "repositories": [
+              {"repository":"vigilanty0x/.github","directory":"source/dotgithub","commit":"e71587f10d3ec1c8462a937dd796f541738ba9c6"},
+              {"repository":"vigilanty0x/vigilanty0x","directory":"source/profile","commit":"674983d59ab89734ea4e9467364b904cc9920b2f"},
+              {"repository":"vigilanty0x/portfolio-kit","directory":"source/portfolio-kit","commit":"ef7ab3c56421b0a7b716d7a6dc41d4c3df99f699"},
+              {"repository":"vigilanty0x/devdocs","directory":"source/devdocs","commit":"dbae7c5d40ef38ca04a4f3b9f7c06d8251c46660"}
+            ],
+            "excluded": ["vigilanty0x/SKYOM", "repositories owned by other agents outside A01"],
+            "notes": "Full source snapshots of the four repositories used by GPT-5.6 Sol 1 at the exact A01 commits. Git metadata directories are intentionally excluded from the portable bundle."
+          }
+          JSON
+
+          cat > "$root/README_BUNDLE.md" <<'MD'
+          # GPT-5.6 Sol 1 — A01 source bundle
+
+          This archive contains the complete portable source snapshots for the repositories in the GPT-5.6 Sol 1 / A01 scope:
+
+          - `.github` governance and final arbitration;
+          - public profile and generated evidence dashboard;
+          - Portfolio Kit;
+          - DevDocs integration.
+
+          The snapshots are fixed to the exact commits recorded in `MANIFEST.json` so later work by other agents cannot silently change this handoff.
+
+          `SKYOM` is deliberately excluded.
+          MD
+
+          cd "$RUNNER_TEMP"
+          zip -q -r "GPT-5.6-Sol-1_A01_SOURCE.zip" "GPT-5.6-Sol-1_A01_SOURCE"
+          sha256sum "GPT-5.6-Sol-1_A01_SOURCE.zip" > "GPT-5.6-Sol-1_A01_SOURCE.zip.sha256"
+          unzip -t "GPT-5.6-Sol-1_A01_SOURCE.zip" >/dev/null
+
+      - name: Upload the single source ZIP
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: gpt-5-6-sol-1-a01-source-bundle
+          path: |
+            ${{ runner.temp }}/GPT-5.6-Sol-1_A01_SOURCE.zip
+            ${{ runner.temp }}/GPT-5.6-Sol-1_A01_SOURCE.zip.sha256
+          if-no-files-found: error
+          retention-days: 30
