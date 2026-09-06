@@ -80,6 +80,7 @@ const SHA40 = /^[0-9a-f]{40}$/;
 const DIGEST64 = /^[0-9a-f]{64}$/;
 const REPOSITORY_NAME = /^(?:\.github|[a-z0-9]+(?:[._-][a-z0-9]+)*)$/;
 const ACTION_ID = /^P([0-3])-[0-9]{3}$/;
+const ARCHIVE_BATCH_ID = /^[a-z0-9]+(?:[._-][a-z0-9]+)*$/;
 
 function isRecord(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
@@ -177,6 +178,40 @@ function requireDate(findings, value, path, { nullable = false } = {}) {
   const date = parseDate(value);
   if (!date) push(findings, "date-time", path, nullable ? "Expected an ISO date-time or null." : "Expected an ISO date-time.");
   return date;
+}
+
+function requireCalendarDate(findings, value, path) {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    push(findings, "date", path, "Expected a calendar date in YYYY-MM-DD format.");
+    return null;
+  }
+  const date = new Date(`${value}T00:00:00Z`);
+  if (Number.isNaN(date.getTime()) || date.toISOString().slice(0, 10) !== value) {
+    push(findings, "date", path, "Expected a valid calendar date in YYYY-MM-DD format.");
+    return null;
+  }
+  return date;
+}
+
+function requireHttpsUrl(findings, value, path) {
+  if (!requireString(findings, value, path)) return null;
+  try {
+    const url = new URL(value);
+    if (url.protocol !== "https:") throw new Error("not HTTPS");
+    return url;
+  } catch {
+    push(findings, "url", path, "Expected an absolute HTTPS URL.");
+    return null;
+  }
+}
+
+function requirePinnedGitHubBlobUrl(findings, value, path, { owner, repository, commit, file }) {
+  const url = requireHttpsUrl(findings, value, path);
+  if (!url) return;
+  const expectedPath = `/${owner}/${repository}/blob/${commit}/${file}`;
+  if (url.hostname !== "github.com" || url.pathname !== expectedPath) {
+    push(findings, "immutable-evidence-url", path, `Expected immutable GitHub blob URL ${expectedPath}.`);
+  }
 }
 
 function requireExactKeys(findings, value, expected, path) {
@@ -317,15 +352,25 @@ function validateRollback(findings, rollback, path) {
 function validateHumanApproval(findings, target, path) {
   const approval = target.humanApproval;
   if (!requireRecord(findings, approval, path)) return;
-  requireExactKeys(findings, approval, ["approved", "approver", "approvedAt", "rationale"], path);
+  const approvalKeys = ["approved", "approver", "approvedAt", "rationale"];
+  if (Object.hasOwn(approval, "repositories")) approvalKeys.push("repositories");
+  requireExactKeys(findings, approval, approvalKeys, path);
   if (typeof approval.approved !== "boolean") push(findings, "type", `${path}.approved`, "Expected a boolean.");
   requireString(findings, approval.approver, `${path}.approver`, { nullable: true });
   requireDate(findings, approval.approvedAt, `${path}.approvedAt`, { nullable: true });
   requireString(findings, approval.rationale, `${path}.rationale`, { nullable: true });
+  if (Object.hasOwn(approval, "repositories") && requireArray(findings, approval.repositories, `${path}.repositories`)) {
+    for (const [index, repository] of approval.repositories.entries()) {
+      validateRepositoryName(findings, repository, `${path}.repositories[${index}]`);
+    }
+    for (const duplicate of duplicates(approval.repositories)) {
+      push(findings, "duplicate-approval-repository", `${path}.repositories`, `Approval scope repeats ${duplicate}.`, { repository: duplicate, target: target.id });
+    }
+  }
 
   if (approval.approved) {
-    if (!approval.approver || !approval.approvedAt || !approval.rationale || approval.rationale.length < 20) {
-      push(findings, "human-approval-evidence", path, "Approval requires approver, approval date, and a substantive rationale.");
+    if (!approval.approver || !approval.approvedAt || !approval.rationale || approval.rationale.length < 20 || !Array.isArray(approval.repositories) || approval.repositories.length === 0) {
+      push(findings, "human-approval-evidence", path, "Approval requires approver, approval date, substantive rationale, and a non-empty repository scope.");
     }
     if (target.gates?.humanApproval !== "PASS") {
       push(findings, "human-approval-gate", path, "An approved record requires gates.humanApproval=PASS.");
@@ -336,6 +381,9 @@ function validateHumanApproval(findings, target, path) {
     }
     if (target.gates?.humanApproval === "PASS") {
       push(findings, "human-approval-gate", path, "gates.humanApproval=PASS requires a complete approved record.");
+    }
+    if (approval.repositories?.length > 0) {
+      push(findings, "human-approval-contradiction", `${path}.repositories`, "Unapproved records must have an empty repository scope.");
     }
   }
 }
@@ -478,10 +526,10 @@ function validateSource(findings, source, path, target) {
       push(findings, "source-release-gate", path, `${source.state} requires an installable target release and gates.release=PASS.`);
     }
   }
-  if (["REDIRECTED", "ARCHIVE_CANDIDATE", "ARCHIVE_APPROVED", "ARCHIVED"].includes(source.state) && target.gates?.redirect !== "PASS") {
+  if (["REDIRECTED", "ARCHIVE_CANDIDATE", "ARCHIVE_APPROVED"].includes(source.state) && target.gates?.redirect !== "PASS") {
     push(findings, "redirect-gate", path, `${source.state} requires gates.redirect=PASS.`);
   }
-  if (["ARCHIVE_CANDIDATE", "ARCHIVE_APPROVED", "ARCHIVED"].includes(source.state)) {
+  if (["ARCHIVE_CANDIDATE", "ARCHIVE_APPROVED"].includes(source.state)) {
     for (const gate of TECHNICAL_ARCHIVE_GATES) {
       if (target.gates?.[gate] !== "PASS") {
         push(findings, "archive-gate", path, `${source.state} requires ${gate}=PASS.`, { gate, repository: source.repository, target: target.id });
@@ -489,13 +537,13 @@ function validateSource(findings, source, path, target) {
     }
   }
   if (["ARCHIVE_APPROVED", "ARCHIVED"].includes(source.state)) {
-    if (target.gates?.humanApproval !== "PASS" || !target.humanApproval?.approved) {
-      push(findings, "archive-gate", path, `${source.state} requires named human approval.`, { gate: "humanApproval", repository: source.repository, target: target.id });
+    if (target.gates?.humanApproval !== "PASS" || !target.humanApproval?.approved || !target.humanApproval?.repositories?.includes(source.repository)) {
+      push(findings, "archive-gate", path, `${source.state} requires named human approval explicitly scoped to ${source.repository}.`, { gate: "humanApproval", repository: source.repository, target: target.id });
     }
   }
-  if (source.state === "ARCHIVED" && target.status !== "VERIFIED") {
-    push(findings, "archive-target-state", path, "ARCHIVED requires the canonical target to be VERIFIED.");
-  }
+  // ARCHIVED is also an externally observed GitHub state. Its compliance is
+  // validated against an exact archive batch below so an already-performed,
+  // non-compliant archive can be recorded without retroactively passing gates.
 }
 
 function validateTargetStatus(findings, target, path) {
@@ -585,6 +633,14 @@ function validateTarget(findings, target, index, now) {
     if (target.sources.some((source) => source?.repository === target.canonicalRepository) && targetSources.length !== 1) {
       push(findings, "canonical-source-role", `${path}.sources`, "Canonical repository membership requires exactly one role=TARGET entry.");
     }
+    for (const repository of asArray(target.humanApproval?.repositories)) {
+      const source = target.sources.find((candidate) => candidate?.repository === repository);
+      if (!source || source.role !== "SOURCE") {
+        push(findings, "human-approval-scope", `${path}.humanApproval.repositories`, `Approval scope ${repository} must name a SOURCE registered under ${target.id}.`, { repository, target: target.id });
+      } else if (!["ARCHIVE_APPROVED", "ARCHIVED"].includes(source.state)) {
+        push(findings, "human-approval-scope", `${path}.humanApproval.repositories`, `Approval scope ${repository} requires source state ARCHIVE_APPROVED or ARCHIVED, not ${source.state}.`, { repository, target: target.id });
+      }
+    }
   }
 
   if (target.implementationRef?.repository) {
@@ -599,6 +655,271 @@ function validateTarget(findings, target, index, now) {
   }
 
   validateTargetStatus(findings, target, path);
+}
+
+function validateArchiveBatches(findings, batches, targetsDocument, targetById, sourceByRepository, now) {
+  const path = `${REQUIRED_FILES.targets}.archiveBatches`;
+  if (!requireArray(findings, batches, path)) return;
+
+  const batchIds = new Set();
+  const evidencedRepositories = new Set();
+  for (const [index, batch] of batches.entries()) {
+    const batchPath = `${path}[${index}]`;
+    if (!requireRecord(findings, batch, batchPath)) continue;
+    requireExactKeys(findings, batch, ["id", "target", "status", "sourceEvidence", "approval", "consumerInventory", "releaseVerification", "rollback", "serverReadback", "compliance"], batchPath);
+    requireString(findings, batch.id, `${batchPath}.id`, { pattern: ARCHIVE_BATCH_ID });
+    validateRepositoryName(findings, batch.target, `${batchPath}.target`);
+    requireEnum(findings, batch.status, ["VERIFIED", "OBSERVED_NONCOMPLIANT"], `${batchPath}.status`);
+    if (batchIds.has(batch.id)) push(findings, "duplicate-archive-batch", `${batchPath}.id`, `Archive batch ${batch.id} is repeated.`);
+    else batchIds.add(batch.id);
+    const target = targetById.get(batch.target);
+    if (!target) {
+      push(findings, "archive-target", `${batchPath}.target`, `Archive batch target ${batch.target} is not registered.`);
+      continue;
+    }
+
+    const sourceEvidence = batch.sourceEvidence;
+    const sourceEvidencePath = `${batchPath}.sourceEvidence`;
+    if (requireRecord(findings, sourceEvidence, sourceEvidencePath)) {
+      requireExactKeys(findings, sourceEvidence, ["repository", "commit", "compatibilityManifestUrl", "governanceManifestUrl"], sourceEvidencePath);
+      validateRepositoryName(findings, sourceEvidence.repository, `${sourceEvidencePath}.repository`);
+      validateSha(findings, sourceEvidence.commit, `${sourceEvidencePath}.commit`, { nullable: false });
+      if (sourceEvidence.repository !== target.canonicalRepository) push(findings, "archive-source-evidence", `${sourceEvidencePath}.repository`, "Archive source evidence must come from the canonical target repository.");
+      requirePinnedGitHubBlobUrl(findings, sourceEvidence.compatibilityManifestUrl, `${sourceEvidencePath}.compatibilityManifestUrl`, {
+        owner: targetsDocument.owner,
+        repository: target.canonicalRepository,
+        commit: sourceEvidence.commit,
+        file: "portfolio-compatibility.v1.json",
+      });
+      requirePinnedGitHubBlobUrl(findings, sourceEvidence.governanceManifestUrl, `${sourceEvidencePath}.governanceManifestUrl`, {
+        owner: targetsDocument.owner,
+        repository: target.canonicalRepository,
+        commit: sourceEvidence.commit,
+        file: "repository-governance.v1.json",
+      });
+      if (target.implementationRef?.kind !== "MAIN" || target.implementationRef?.repository !== target.canonicalRepository || target.implementationRef?.ref !== sourceEvidence.commit) {
+        push(findings, "archive-source-evidence", sourceEvidencePath, "Archive source evidence commit must match the target's exact MAIN implementation ref.", { target: batch.target });
+      }
+    }
+
+    const approval = batch.approval;
+    const approvalPath = `${batchPath}.approval`;
+    let approvedOn = null;
+    let approvedRepositories = [];
+    if (requireRecord(findings, approval, approvalPath)) {
+      requireExactKeys(findings, approval, ["approver", "approvedOn", "action", "evidenceUrl", "repositories"], approvalPath);
+      requireString(findings, approval.approver, `${approvalPath}.approver`);
+      approvedOn = requireCalendarDate(findings, approval.approvedOn, `${approvalPath}.approvedOn`);
+      if (approval.action !== "ARCHIVE_ONLY_NO_DELETION") push(findings, "archive-action", `${approvalPath}.action`, "Only archive without deletion may be approved.");
+      if (sourceEvidence?.commit) requirePinnedGitHubBlobUrl(findings, approval.evidenceUrl, `${approvalPath}.evidenceUrl`, {
+        owner: targetsDocument.owner,
+        repository: target.canonicalRepository,
+        commit: sourceEvidence.commit,
+        file: "portfolio-compatibility.v1.json",
+      });
+      else requireHttpsUrl(findings, approval.evidenceUrl, `${approvalPath}.evidenceUrl`);
+      if (requireArray(findings, approval.repositories, `${approvalPath}.repositories`)) {
+        approvedRepositories = approval.repositories;
+        if (approvedRepositories.length === 0) push(findings, "archive-approval-scope", `${approvalPath}.repositories`, "Archive approval scope must not be empty.");
+        for (const [repositoryIndex, repository] of approvedRepositories.entries()) {
+          validateRepositoryName(findings, repository, `${approvalPath}.repositories[${repositoryIndex}]`);
+        }
+        for (const duplicate of duplicates(approvedRepositories)) {
+          push(findings, "duplicate-archive-repository", `${approvalPath}.repositories`, `Archive approval repeats ${duplicate}.`, { repository: duplicate, target: batch.target });
+        }
+      }
+      const targetApproval = target.humanApproval ?? {};
+      if (!targetApproval.approved || target.gates?.humanApproval !== "PASS" || targetApproval.approver !== approval.approver || !approvedRepositories.every((repository) => targetApproval.repositories?.includes(repository))) {
+        push(findings, "archive-approval-scope", approvalPath, "Every batch repository must be included in the target's named repository-scoped human approval.", { target: batch.target });
+      }
+    }
+
+    const inventory = batch.consumerInventory;
+    const inventoryPath = `${batchPath}.consumerInventory`;
+    let inventoryObservedAt = null;
+    let inventoryExpiresAt = null;
+    if (requireRecord(findings, inventory, inventoryPath)) {
+      requireExactKeys(findings, inventory, ["status", "runId", "runUrl", "artifactId", "artifactDigestSha256", "evidenceSha256", "observedAt", "expiresAt", "repositories", "externalConsumerRepositories", "limitation"], inventoryPath);
+      if (inventory.status !== "VERIFIED") push(findings, "archive-consumer-evidence", `${inventoryPath}.status`, "Archive consumer inventory must be VERIFIED.");
+      requireInteger(findings, inventory.runId, `${inventoryPath}.runId`, 1);
+      const runUrl = requireHttpsUrl(findings, inventory.runUrl, `${inventoryPath}.runUrl`);
+      if (runUrl && (runUrl.hostname !== "github.com" || runUrl.pathname !== `/${targetsDocument.owner}/.github/actions/runs/${inventory.runId}`)) push(findings, "archive-consumer-evidence", `${inventoryPath}.runUrl`, "Consumer inventory URL must identify the exact governance runId.");
+      requireInteger(findings, inventory.artifactId, `${inventoryPath}.artifactId`, 1);
+      validateDigest(findings, inventory.artifactDigestSha256, `${inventoryPath}.artifactDigestSha256`, { nullable: false });
+      validateDigest(findings, inventory.evidenceSha256, `${inventoryPath}.evidenceSha256`, { nullable: false });
+      inventoryObservedAt = requireDate(findings, inventory.observedAt, `${inventoryPath}.observedAt`);
+      inventoryExpiresAt = requireDate(findings, inventory.expiresAt, `${inventoryPath}.expiresAt`);
+      requireString(findings, inventory.limitation, `${inventoryPath}.limitation`, { minLength: 20 });
+      if (inventoryObservedAt && inventoryExpiresAt && inventoryObservedAt >= inventoryExpiresAt) push(findings, "archive-consumer-evidence", inventoryPath, "Consumer evidence expiry must follow observation.");
+      if (inventoryObservedAt && inventoryObservedAt > now) push(findings, "future-archive-evidence", `${inventoryPath}.observedAt`, "Consumer evidence cannot be observed in the future.");
+      if (requireArray(findings, inventory.repositories, `${inventoryPath}.repositories`)) {
+        for (const [repositoryIndex, repository] of inventory.repositories.entries()) validateRepositoryName(findings, repository, `${inventoryPath}.repositories[${repositoryIndex}]`);
+        for (const duplicate of duplicates(inventory.repositories)) push(findings, "duplicate-archive-repository", `${inventoryPath}.repositories`, `Consumer inventory scope repeats ${duplicate}.`, { repository: duplicate });
+        if (!sameSet(inventory.repositories, approvedRepositories)) push(findings, "archive-consumer-evidence", `${inventoryPath}.repositories`, "Consumer inventory scope must exactly match the approved archive repositories.", { target: batch.target });
+      }
+      if (requireArray(findings, inventory.externalConsumerRepositories, `${inventoryPath}.externalConsumerRepositories`)) {
+        for (const [repositoryIndex, repository] of inventory.externalConsumerRepositories.entries()) validateRepositoryName(findings, repository, `${inventoryPath}.externalConsumerRepositories[${repositoryIndex}]`);
+        for (const duplicate of duplicates(inventory.externalConsumerRepositories)) push(findings, "duplicate-consumer", `${inventoryPath}.externalConsumerRepositories`, `Consumer ${duplicate} is repeated.`, { repository: duplicate });
+        if (inventory.externalConsumerRepositories.length > 0) push(findings, "archive-consumer-evidence", `${inventoryPath}.externalConsumerRepositories`, "Known external consumers block archive; migrate them before recording a VERIFIED archive batch.");
+      }
+      if (target.consumers?.status !== "VERIFIED" || target.consumers?.checkedAt !== inventory.observedAt || !sameSet(target.consumers?.repositories, inventory.externalConsumerRepositories)) {
+        push(findings, "archive-consumer-evidence", inventoryPath, "Archive inventory must exactly match the target's VERIFIED consumer record.", { target: batch.target });
+      }
+    }
+
+    const release = batch.releaseVerification;
+    const releasePath = `${batchPath}.releaseVerification`;
+    let publishedAt = null;
+    if (requireRecord(findings, release, releasePath)) {
+      requireExactKeys(findings, release, ["status", "version", "tag", "url", "sourceSha", "artifactName", "artifactSha256", "publishedAt", "verificationRunId", "verificationUrl"], releasePath);
+      if (release.status !== "VERIFIED") push(findings, "archive-release-evidence", `${releasePath}.status`, "Archive release evidence must be VERIFIED.");
+      requireString(findings, release.version, `${releasePath}.version`);
+      requireString(findings, release.tag, `${releasePath}.tag`);
+      const releaseUrl = requireHttpsUrl(findings, release.url, `${releasePath}.url`);
+      if (releaseUrl && (releaseUrl.hostname !== "github.com" || releaseUrl.pathname !== `/${targetsDocument.owner}/${target.canonicalRepository}/releases/tag/${release.tag}`)) push(findings, "archive-release-evidence", `${releasePath}.url`, "Release URL must identify the canonical target and exact tag.");
+      validateSha(findings, release.sourceSha, `${releasePath}.sourceSha`, { nullable: false });
+      requireString(findings, release.artifactName, `${releasePath}.artifactName`);
+      validateDigest(findings, release.artifactSha256, `${releasePath}.artifactSha256`, { nullable: false });
+      publishedAt = requireDate(findings, release.publishedAt, `${releasePath}.publishedAt`);
+      requireInteger(findings, release.verificationRunId, `${releasePath}.verificationRunId`, 1);
+      const verificationUrl = requireHttpsUrl(findings, release.verificationUrl, `${releasePath}.verificationUrl`);
+      if (verificationUrl && (verificationUrl.hostname !== "github.com" || verificationUrl.pathname !== `/${targetsDocument.owner}/${target.canonicalRepository}/actions/runs/${release.verificationRunId}`)) push(findings, "archive-release-evidence", `${releasePath}.verificationUrl`, "Release verification URL must identify the canonical target and verificationRunId.");
+      const targetRelease = target.release ?? {};
+      if (targetRelease.status !== "VERIFIED" || targetRelease.version !== release.version || targetRelease.tag !== release.tag || targetRelease.url !== release.url || targetRelease.artifactSha256 !== release.artifactSha256 || targetRelease.publishedAt !== release.publishedAt) {
+        push(findings, "archive-release-evidence", releasePath, "Archive release evidence must exactly match the target's VERIFIED release record.", { target: batch.target });
+      }
+    }
+
+    const rollback = batch.rollback;
+    const rollbackPath = `${batchPath}.rollback`;
+    let rollbackRehearsedAt = null;
+    if (requireRecord(findings, rollback, rollbackPath)) {
+      requireExactKeys(findings, rollback, ["status", "lastRehearsedAt", "evidenceUrl", "method"], rollbackPath);
+      requireEnum(findings, rollback.status, ["DOCUMENTED", "REHEARSED", "VERIFIED"], `${rollbackPath}.status`);
+      rollbackRehearsedAt = requireDate(findings, rollback.lastRehearsedAt, `${rollbackPath}.lastRehearsedAt`, { nullable: true });
+      if (["REHEARSED", "VERIFIED"].includes(rollback.status) && !rollbackRehearsedAt) push(findings, "archive-rollback-evidence", rollbackPath, `${rollback.status} requires a real rehearsal timestamp.`);
+      if (rollback.status === "DOCUMENTED" && rollback.lastRehearsedAt !== null) push(findings, "archive-rollback-evidence", rollbackPath, "DOCUMENTED rollback must not carry a rehearsal timestamp.");
+      if (sourceEvidence?.commit) requirePinnedGitHubBlobUrl(findings, rollback.evidenceUrl, `${rollbackPath}.evidenceUrl`, {
+        owner: targetsDocument.owner,
+        repository: target.canonicalRepository,
+        commit: sourceEvidence.commit,
+        file: "docs/PORTFOLIO-COMPATIBILITY-AND-ARCHIVE-GATE.md",
+      });
+      else requireHttpsUrl(findings, rollback.evidenceUrl, `${rollbackPath}.evidenceUrl`);
+      requireString(findings, rollback.method, `${rollbackPath}.method`, { minLength: 20 });
+      if (target.rollback?.status !== rollback.status || target.rollback?.lastRehearsedAt !== rollback.lastRehearsedAt || target.rollback?.evidenceUrl !== rollback.evidenceUrl) {
+        push(findings, "archive-rollback-evidence", rollbackPath, "Archive rollback evidence must exactly match the target rollback record.", { target: batch.target });
+      }
+    }
+
+    const readback = batch.serverReadback;
+    const readbackPath = `${batchPath}.serverReadback`;
+    let readbackAt = null;
+    let readbackRepositories = [];
+    if (requireRecord(findings, readback, readbackPath)) {
+      requireExactKeys(findings, readback, ["observedAt", "evidenceUrl", "archiveOnlyNoDeletion", "repositories"], readbackPath);
+      readbackAt = requireDate(findings, readback.observedAt, `${readbackPath}.observedAt`);
+      if (sourceEvidence?.commit) requirePinnedGitHubBlobUrl(findings, readback.evidenceUrl, `${readbackPath}.evidenceUrl`, {
+        owner: targetsDocument.owner,
+        repository: target.canonicalRepository,
+        commit: sourceEvidence.commit,
+        file: "repository-governance.v1.json",
+      });
+      else requireHttpsUrl(findings, readback.evidenceUrl, `${readbackPath}.evidenceUrl`);
+      if (readback.archiveOnlyNoDeletion !== true) push(findings, "archive-action", `${readbackPath}.archiveOnlyNoDeletion`, "Server readback must affirm archive-only operation with no deletion.");
+      if (readbackAt && readbackAt > now) push(findings, "future-archive-evidence", `${readbackPath}.observedAt`, "Server readback cannot be observed in the future.");
+      if (requireArray(findings, readback.repositories, `${readbackPath}.repositories`)) {
+        readbackRepositories = readback.repositories.map((record) => record?.repository).filter((repository) => typeof repository === "string");
+        for (const duplicate of duplicates(readbackRepositories)) push(findings, "duplicate-archive-readback", `${readbackPath}.repositories`, `Server readback repeats ${duplicate}.`, { repository: duplicate, target: batch.target });
+        for (const [repositoryIndex, record] of readback.repositories.entries()) {
+          const recordPath = `${readbackPath}.repositories[${repositoryIndex}]`;
+          if (!requireRecord(findings, record, recordPath)) continue;
+          requireExactKeys(findings, record, ["repository", "archived", "headSha", "homepage", "openPullRequestCount", "redirect"], recordPath);
+          validateRepositoryName(findings, record.repository, `${recordPath}.repository`);
+          if (record.archived !== true) push(findings, "archive-readback", `${recordPath}.archived`, "Server readback must report archived=true.", { repository: record.repository });
+          validateSha(findings, record.headSha, `${recordPath}.headSha`, { nullable: false });
+          requireHttpsUrl(findings, record.homepage, `${recordPath}.homepage`);
+          if (record.openPullRequestCount !== 0) push(findings, "archive-readback", `${recordPath}.openPullRequestCount`, "Archived source must have zero open pull requests in the recorded readback.", { repository: record.repository });
+          const sourceDescriptor = sourceByRepository.get(record.repository);
+          if (!sourceDescriptor || sourceDescriptor.target.id !== batch.target || sourceDescriptor.source.role !== "SOURCE") {
+            push(findings, "archive-source-scope", `${recordPath}.repository`, `${record.repository} is not a source of ${batch.target}.`, { repository: record.repository, target: batch.target });
+          } else {
+            if (sourceDescriptor.source.state !== "ARCHIVED") push(findings, "archive-state-evidence", `${recordPath}.repository`, `${record.repository} has server archive evidence but registry state is ${sourceDescriptor.source.state}.`, { repository: record.repository, target: batch.target });
+            const expectedHomepage = `https://github.com/${targetsDocument.owner}/${target.canonicalRepository}/tree/main/${sourceDescriptor.source.targetPath}`;
+            if (record.homepage !== expectedHomepage) push(findings, "archive-redirect-evidence", `${recordPath}.homepage`, `Expected canonical package homepage ${expectedHomepage}.`, { repository: record.repository, target: batch.target });
+          }
+          const redirect = record.redirect;
+          const redirectPath = `${recordPath}.redirect`;
+          if (requireRecord(findings, redirect, redirectPath)) {
+            requireExactKeys(findings, redirect, ["pullRequest", "mergeSha", "path", "ci"], redirectPath);
+            requireInteger(findings, redirect.pullRequest, `${redirectPath}.pullRequest`, 1);
+            validateSha(findings, redirect.mergeSha, `${redirectPath}.mergeSha`, { nullable: false });
+            if (redirect.path !== "README.md") push(findings, "archive-redirect-evidence", `${redirectPath}.path`, "Redirect evidence must point to README.md.");
+            if (redirect.ci !== "SUCCESS") push(findings, "archive-redirect-evidence", `${redirectPath}.ci`, "Redirect evidence requires successful source-repository CI.");
+            if (record.headSha !== redirect.mergeSha) push(findings, "archive-readback", `${recordPath}.headSha`, "Archived default-branch head must equal the verified redirect merge SHA.", { repository: record.repository });
+          }
+          if (evidencedRepositories.has(record.repository)) push(findings, "duplicate-archive-repository", `${recordPath}.repository`, `${record.repository} appears in more than one archive batch.`, { repository: record.repository });
+          else evidencedRepositories.add(record.repository);
+        }
+      }
+    }
+
+    const compliance = batch.compliance;
+    const compliancePath = `${batchPath}.compliance`;
+    if (requireRecord(findings, compliance, compliancePath)) {
+      requireExactKeys(findings, compliance, ["status", "requiredGates", "gaps", "authorizesFutureArchives"], compliancePath);
+      requireEnum(findings, compliance.status, ["PASS", "BLOCKED"], `${compliancePath}.status`);
+      if (compliance.authorizesFutureArchives !== false) push(findings, "archive-precedent", `${compliancePath}.authorizesFutureArchives`, "An archive receipt records one bounded action and must never authorize future archives.");
+      validateGates(findings, compliance.requiredGates, `${compliancePath}.requiredGates`);
+      for (const gate of REQUIRED_GATES) {
+        if (compliance.requiredGates?.[gate] !== target.gates?.[gate]) push(findings, "archive-compliance-drift", `${compliancePath}.requiredGates.${gate}`, `Batch compliance must match target gate ${gate}.`, { gate, target: batch.target });
+      }
+
+      const gapGates = [];
+      if (requireArray(findings, compliance.gaps, `${compliancePath}.gaps`)) {
+        for (const [gapIndex, gap] of compliance.gaps.entries()) {
+          const gapPath = `${compliancePath}.gaps[${gapIndex}]`;
+          if (!requireRecord(findings, gap, gapPath)) continue;
+          requireExactKeys(findings, gap, ["gate", "code", "detail"], gapPath);
+          requireEnum(findings, gap.gate, REQUIRED_GATES, `${gapPath}.gate`);
+          requireString(findings, gap.code, `${gapPath}.code`, { pattern: /^[A-Z][A-Z0-9_]+$/ });
+          requireString(findings, gap.detail, `${gapPath}.detail`, { minLength: 20 });
+          if (REQUIRED_GATES.includes(gap.gate)) gapGates.push(gap.gate);
+          if (compliance.requiredGates?.[gap.gate] === "PASS") push(findings, "archive-compliance-gap", gapPath, `Gap ${gap.gate} cannot be listed while that gate is PASS.`, { gate: gap.gate, target: batch.target });
+        }
+        for (const duplicate of duplicates(gapGates)) push(findings, "duplicate-archive-gap", `${compliancePath}.gaps`, `Compliance gap ${duplicate} is repeated.`, { gate: duplicate, target: batch.target });
+      }
+      const blockedGates = REQUIRED_GATES.filter((gate) => compliance.requiredGates?.[gate] !== "PASS");
+      if (!sameSet(gapGates, blockedGates)) push(findings, "archive-compliance-gap", compliancePath, "Named gaps must exactly cover every required gate that is not PASS.", { target: batch.target });
+
+      if (batch.status === "VERIFIED") {
+        if (compliance.status !== "PASS" || blockedGates.length > 0 || gapGates.length > 0 || target.status !== "VERIFIED" || rollback?.status !== "VERIFIED") {
+          push(findings, "archive-verification-gate", batchPath, "VERIFIED archive requires target VERIFIED, rollback VERIFIED, every required gate PASS, and no compliance gaps.", { target: batch.target });
+        }
+      }
+      if (batch.status === "OBSERVED_NONCOMPLIANT") {
+        if (compliance.status !== "BLOCKED" || blockedGates.length === 0 || gapGates.length === 0 || target.status === "VERIFIED") {
+          push(findings, "archive-noncompliance", batchPath, "OBSERVED_NONCOMPLIANT requires explicit blocking gaps and must not promote the target to VERIFIED.", { target: batch.target });
+        }
+      }
+      if (batch.status === "VERIFIED" && compliance.status !== "PASS") push(findings, "archive-status-contradiction", batchPath, "VERIFIED cannot carry BLOCKED compliance.");
+      if (batch.status === "OBSERVED_NONCOMPLIANT" && compliance.status !== "BLOCKED") push(findings, "archive-status-contradiction", batchPath, "OBSERVED_NONCOMPLIANT must carry BLOCKED compliance.");
+    }
+
+    if (!sameSet(approvedRepositories, readbackRepositories)) push(findings, "archive-approval-scope", batchPath, "Human approval and server readback must cover exactly the same repositories.", { target: batch.target });
+    if (approvedOn && readbackAt && approvedOn > readbackAt) push(findings, "archive-evidence-order", batchPath, "Server archive readback cannot precede human approval.");
+    if (inventoryObservedAt && readbackAt && inventoryObservedAt > readbackAt) push(findings, "archive-evidence-order", batchPath, "Server archive readback cannot precede consumer inventory observation.");
+    if (inventoryExpiresAt && readbackAt && inventoryExpiresAt <= readbackAt) push(findings, "stale-archive-consumer-evidence", batchPath, "Consumer evidence had expired before the archive server readback.");
+    if (publishedAt && readbackAt && publishedAt > readbackAt) push(findings, "archive-evidence-order", batchPath, "Server archive readback cannot precede the verified release.");
+    if (rollbackRehearsedAt && readbackAt && rollbackRehearsedAt > readbackAt) push(findings, "archive-evidence-order", batchPath, "Server archive readback cannot precede rollback rehearsal.");
+  }
+
+  const archivedRepositories = [...sourceByRepository.entries()]
+    .filter(([, descriptor]) => descriptor.source.state === "ARCHIVED")
+    .map(([repository]) => repository);
+  if (!sameSet(archivedRepositories, [...evidencedRepositories])) {
+    push(findings, "archive-evidence-coverage", path, "Every ARCHIVED source must have exactly one repository-scoped verified batch readback, and no batch may claim another source.");
+  }
 }
 
 function validateTargetsDocument(findings, targetsDocument, now) {
@@ -616,9 +937,10 @@ function validateTargetsDocument(findings, targetsDocument, now) {
     "expectedPublicRepositoryCount",
     "statusVocabulary",
     "standaloneRepositories",
+    "archiveBatches",
     "targets",
   ], path);
-  if (targetsDocument.schemaVersion !== 1) push(findings, "schema-version", `${path}.schemaVersion`, "Expected schemaVersion=1.");
+  if (targetsDocument.schemaVersion !== 2) push(findings, "schema-version", `${path}.schemaVersion`, "Expected schemaVersion=2.");
   requireString(findings, targetsDocument.owner, `${path}.owner`, { pattern: /^[A-Za-z0-9-]+$/ });
   if (targetsDocument.scope !== "PUBLIC_ONLY") push(findings, "scope", `${path}.scope`, "Registry scope must be PUBLIC_ONLY.");
   const generatedAt = requireDate(findings, targetsDocument.generatedAt, `${path}.generatedAt`);
@@ -648,9 +970,11 @@ function validateTargetsDocument(findings, targetsDocument, now) {
   }
 
   const targetIds = new Set();
+  const targetById = new Map();
   const canonicalRepositories = [];
   const sourceRepositories = [];
   const sourceToTarget = new Map();
+  const sourceByRepository = new Map();
   const companionRepositories = [];
   const standaloneRepositories = [];
 
@@ -660,6 +984,7 @@ function validateTargetsDocument(findings, targetsDocument, now) {
       if (!isRecord(target)) continue;
       if (targetIds.has(target.id)) push(findings, "duplicate-target", `${path}.targets[${index}].id`, `Target ${target.id} is duplicated.`, { target: target.id });
       targetIds.add(target.id);
+      targetById.set(target.id, target);
       canonicalRepositories.push(target.canonicalRepository);
       for (const repository of asArray(target.companionRepositories)) companionRepositories.push(repository);
       for (const source of asArray(target.sources)) {
@@ -673,10 +998,13 @@ function validateTargetsDocument(findings, targetsDocument, now) {
           });
         } else {
           sourceToTarget.set(source.repository, target.id);
+          sourceByRepository.set(source.repository, { source, target });
         }
       }
     }
   }
+
+  validateArchiveBatches(findings, targetsDocument.archiveBatches, targetsDocument, targetById, sourceByRepository, now);
 
   for (const duplicate of duplicates(canonicalRepositories)) {
     push(findings, "duplicate-canonical", `${path}.targets`, `Canonical repository ${duplicate} is used by more than one target.`, { repository: duplicate });

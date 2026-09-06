@@ -16,10 +16,11 @@
     "expectedPublicRepositoryCount",
     "statusVocabulary",
     "standaloneRepositories",
+    "archiveBatches",
     "targets"
   ],
   "properties": {
-    "schemaVersion": {"const": 1},
+    "schemaVersion": {"const": 2},
     "owner": {"type": "string", "pattern": "^[A-Za-z0-9-]+$"},
     "scope": {"const": "PUBLIC_ONLY"},
     "generatedAt": {"type": "string", "format": "date-time"},
@@ -42,6 +43,10 @@
     "standaloneRepositories": {
       "type": "array",
       "items": {"$ref": "#/$defs/standaloneRepository"}
+    },
+    "archiveBatches": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/archiveBatch"}
     },
     "targets": {
       "type": "array",
@@ -173,8 +178,157 @@
       "properties": {
         "approved": {"type": "boolean"},
         "approver": {"type": ["string", "null"]},
-        "approvedAt": {"type": ["string", "null"], "format": "date-time"},
-        "rationale": {"type": ["string", "null"]}
+        "approvedAt": {
+          "anyOf": [
+            {"type": "null"},
+            {"type": "string", "format": "date"},
+            {"type": "string", "format": "date-time"}
+          ]
+        },
+        "rationale": {"type": ["string", "null"]},
+        "repositories": {"type": "array", "items": {"$ref": "#/$defs/repositoryName"}, "uniqueItems": true}
+      }
+    },
+    "archiveBatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "target", "status", "sourceEvidence", "approval", "consumerInventory", "releaseVerification", "rollback", "serverReadback", "compliance"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$"},
+        "target": {"$ref": "#/$defs/repositoryName"},
+        "status": {"enum": ["VERIFIED", "OBSERVED_NONCOMPLIANT"]},
+        "sourceEvidence": {"$ref": "#/$defs/archiveSourceEvidence"},
+        "approval": {"$ref": "#/$defs/archiveApproval"},
+        "consumerInventory": {"$ref": "#/$defs/archiveConsumerInventory"},
+        "releaseVerification": {"$ref": "#/$defs/archiveReleaseVerification"},
+        "rollback": {"$ref": "#/$defs/archiveRollback"},
+        "serverReadback": {"$ref": "#/$defs/archiveServerReadback"},
+        "compliance": {"$ref": "#/$defs/archiveCompliance"}
+      }
+    },
+    "archiveSourceEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "commit", "compatibilityManifestUrl", "governanceManifestUrl"],
+      "properties": {
+        "repository": {"$ref": "#/$defs/repositoryName"},
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "compatibilityManifestUrl": {"type": "string", "format": "uri"},
+        "governanceManifestUrl": {"type": "string", "format": "uri"}
+      }
+    },
+    "archiveApproval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["approver", "approvedOn", "action", "evidenceUrl", "repositories"],
+      "properties": {
+        "approver": {"type": "string", "minLength": 1},
+        "approvedOn": {"type": "string", "format": "date"},
+        "action": {"const": "ARCHIVE_ONLY_NO_DELETION"},
+        "evidenceUrl": {"type": "string", "format": "uri"},
+        "repositories": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/repositoryName"}, "uniqueItems": true}
+      }
+    },
+    "archiveConsumerInventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "runId", "runUrl", "artifactId", "artifactDigestSha256", "evidenceSha256", "observedAt", "expiresAt", "repositories", "externalConsumerRepositories", "limitation"],
+      "properties": {
+        "status": {"const": "VERIFIED"},
+        "runId": {"type": "integer", "minimum": 1},
+        "runUrl": {"type": "string", "format": "uri"},
+        "artifactId": {"type": "integer", "minimum": 1},
+        "artifactDigestSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "evidenceSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "observedAt": {"type": "string", "format": "date-time"},
+        "expiresAt": {"type": "string", "format": "date-time"},
+        "repositories": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/repositoryName"}, "uniqueItems": true},
+        "externalConsumerRepositories": {"type": "array", "items": {"$ref": "#/$defs/repositoryName"}, "uniqueItems": true},
+        "limitation": {"type": "string", "minLength": 20}
+      }
+    },
+    "archiveReleaseVerification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "version", "tag", "url", "sourceSha", "artifactName", "artifactSha256", "publishedAt", "verificationRunId", "verificationUrl"],
+      "properties": {
+        "status": {"const": "VERIFIED"},
+        "version": {"type": "string", "minLength": 1},
+        "tag": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "format": "uri"},
+        "sourceSha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "artifactName": {"type": "string", "minLength": 1},
+        "artifactSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "publishedAt": {"type": "string", "format": "date-time"},
+        "verificationRunId": {"type": "integer", "minimum": 1},
+        "verificationUrl": {"type": "string", "format": "uri"}
+      }
+    },
+    "archiveRollback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "lastRehearsedAt", "evidenceUrl", "method"],
+      "properties": {
+        "status": {"enum": ["DOCUMENTED", "REHEARSED", "VERIFIED"]},
+        "lastRehearsedAt": {"type": ["string", "null"], "format": "date-time"},
+        "evidenceUrl": {"type": "string", "format": "uri"},
+        "method": {"type": "string", "minLength": 20}
+      }
+    },
+    "archiveCompliance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "requiredGates", "gaps", "authorizesFutureArchives"],
+      "properties": {
+        "status": {"enum": ["PASS", "BLOCKED"]},
+        "requiredGates": {"$ref": "#/$defs/gates"},
+        "gaps": {"type": "array", "items": {"$ref": "#/$defs/archiveComplianceGap"}},
+        "authorizesFutureArchives": {"const": false}
+      }
+    },
+    "archiveComplianceGap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate", "code", "detail"],
+      "properties": {
+        "gate": {"enum": ["decision", "import", "compatibility", "release", "consumers", "redirect", "rollback", "humanApproval"]},
+        "code": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]+$"},
+        "detail": {"type": "string", "minLength": 20}
+      }
+    },
+    "archiveServerReadback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["observedAt", "evidenceUrl", "archiveOnlyNoDeletion", "repositories"],
+      "properties": {
+        "observedAt": {"type": "string", "format": "date-time"},
+        "evidenceUrl": {"type": "string", "format": "uri"},
+        "archiveOnlyNoDeletion": {"const": true},
+        "repositories": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/archiveServerRepository"}}
+      }
+    },
+    "archiveServerRepository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "archived", "headSha", "homepage", "openPullRequestCount", "redirect"],
+      "properties": {
+        "repository": {"$ref": "#/$defs/repositoryName"},
+        "archived": {"const": true},
+        "headSha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "homepage": {"type": "string", "format": "uri"},
+        "openPullRequestCount": {"const": 0},
+        "redirect": {"$ref": "#/$defs/archiveRedirect"}
+      }
+    },
+    "archiveRedirect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pullRequest", "mergeSha", "path", "ci"],
+      "properties": {
+        "pullRequest": {"type": "integer", "minimum": 1},
+        "mergeSha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "path": {"const": "README.md"},
+        "ci": {"const": "SUCCESS"}
       }
     },
     "waiver": {

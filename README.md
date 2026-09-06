@@ -16,9 +16,11 @@ standalone decision items, and the complete expected set of 112 public
 repositories.
 
 The registry keeps `PREPARED`, `MERGED`, `TAGGED`, `RELEASED`, and `VERIFIED`
-separate. It also blocks source archive states unless decision, exact import,
-compatibility, release, consumers, redirect, rollback, and named human approval
-all pass.
+separate. It blocks planned source archives unless decision, exact import,
+compatibility, release, consumers, redirect, rollback, and repository-scoped
+human approval all pass. A bounded `OBSERVED_NONCOMPLIANT` receipt may record an
+archive already observed on GitHub, but it keeps the target and failed gates
+blocked and never authorizes another archive.
 
 Validate the local truth model and its counter-proofs with:
 
@@ -30,10 +32,12 @@ node --test test/*.test.mjs
 
 The scheduled `Public portfolio live evidence` workflow reads GitHub repository,
 pull-request, check, and mergeability state, compares it with the registry, and
-publishes a bounded Markdown report in the Actions job summary. Strict mode
-stops the line on drift, expired evidence, excessive review load, stale drafts,
-failing CI, or conflicts. The collector has read-only permissions and contains
-no merge, close, archive, release, or repository mutation path.
+publishes a bounded Markdown report in the Actions job summary. For registered
+archive receipts it also reconciles archive state, default-branch head,
+homepage redirect, and open pull requests. Strict mode stops the line on drift,
+expired evidence, excessive review load, stale drafts, failing CI, or conflicts.
+The collector has read-only permissions and contains no merge, close, archive,
+release, or repository mutation path.
 
 ## Reusable workflows
 

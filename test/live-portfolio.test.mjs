@@ -15,6 +15,21 @@ async function policy() {
   return { registry, freeze, triage };
 }
 
+function completeLiveRepositories(registry) {
+  const derived = deriveRegistry(registry);
+  return [...derived.registered].map((name) => {
+    const readback = derived.archiveReadbacks.get(name);
+    return {
+      name,
+      fullName: `vigilanty0x/${name}`,
+      archived: derived.sourceStates.get(name) === "ARCHIVED",
+      private: false,
+      headSha: readback?.headSha ?? null,
+      homepage: readback?.homepage ?? null,
+    };
+  });
+}
+
 test("triage precedence keeps security ahead of consolidation and release", async () => {
   const { registry, triage } = await policy();
   const derived = deriveRegistry(registry);
@@ -50,6 +65,8 @@ test("stop-the-line detects repository, backlog, review-capacity, SLA, CI, and c
     failingCiCount: 1,
     mergeConflictCount: 1,
     unexpectedArchivedRepositoryCount: 1,
+    expectedArchiveMissingCount: 1,
+    archiveReadbackDriftCount: 1,
   }, freeze, []);
   assert.deepEqual(new Set(reasons.map((reason) => reason.code)), new Set([
     "PUBLIC_REPOSITORY_COUNT_DRIFT",
@@ -62,19 +79,20 @@ test("stop-the-line detects repository, backlog, review-capacity, SLA, CI, and c
     "CI_FAILURE",
     "MERGE_CONFLICT",
     "UNEXPECTED_ARCHIVE",
+    "EXPECTED_ARCHIVE_MISSING",
+    "ARCHIVE_READBACK_DRIFT",
   ]));
 });
 
 test("a complete synthetic live set passes without mutation", async () => {
   const { registry, freeze, triage } = await policy();
-  const registered = [...deriveRegistry(registry).registered];
   const snapshot = buildSnapshot({
     registry,
     freeze,
     triage,
     now: FIXED_NOW,
     errors: [],
-    publicRepositories: registered.map((name) => ({ name, fullName: `vigilanty0x/${name}`, archived: false, private: false })),
+    publicRepositories: completeLiveRepositories(registry),
     pullRequests: [
       {
         repository: "vigilanty0x/proofgate",
@@ -83,8 +101,8 @@ test("a complete synthetic live set passes without mutation", async () => {
         body: "",
         url: "https://github.com/vigilanty0x/proofgate/pull/1",
         author: "reviewer",
-        createdAt: "2026-08-18T08:00:00Z",
-        updatedAt: "2026-08-18T11:00:00Z",
+        createdAt: "2026-09-06T14:30:00Z",
+        updatedAt: "2026-09-06T14:50:00Z",
         draft: false,
         mergeable: true,
         mergeableState: "clean",
@@ -101,7 +119,6 @@ test("a complete synthetic live set passes without mutation", async () => {
 
 test("three consolidation targets exceed the independent review cap", async () => {
   const { registry, freeze, triage } = await policy();
-  const registered = [...deriveRegistry(registry).registered];
   const pullRequests = ["proofgate", "repo-doctor", "promptops"].map((repository, index) => ({
     repository: `vigilanty0x/${repository}`,
     number: index + 1,
@@ -120,7 +137,7 @@ test("three consolidation targets exceed the independent review cap", async () =
     triage,
     now: FIXED_NOW,
     errors: [],
-    publicRepositories: registered.map((name) => ({ name, fullName: `vigilanty0x/${name}`, archived: false, private: false })),
+    publicRepositories: completeLiveRepositories(registry),
     pullRequests,
   });
   assert.equal(snapshot.status, "STOPPED");
@@ -130,14 +147,13 @@ test("three consolidation targets exceed the independent review cap", async () =
 
 test("Markdown report states read-only evidence and distinct delivery states", async () => {
   const { registry, freeze, triage } = await policy();
-  const registered = [...deriveRegistry(registry).registered];
   const snapshot = buildSnapshot({
     registry,
     freeze,
     triage,
     now: FIXED_NOW,
     errors: [],
-    publicRepositories: registered.map((name) => ({ name, fullName: `vigilanty0x/${name}`, archived: false, private: false })),
+    publicRepositories: completeLiveRepositories(registry),
     pullRequests: [],
   });
   const markdown = renderMarkdown(snapshot);
@@ -145,6 +161,24 @@ test("Markdown report states read-only evidence and distinct delivery states", a
   assert.match(markdown, /PREPARED/);
   assert.match(markdown, /VERIFIED/);
   assert.match(markdown, /performs no mutation/i);
+});
+
+test("live archive reconciliation is bidirectional and checks bounded readback", async () => {
+  const { registry, freeze, triage } = await policy();
+  const repositories = completeLiveRepositories(registry);
+  repositories.find((repository) => repository.name === "answer-diff").archived = false;
+  repositories.find((repository) => repository.name === "benchmark-run-recorder").headSha = "f".repeat(40);
+  repositories.find((repository) => repository.name === "promptbench").archived = true;
+  const snapshot = buildSnapshot({ registry, freeze, triage, now: FIXED_NOW, errors: [], publicRepositories: repositories, pullRequests: [] });
+  assert.equal(snapshot.status, "STOPPED");
+  assert.deepEqual(new Set(snapshot.stopReasons.map((reason) => reason.code)), new Set([
+    "UNEXPECTED_ARCHIVE",
+    "EXPECTED_ARCHIVE_MISSING",
+    "ARCHIVE_READBACK_DRIFT",
+  ]));
+  assert.deepEqual(snapshot.summary.expectedArchiveMissingRepositories, ["answer-diff"]);
+  assert.deepEqual(snapshot.summary.unexpectedArchivedRepositories, ["promptbench"]);
+  assert.deepEqual(snapshot.summary.archiveReadbackDrift, [{ repository: "benchmark-run-recorder", fields: ["headSha"] }]);
 });
 
 test("CLI collects paginated read-only GitHub evidence through a bounded HTTP mock", async () => {
@@ -155,24 +189,34 @@ test("CLI collects paginated read-only GitHub evidence through a bounded HTTP mo
   const { join } = await import("node:path");
 
   const { registry } = await policy();
-  const names = [...deriveRegistry(registry).registered].sort();
+  const derived = deriveRegistry(registry);
+  const names = [...derived.registered].sort();
   let baseUrl = "";
   const server = createServer((request, response) => {
     const url = new URL(request.url, baseUrl);
     response.setHeader("content-type", "application/json");
     if (url.pathname === "/users/vigilanty0x/repos") {
       const page = Number(url.searchParams.get("page") || "1");
-      const slice = names.slice((page - 1) * 100, page * 100).map((name) => ({
-        name,
-        full_name: `vigilanty0x/${name}`,
-        private: false,
-        archived: false,
-        fork: false,
-        default_branch: "main",
-        updated_at: "2026-08-18T11:00:00Z",
-        html_url: `https://github.com/vigilanty0x/${name}`,
-      }));
+      const slice = names.slice((page - 1) * 100, page * 100).map((name) => {
+        const readback = derived.archiveReadbacks.get(name);
+        return {
+          name,
+          full_name: `vigilanty0x/${name}`,
+          private: false,
+          archived: derived.sourceStates.get(name) === "ARCHIVED",
+          fork: false,
+          default_branch: "main",
+          homepage: readback?.homepage ?? null,
+          updated_at: "2026-09-06T14:51:35Z",
+          html_url: `https://github.com/vigilanty0x/${name}`,
+        };
+      });
       response.end(JSON.stringify(slice));
+      return;
+    }
+    const archivedCommitMatch = /^\/repos\/vigilanty0x\/([^/]+)\/commits\/main$/.exec(url.pathname);
+    if (archivedCommitMatch && derived.archiveReadbacks.has(archivedCommitMatch[1])) {
+      response.end(JSON.stringify({ sha: derived.archiveReadbacks.get(archivedCommitMatch[1]).headSha }));
       return;
     }
     if (url.pathname === "/search/issues") {

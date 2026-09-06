@@ -59,6 +59,7 @@ export function deriveRegistry(registry) {
   const canonicalToTarget = new Map();
   const registered = new Set();
   const sourceStates = new Map();
+  const archiveReadbacks = new Map();
 
   for (const target of asArray(registry?.targets)) {
     if (!isRecord(target) || typeof target.id !== "string") continue;
@@ -87,8 +88,22 @@ export function deriveRegistry(registry) {
   for (const standalone of asArray(registry?.standaloneRepositories)) {
     if (typeof standalone?.repository === "string") registered.add(standalone.repository);
   }
+  for (const batch of asArray(registry?.archiveBatches)) {
+    for (const repository of asArray(batch?.serverReadback?.repositories)) {
+      if (!isRecord(repository) || typeof repository.repository !== "string") continue;
+      archiveReadbacks.set(repository.repository, {
+        batchId: batch.id ?? null,
+        batchStatus: batch.status ?? null,
+        complianceStatus: batch.compliance?.status ?? null,
+        archived: repository.archived === true,
+        headSha: repository.headSha ?? null,
+        homepage: repository.homepage ?? null,
+        openPullRequestCount: repository.openPullRequestCount ?? null,
+      });
+    }
+  }
 
-  return { targetById, sourceToTarget, canonicalToTarget, registered, sourceStates };
+  return { targetById, sourceToTarget, canonicalToTarget, registered, sourceStates, archiveReadbacks };
 }
 
 export function classifyPullRequest(pullRequest, context) {
@@ -201,6 +216,12 @@ export function evaluateStopTheLine(summary, freeze, errors = []) {
   if (summary.unexpectedArchivedRepositoryCount > 0) {
     reasons.push({ code: "UNEXPECTED_ARCHIVE", message: `${summary.unexpectedArchivedRepositoryCount} public repositories are archived without an ARCHIVED registry state.` });
   }
+  if (summary.expectedArchiveMissingCount > 0) {
+    reasons.push({ code: "EXPECTED_ARCHIVE_MISSING", message: `${summary.expectedArchiveMissingCount} repositories recorded as ARCHIVED are not archived in live GitHub state.` });
+  }
+  if (summary.archiveReadbackDriftCount > 0) {
+    reasons.push({ code: "ARCHIVE_READBACK_DRIFT", message: `${summary.archiveReadbackDriftCount} archived repositories differ from their bounded head, homepage, or open-PR readback.` });
+  }
   return reasons;
 }
 
@@ -219,6 +240,8 @@ export function buildSnapshot(input) {
       archived: repository.archived === true,
       fork: repository.fork === true,
       defaultBranch: repository.defaultBranch ?? repository.default_branch ?? null,
+      headSha: repository.headSha ?? repository.head_sha ?? null,
+      homepage: repository.homepage ?? null,
       updatedAt: repository.updatedAt ?? repository.updated_at ?? null,
       url: repository.url ?? repository.html_url ?? null,
     }))
@@ -247,6 +270,26 @@ export function buildSnapshot(input) {
   const unexpectedArchivedRepositories = publicRepositories
     .filter((repository) => repository.archived && derived.sourceStates.get(repository.name) !== "ARCHIVED")
     .map((repository) => repository.name);
+  const expectedArchiveMissingRepositories = publicRepositories
+    .filter((repository) => derived.sourceStates.get(repository.name) === "ARCHIVED" && !repository.archived)
+    .map((repository) => repository.name);
+  const openPullRequestCountByRepository = new Map();
+  for (const pullRequest of pullRequests) {
+    openPullRequestCountByRepository.set(pullRequest.repository, (openPullRequestCountByRepository.get(pullRequest.repository) ?? 0) + 1);
+  }
+  const archiveReadbackDrift = [];
+  for (const repository of publicRepositories.filter((candidate) => candidate.archived && derived.sourceStates.get(candidate.name) === "ARCHIVED")) {
+    const expected = derived.archiveReadbacks.get(repository.name);
+    if (!expected) {
+      archiveReadbackDrift.push({ repository: repository.name, fields: ["missingRegistryReadback"] });
+      continue;
+    }
+    const fields = [];
+    if (repository.headSha !== expected.headSha) fields.push("headSha");
+    if (repository.homepage !== expected.homepage) fields.push("homepage");
+    if ((openPullRequestCountByRepository.get(repository.name) ?? 0) !== expected.openPullRequestCount) fields.push("openPullRequestCount");
+    if (fields.length > 0) archiveReadbackDrift.push({ repository: repository.name, fields });
+  }
 
   const summary = {
     owner: registry.owner,
@@ -259,8 +302,13 @@ export function buildSnapshot(input) {
     missingRegisteredRepositories,
     unregisteredPublicRepositories,
     archivedPublicRepositoryCount: publicRepositories.filter((repository) => repository.archived).length,
+    expectedArchivedRepositoryCount: [...derived.sourceStates.values()].filter((state) => state === "ARCHIVED").length,
     unexpectedArchivedRepositoryCount: unexpectedArchivedRepositories.length,
     unexpectedArchivedRepositories,
+    expectedArchiveMissingCount: expectedArchiveMissingRepositories.length,
+    expectedArchiveMissingRepositories,
+    archiveReadbackDriftCount: archiveReadbackDrift.length,
+    archiveReadbackDrift,
     openPullRequestCount: pullRequests.length,
     draftPullRequestCount: pullRequests.filter((pullRequest) => pullRequest.draft === true).length,
     unknownDraftStateCount: pullRequests.filter((pullRequest) => pullRequest.draft === null).length,
@@ -330,6 +378,8 @@ export function renderMarkdown(snapshot) {
     "| Metric | Value |",
     "| --- | ---: |",
     `| Public repositories | ${snapshot.summary.publicRepositoryCount} / ${snapshot.summary.expectedPublicRepositoryCount} |`,
+    `| Expected archived repositories | ${snapshot.summary.archivedPublicRepositoryCount} / ${snapshot.summary.expectedArchivedRepositoryCount} |`,
+    `| Archive readback drift | ${snapshot.summary.archiveReadbackDriftCount} |`,
     `| Open pull requests | ${snapshot.summary.openPullRequestCount} / ${snapshot.policy.maxOpenPullRequests} |`,
     `| Draft pull requests | ${snapshot.summary.draftPullRequestCount} |`,
     `| Stale drafts | ${snapshot.summary.staleDraftCount} |`,
@@ -418,6 +468,8 @@ async function fetchPublicRepositories(owner, apiUrl, token) {
         archived: repository.archived,
         fork: repository.fork,
         defaultBranch: repository.default_branch,
+        headSha: null,
+        homepage: repository.homepage ?? null,
         updatedAt: repository.updated_at,
         url: repository.html_url,
       });
@@ -481,9 +533,25 @@ async function enrichPullRequest(item, apiUrl, token) {
   };
 }
 
-async function collectLiveData({ owner, apiUrl, token, enrich }) {
+async function collectLiveData({ owner, apiUrl, token, enrich, archiveReadbacks = new Map() }) {
   const errors = [];
   const publicRepositories = await fetchPublicRepositories(owner, apiUrl, token);
+  await mapLimit([...archiveReadbacks.keys()], 4, async (repositoryNameValue) => {
+    const repository = publicRepositories.find((candidate) => candidate.name === repositoryNameValue);
+    if (!repository) return;
+    try {
+      const commit = await requestJson(`${apiUrl}/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repository.name)}/commits/${encodeURIComponent(repository.defaultBranch)}`, token);
+      if (typeof commit?.sha !== "string") throw new Error("GitHub commit response lacks sha.");
+      repository.headSha = commit.sha;
+    } catch (error) {
+      errors.push({
+        operation: "FETCH_ARCHIVED_HEAD",
+        repository: repository.name,
+        number: null,
+        message: error instanceof Error ? error.message : String(error),
+      });
+    }
+  });
   const publicFullNames = new Set(publicRepositories.map((repository) => repository.fullName));
   const searchItems = await fetchOpenPullRequestSearch(owner, apiUrl, token);
   const publicItems = searchItems.filter((item) => publicFullNames.has(repositoryFromApiUrl(item.repository_url)));
@@ -619,7 +687,13 @@ async function main() {
   const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || null;
   let live;
   try {
-    live = await collectLiveData({ owner, apiUrl: args.apiUrl.replace(/\/$/, ""), token, enrich: args.enrich });
+    live = await collectLiveData({
+      owner,
+      apiUrl: args.apiUrl.replace(/\/$/, ""),
+      token,
+      enrich: args.enrich,
+      archiveReadbacks: deriveRegistry(registry).archiveReadbacks,
+    });
   } catch (error) {
     live = {
       publicRepositories: [],

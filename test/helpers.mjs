@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { mkdir } from "node:fs/promises";
 
 export const PROJECT_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-export const FIXED_NOW = new Date("2026-08-18T12:00:00Z");
+export const FIXED_NOW = new Date("2026-09-06T15:00:00Z");
 
 export async function createPortfolioFixture() {
   const root = await mkdtemp(join(tmpdir(), "portfolio-governance-"));
