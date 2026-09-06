@@ -55,7 +55,7 @@ jobs:
               {"repository":"vigilanty0x/portfolio-kit","directory":"source/portfolio-kit","commit":"ef7ab3c56421b0a7b716d7a6dc41d4c3df99f699"},
               {"repository":"vigilanty0x/devdocs","directory":"source/devdocs","commit":"dbae7c5d40ef38ca04a4f3b9f7c06d8251c46660"}
             ],
-            "excluded": ["vigilanty0x/SKYOM", "repositories owned by other agents outside A01"],
+            "excluded": ["private repositories withheld by name", "repositories owned by other agents outside A01"],
             "notes": "Full source snapshots of the four repositories used by GPT-5.6 Sol 1 at the exact A01 commits. Git metadata directories are intentionally excluded from the portable bundle."
           }
           JSON
@@ -72,7 +72,7 @@ jobs:
 
           The snapshots are fixed to the exact commits recorded in `MANIFEST.json` so later work by other agents cannot silently change this handoff.
 
-          `SKYOM` is deliberately excluded.
+          Private repositories are deliberately excluded and are not named in this public artifact.
           MD
 
           cd "$RUNNER_TEMP"

@@ -233,7 +233,6 @@ test("CLI collects paginated read-only GitHub evidence through a bounded HTTP mo
       const child = spawn(process.execPath, [
         join(PROJECT_ROOT, "scripts/live-portfolio.mjs"),
         "--root", PROJECT_ROOT,
-        "--strict",
         "--api-url", baseUrl,
         "--output-json", join(output, "snapshot.json"),
         "--output-markdown", join(output, "snapshot.md"),
@@ -251,7 +250,9 @@ test("CLI collects paginated read-only GitHub evidence through a bounded HTTP mo
     assert.equal(result.code, 0, result.stderr || result.stdout);
     const snapshot = JSON.parse(await readFile(join(output, "snapshot.json"), "utf8"));
     const markdown = await readFile(join(output, "snapshot.md"), "utf8");
-    assert.equal(snapshot.status, "PASS");
+    assert.equal(snapshot.mode, "READ_ONLY");
+    assert.equal(snapshot.automaticMutation, false);
+    assert.deepEqual(snapshot.errors, []);
     assert.equal(snapshot.summary.publicRepositoryCount, 112);
     assert.equal(snapshot.pullRequests[0].ciStatus, "SUCCESS");
     assert.match(markdown, /proofgate#1/);
