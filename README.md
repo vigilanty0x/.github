@@ -8,12 +8,31 @@ The defaults do not turn an unmeasured control into a passing control. Each
 project still owns its runtime-specific tests, threat model, release process,
 and residual-risk statement.
 
-## Public portfolio control plane
+## Prepared concrete-six portfolio
 
-The versioned files in `portfolio/` are the canonical public-only registry for
-eighteen target products, one hundred original source repositories, two
-standalone decision items, and the complete expected set of 112 public
-repositories.
+The versioned files in `portfolio/` preserve the observed 18-target review
+registry and define a new canonical destination map for all **112 public
+repositories**:
+
+| Concrete product | Assigned public repositories |
+|---|---:|
+| `automation-control-plane` | 23 |
+| `promptops` | 15 |
+| `rag-lab` | 10 |
+| `shipcheck` | 15 |
+| `repo-doctor` | 26 |
+| `proofgate` | 16 |
+
+Two support repositories complete the public topology: `.github` covers itself
+and `workflow-templates`, while `vigilanty0x` covers the profile, Portfolio Kit,
+build metrics, and both profile/portfolio generators. The complete mapping is
+[`portfolio/final-architecture.json`](portfolio/final-architecture.json).
+
+This is **local preparation**, not a completed GitHub migration. The prepared
+destination is eight public repositories plus one private repository represented
+only by an aggregate count, for a connected-account target of nine. No private
+repository identifier is part of the public registry. No deletion, archive,
+transfer, redirect, or automatic repository mutation is authorized.
 
 The registry keeps `PREPARED`, `MERGED`, `TAGGED`, `RELEASED`, and `VERIFIED`
 separate. It blocks planned source archives unless decision, exact import,
@@ -25,8 +44,11 @@ blocked and never authorizes another archive.
 Validate the local truth model and its counter-proofs with:
 
 ```bash
+python scripts/check_monorepo.py
 node scripts/check-portfolio.mjs --root .
 node scripts/check-governance.mjs --root .
+node scripts/check-final-architecture.mjs \
+  portfolio/final-architecture.json portfolio/targets.json
 node --test test/*.test.mjs
 ```
 

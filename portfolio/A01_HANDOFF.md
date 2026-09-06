@@ -36,12 +36,18 @@ The release-evidence policy is now **VERIFIED as a common fail-closed contract**
 
 ## Architecture arbitration
 
-- **18 targets** remain the transitional review registry while migration gates are incomplete;
-- **16 entities / 17 active repositories** are the prepared final topology;
-- `portfolio-profile` intentionally spans `portfolio-kit` and `vigilanty0x`;
-- `apprentice-ai` remains standalone;
-- AgentOps and Shipcheck satellites remain transitional until their assigned product owners complete migration gates;
-- **95 repositories are eventual archive candidates only**, never immediate archive instructions.
+The evidence above records the earlier 16-entity/17-repository arbitration at
+the time A01 closed its bounded scope. It remains historical evidence and is not
+silently rewritten.
+
+A later local preparation on `codex/consolidate-six` supersedes that destination
+plan without claiming a GitHub change:
+
+- **18 targets / 112 public repositories** remain the observed transitional registry while migration gates are incomplete;
+- **6 product repositories + 2 public support repositories** are the newly prepared destination;
+- one private repository is represented only as an aggregate count, producing a connected-account target of **9**;
+- all 112 public source identities have exactly one destination in `final-architecture.json`;
+- no deletion, archive, transfer, redirect, or automatic repository mutation is authorized.
 
 ## P1-005 follow-up — completed for the public portfolio boundary
 
