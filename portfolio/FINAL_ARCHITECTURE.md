@@ -1,71 +1,81 @@
-# Final portfolio architecture — A01 prepared arbitration
+# Concrete-six public portfolio architecture
 
-Status: **PREPARED**. Activation remains a separate human decision.
+Status: **PREPARED LOCALLY — NOT APPLIED ON GITHUB**.
 
-This document resolves the apparent conflict between the current 18-target registry and the recommended final portfolio. They represent two different states, not two competing truths.
+This is the canonical destination map for turning the current public repository
+collection into six concrete multi-tool products. It is a plan and a local
+implementation contract, not evidence that repository settings or the visible
+GitHub repository count have changed.
 
-## Current safe state
+## Honest counts
 
-`portfolio/targets.json` remains the operational review registry with 18 targets while migrations are incomplete. Keeping a transitional identity in that registry does **not** mean it is approved as a permanent standalone product.
+- Current observed public registry: **112 public repositories**.
+- Prepared public destination: **6 product repositories + 2 support
+  repositories = 8 public repositories**.
+- Connected-account destination: **9 repositories**, consisting of those eight
+  public repositories and one private repository represented only as an
+  aggregate count.
+- Public source identities assigned: **112/112**, exactly once.
+- Non-target public repositories in a completed transition: **104**.
+- Deletion, transfer, archive, redirect, and automatic mutation: **not
+  authorized by this document**.
 
-The 18-target state exists so compatibility, consumer, redirect, rollback, and source-history evidence can be reviewed without prematurely removing a source or target identity.
+The 18-target `portfolio/targets.json` registry remains the safe description of
+the observed public GitHub state while migration evidence is incomplete.
 
-## Final state
+## Six concrete products
 
-The prepared final architecture contains **16 entities backed by 17 active repositories**. `portfolio-profile` intentionally uses two repositories: `portfolio-kit` for the generated portfolio product and `vigilanty0x` for the GitHub profile entry point.
+| Product repository | Public source identities | Coherent scope |
+|---|---:|---|
+| `automation-control-plane` | 23 | Governed agent and software automation, jobs, worktrees, budgets, handoffs, routing, and recovery |
+| `promptops` | 15 | Prompt/model evaluation, regressions, local model operations, scorecards, and routing |
+| `rag-lab` | 10 | Retrieval, citations, corpora, datasets, freshness, indexing, and RAG evaluation |
+| `shipcheck` | 15 | CI, merge/release readiness, risk, test evidence, deployment truth, and rollback |
+| `repo-doctor` | 26 | Repository/runtime diagnostics, dependency and configuration health, developer documentation, and provenance |
+| `proofgate` | 16 | Evidence contracts, audit/replay, defensive policy, security checks, API/schema contracts, and webhooks |
 
-The machine-readable decision is `portfolio/final-architecture.json`.
+TrustKit and Contract Lab are preserved under ProofGate because their
+fail-closed policy, contract, and security evidence fits that product boundary.
+Putting network and webhook security tools inside Repo Doctor would weaken Repo
+Doctor's offline diagnostic identity.
 
-Final entities:
+## Two public support repositories
 
-1. `community-governance` → `.github`
-2. `ai-assistance-manifest` → `ai-assistance-manifest`
-3. `ai-software-factory` → `ai-software-factory`
-4. `apprentice-ai` → `apprentice-ai` — standalone flagship
-5. `agentops` → `automation-control-plane`
-6. `contract-lab` → `contract-lab`
-7. `devdocs` → `devdocs`
-8. `local-ai-stack` → `local-ai-stack`
-9. `model-router` → `model-router`
-10. `portfolio-profile` → `portfolio-kit` + `vigilanty0x`
-11. `promptops` → `promptops`
-12. `proofgate` → `proofgate`
-13. `rag-lab` → `rag-lab`
-14. `repo-doctor` → `repo-doctor`
-15. `shipcheck` → `shipcheck`
-16. `trustkit` → `trustkit`
+| Support repository | Public source identities | Purpose |
+|---|---:|---|
+| `.github` | 2 | Account-wide community health, reusable CI, governance, and workflow templates |
+| `vigilanty0x` | 5 | Profile, evidence dashboard, Portfolio Kit, build metrics, and portfolio generation |
 
-## Prepared absorptions
+`portfolio-kit` becomes a package inside the profile support repository;
+`workflow-templates` becomes a package inside `.github`. Neither remains a
+separate final repository in this prepared topology.
 
-The following product identities are transitional, not final standalone entities:
+## Machine-checked coverage
 
-- `agent-dashboard` → AgentOps
-- `agent-handoff` → AgentOps
-- `agent-worktrees` → AgentOps
-- `safe-merge-gate` → Shipcheck
-- `shipcheck-release-gate` → Shipcheck
+[`final-architecture.json`](final-architecture.json) contains every source
+assignment. The validator derives the authoritative 112-name public universe
+from [`targets.json`](targets.json), then rejects missing, duplicate, unexpected,
+or incorrectly routed repositories.
 
-Absorption means migration behind compatibility contracts. It does not authorize deletion, redirection, release, or archive.
+```bash
+node scripts/check-final-architecture.mjs \
+  portfolio/final-architecture.json portfolio/targets.json
+```
+
+The validator also rejects any state that:
+
+- differs from six products and two supports;
+- differs from eight public plus one private aggregate repository;
+- exposes private repository details;
+- claims that the GitHub migration is already applied;
+- authorizes deletion, archive, transfer, or automatic retirement;
+- removes the exact-import, compatibility, test, consumer, redirect, rollback,
+  or human-approval gates.
 
 ## Activation gate
 
-The final 16-entity state may replace the 18-target transitional registry only when every affected transition has all required proof:
-
-- current source and target SHAs;
-- source-history import or an explicitly documented replacement path;
-- compatibility for old package/import/CLI contracts;
-- live consumer inventory and migrated-consumer evidence;
-- target release evidence;
-- redirect/deprecation evidence where applicable;
-- a real rollback rehearsal bound to migration SHAs;
-- explicit named human approval.
-
-Until then, affected identities remain active and unarchived. A green rehearsal or an older successful CI run never substitutes for the current-head gate.
-
-## Archive boundary
-
-The final plan has 95 eventual archive candidates. **None is automatically archivable.** Archive remains blocked unless release, compatibility, consumers, redirect, rollback, and human-approval gates all pass.
-
-## Public/private boundary
-
-This decision is for the public portfolio only. Private-product data, secrets, customer information, private prompts, and production data are outside this document and outside the portfolio collector.
+Each source remains a separately observable GitHub repository until its target
+contains the exact source history or an approved replacement, compatibility is
+tested, consumers are accounted for, target CI passes, redirect and rollback
+paths are proven, and the owner approves the specific repository-setting
+operation. Local green tests validate this plan only; they do not activate it.

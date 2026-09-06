@@ -1,0 +1,36 @@
+{
+  "delete_authorized": false,
+  "github_migration_state": "NOT_APPLIED",
+  "schema_version": 1,
+  "status": "LOCAL_PREPARATION",
+  "target": {
+    "kind": "SUPPORT",
+    "repository": "vigilanty0x/.github",
+    "sources": [
+      {
+        "disposition": "KEEP",
+        "repository": "vigilanty0x/.github",
+        "source": {
+          "archived": false,
+          "default_branch": "main",
+          "head": "9577a196240904e0f19c2ad3c4ded3f83ec68372",
+          "tree": "53fba5d0623bffbfac773e7d28e50d5f4a371143",
+          "visibility": "PUBLIC"
+        },
+        "target_path": "."
+      },
+      {
+        "disposition": "ABSORB",
+        "repository": "vigilanty0x/workflow-templates",
+        "source": {
+          "archived": false,
+          "default_branch": "main",
+          "head": "f210986b2fa7917c1b70ce0f82b10f23e87f63b7",
+          "tree": "c9c199cfaff02b48e49c9008a830bbca8ae042ae",
+          "visibility": "PUBLIC"
+        },
+        "target_path": "packages/workflow-templates"
+      }
+    ]
+  }
+}

@@ -1,146 +1,226 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "status": "PREPARED",
-  "decisionOwner": "A01_GPT_5_6_SOL_1",
+  "implementationState": "LOCAL_ONLY",
+  "githubMigrationState": "NOT_APPLIED",
+  "decisionOwner": "vigilanty0x",
   "scope": "PUBLIC_ONLY",
   "activationRequiresHumanApproval": true,
+  "deletionAuthorized": false,
   "currentSafePlan": {
     "targetCount": 18,
-    "purpose": "Transitional review registry. It remains valid while source migrations, compatibility, consumer inventory, rollback, and human gates are incomplete."
+    "publicRepositoryCount": 112,
+    "purpose": "The public registry remains the observed GitHub state while the concrete-six imports, compatibility paths, tests, consumer checks, redirects, and rollback evidence are incomplete."
   },
   "finalState": {
-    "entityCount": 16,
-    "activeRepositoryCount": 17,
+    "entityCount": 8,
+    "productCount": 6,
+    "supportCount": 2,
+    "activeRepositoryCount": 8,
+    "privateRepositoryCount": 1,
+    "connectedRepositoryCount": 9,
+    "sourcePublicRepositoryCount": 112,
     "activeRepositories": [
       ".github",
-      "ai-assistance-manifest",
-      "ai-software-factory",
-      "apprentice-ai",
       "automation-control-plane",
-      "contract-lab",
-      "devdocs",
-      "local-ai-stack",
-      "model-router",
-      "portfolio-kit",
       "promptops",
       "proofgate",
       "rag-lab",
       "repo-doctor",
       "shipcheck",
-      "trustkit",
       "vigilanty0x"
     ],
     "entities": [
       {
-        "id": "community-governance",
-        "repositories": [".github"]
-      },
-      {
-        "id": "ai-assistance-manifest",
-        "repositories": ["ai-assistance-manifest"]
-      },
-      {
-        "id": "ai-software-factory",
-        "repositories": ["ai-software-factory"]
-      },
-      {
-        "id": "apprentice-ai",
-        "repositories": ["apprentice-ai"],
-        "standalone": true
-      },
-      {
-        "id": "agentops",
-        "repositories": ["automation-control-plane"]
-      },
-      {
-        "id": "contract-lab",
-        "repositories": ["contract-lab"]
-      },
-      {
-        "id": "devdocs",
-        "repositories": ["devdocs"]
-      },
-      {
-        "id": "local-ai-stack",
-        "repositories": ["local-ai-stack"]
-      },
-      {
-        "id": "model-router",
-        "repositories": ["model-router"]
-      },
-      {
-        "id": "portfolio-profile",
-        "repositories": ["portfolio-kit", "vigilanty0x"]
+        "id": "automation-control-plane",
+        "kind": "PRODUCT",
+        "repositories": ["automation-control-plane"],
+        "sourceRepositoryCount": 23,
+        "sourceRepositories": [
+          "agent-budgeter",
+          "agent-dashboard",
+          "agent-handoff",
+          "agent-inbox",
+          "agent-productivity-dashboard",
+          "agent-quota-simulator",
+          "agent-retry-kit",
+          "agent-session-recorder",
+          "agent-worktrees",
+          "agentmesh",
+          "ai-software-factory",
+          "ai-software-factory-starter-kit",
+          "apprentice-ai",
+          "automation-control-plane",
+          "circuit-breaker-lab",
+          "context-window-budgeter",
+          "handoff-markdown-cli",
+          "human-in-the-loop-queue",
+          "idempotency-kit",
+          "model-router",
+          "taskgraph",
+          "timeout-toolkit",
+          "worktree-conflict-visualizer"
+        ]
       },
       {
         "id": "promptops",
-        "repositories": ["promptops"]
-      },
-      {
-        "id": "proofgate",
-        "repositories": ["proofgate"]
+        "kind": "PRODUCT",
+        "repositories": ["promptops"],
+        "sourceRepositoryCount": 15,
+        "sourceRepositories": [
+          "answer-diff",
+          "benchmark-run-recorder",
+          "consensus-engine",
+          "eval-dataset-builder",
+          "llm-jury",
+          "local-ai-stack",
+          "local-model-benchmark",
+          "model-fallback-proxy",
+          "model-scorecard",
+          "multi-agent-failure-corpus",
+          "ollama-fleet-manager",
+          "prompt-package-manager",
+          "prompt-regression",
+          "promptbench",
+          "promptops"
+        ]
       },
       {
         "id": "rag-lab",
-        "repositories": ["rag-lab"]
-      },
-      {
-        "id": "repo-doctor",
-        "repositories": ["repo-doctor"]
+        "kind": "PRODUCT",
+        "repositories": ["rag-lab"],
+        "sourceRepositoryCount": 10,
+        "sourceRepositories": [
+          "data-freshness-monitor",
+          "dataset-versioner",
+          "embedding-lab",
+          "file-intake-pipeline",
+          "hybrid-search-playground",
+          "rag-citation-explorer",
+          "rag-corpus-doctor",
+          "rag-lab",
+          "rag-quality-bench",
+          "semantic-index-doctor"
+        ]
       },
       {
         "id": "shipcheck",
-        "repositories": ["shipcheck"]
+        "kind": "PRODUCT",
+        "repositories": ["shipcheck"],
+        "sourceRepositoryCount": 15,
+        "sourceRepositories": [
+          "ci-failure-summarizer",
+          "ci-matrix-generator",
+          "deploy-truth",
+          "diff-risk-scorer",
+          "flaky-test-tracker",
+          "local-ci-runner",
+          "pr-review-council",
+          "release-readiness",
+          "reproducible-demo-harness",
+          "rollback-drill",
+          "safe-merge-gate",
+          "shipcheck",
+          "shipcheck-release-gate",
+          "test-evidence-pack",
+          "test-gap-finder"
+        ]
       },
       {
-        "id": "trustkit",
-        "repositories": ["trustkit"]
+        "id": "repo-doctor",
+        "kind": "PRODUCT",
+        "repositories": ["repo-doctor"],
+        "sourceRepositoryCount": 26,
+        "sourceRepositories": [
+          "ai-assistance-manifest",
+          "ai-project-provenance-badge",
+          "ai-setup-doctor",
+          "backup-verifier",
+          "codebase-onboarding-guide-generator",
+          "config-drift-detector",
+          "container-resource-profiler",
+          "dependency-drift-reporter",
+          "devdocs",
+          "docker-stack-doctor",
+          "document-factory",
+          "duplicate-finder",
+          "event-log-explorer",
+          "failure-postmortem-kit",
+          "healthcheck-hub",
+          "migration-verifier",
+          "port-conflict-doctor",
+          "repo-dependency-graph",
+          "repo-doctor",
+          "repo-doctor-ai",
+          "runbook-builder",
+          "service-doctor",
+          "sqlite-health-doctor",
+          "sqlite-query-plan-visualizer",
+          "state-machine-visualizer",
+          "system-map-generator"
+        ]
+      },
+      {
+        "id": "proofgate",
+        "kind": "PRODUCT",
+        "repositories": ["proofgate"],
+        "sourceRepositoryCount": 16,
+        "sourceRepositories": [
+          "api-contract-mock-server",
+          "audit-trail-lite",
+          "contract-lab",
+          "env-example-guard",
+          "evidence-ledger",
+          "permission-matrix",
+          "proofgate",
+          "run-replay",
+          "schema-contract-tester",
+          "secrets-hygiene",
+          "security-headers-lab",
+          "ssrf-guard-demo",
+          "status-truth",
+          "structured-output-guard",
+          "trustkit",
+          "webhook-sandbox"
+        ]
+      },
+      {
+        "id": "community-governance",
+        "kind": "SUPPORT",
+        "repositories": [".github"],
+        "sourceRepositoryCount": 2,
+        "sourceRepositories": [".github", "workflow-templates"]
+      },
+      {
+        "id": "portfolio-profile",
+        "kind": "SUPPORT",
+        "repositories": ["vigilanty0x"],
+        "sourceRepositoryCount": 5,
+        "sourceRepositories": [
+          "build-metrics-collector",
+          "github-profile-dashboard",
+          "open-source-portfolio-generator",
+          "portfolio-kit",
+          "vigilanty0x"
+        ]
       }
     ]
   },
-  "transitionalAbsorptions": [
-    {
-      "sourceProductIdentity": "agent-dashboard",
-      "targetEntity": "agentops",
-      "targetRepository": "automation-control-plane",
-      "state": "PENDING_GATES"
-    },
-    {
-      "sourceProductIdentity": "agent-handoff",
-      "targetEntity": "agentops",
-      "targetRepository": "automation-control-plane",
-      "state": "PENDING_GATES"
-    },
-    {
-      "sourceProductIdentity": "agent-worktrees",
-      "targetEntity": "agentops",
-      "targetRepository": "automation-control-plane",
-      "state": "PENDING_GATES"
-    },
-    {
-      "sourceProductIdentity": "safe-merge-gate",
-      "targetEntity": "shipcheck",
-      "targetRepository": "shipcheck",
-      "state": "PENDING_GATES"
-    },
-    {
-      "sourceProductIdentity": "shipcheck-release-gate",
-      "targetEntity": "shipcheck",
-      "targetRepository": "shipcheck",
-      "state": "PENDING_GATES"
-    }
-  ],
-  "archivePolicy": {
-    "eventualCandidateCount": 95,
+  "retirementPolicy": {
+    "nonTargetPublicRepositoryCount": 104,
     "automatic": false,
+    "archiveAuthorized": false,
+    "deletionAuthorized": false,
+    "transferAuthorized": false,
     "requiredGates": [
-      "release",
+      "exactImport",
       "compatibility",
+      "tests",
       "consumers",
       "redirect",
       "rollback",
       "humanApproval"
     ]
   },
-  "activationRule": "Do not reduce targets.json from the 18-target transitional registry to the 16-entity final state until every affected migration has current evidence and explicit human approval."
+  "activationRule": "This document prepares a local topology only. Do not claim that GitHub has nine connected repositories, retire a source repository, or change repository settings until every migration gate passes and the owner gives explicit action-specific approval."
 }
