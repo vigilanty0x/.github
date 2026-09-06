@@ -1,10 +1,10 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "owner": "vigilanty0x",
   "scope": "PUBLIC_ONLY",
-  "generatedAt": "2026-08-18T02:26:33Z",
-  "observedAt": "2026-08-17T23:59:59Z",
-  "expiresAt": "2026-09-17T23:59:59Z",
+  "generatedAt": "2026-09-06T14:57:18Z",
+  "observedAt": "2026-09-06T14:51:35.617Z",
+  "expiresAt": "2026-10-06T14:21:24.310Z",
   "expectedTargetCount": 18,
   "expectedSourceRepositoryCount": 100,
   "expectedPublicRepositoryCount": 112,
@@ -58,6 +58,227 @@
       "decision": "MERGE_AS_SHIPCHECK_PACKAGE_OR_PROVE_DISTINCT_RELEASE_PERSONA",
       "owner": "vigilanty0x",
       "evidenceStatus": "OBSERVED"
+    }
+  ],
+  "archiveBatches": [
+    {
+      "id": "promptops-2026-09-06",
+      "target": "promptops",
+      "status": "OBSERVED_NONCOMPLIANT",
+      "sourceEvidence": {
+        "repository": "promptops",
+        "commit": "d1b76b180d64b655d1fcd76df13427f66e5a8ce0",
+        "compatibilityManifestUrl": "https://github.com/vigilanty0x/promptops/blob/d1b76b180d64b655d1fcd76df13427f66e5a8ce0/portfolio-compatibility.v1.json",
+        "governanceManifestUrl": "https://github.com/vigilanty0x/promptops/blob/d1b76b180d64b655d1fcd76df13427f66e5a8ce0/repository-governance.v1.json"
+      },
+      "approval": {
+        "approver": "vigilanty0x",
+        "approvedOn": "2026-09-06",
+        "action": "ARCHIVE_ONLY_NO_DELETION",
+        "evidenceUrl": "https://github.com/vigilanty0x/promptops/blob/d1b76b180d64b655d1fcd76df13427f66e5a8ce0/portfolio-compatibility.v1.json",
+        "repositories": [
+          "answer-diff",
+          "benchmark-run-recorder",
+          "consensus-engine",
+          "eval-dataset-builder",
+          "llm-jury",
+          "model-scorecard",
+          "multi-agent-failure-corpus",
+          "prompt-package-manager",
+          "prompt-regression"
+        ]
+      },
+      "consumerInventory": {
+        "status": "VERIFIED",
+        "runId": 34038891620,
+        "runUrl": "https://github.com/vigilanty0x/.github/actions/runs/34038891620",
+        "artifactId": 9991044854,
+        "artifactDigestSha256": "4b27986b96b04f2decffe047442e21f2605dad40cbb964ae8513fd9b2503ee26",
+        "evidenceSha256": "7cea37067c023dea175ecbd1c872a97cca0ce055a4a6cc3fea0140a830873911",
+        "observedAt": "2026-09-06T14:21:24.310Z",
+        "expiresAt": "2026-10-06T14:21:24.310Z",
+        "repositories": [
+          "answer-diff",
+          "benchmark-run-recorder",
+          "consensus-engine",
+          "eval-dataset-builder",
+          "llm-jury",
+          "model-scorecard",
+          "multi-agent-failure-corpus",
+          "prompt-package-manager",
+          "prompt-regression"
+        ],
+        "externalConsumerRepositories": [],
+        "limitation": "The bounded public default-branch scan cannot observe private, local, cached, package-index, dynamic, or third-party consumers."
+      },
+      "releaseVerification": {
+        "status": "VERIFIED",
+        "version": "0.5.0",
+        "tag": "v0.5.0",
+        "url": "https://github.com/vigilanty0x/promptops/releases/tag/v0.5.0",
+        "sourceSha": "c8c6d133e86a119338edbc7b4e9142ce1c525fb5",
+        "artifactName": "promptbench_replay-0.5.0-py3-none-any.whl",
+        "artifactSha256": "ee91c9f0cf84d928f4119d1125b0393bc8dc57a972e6316b9da659e5b27aaedb",
+        "publishedAt": "2026-08-18T03:13:07Z",
+        "verificationRunId": 32094998702,
+        "verificationUrl": "https://github.com/vigilanty0x/promptops/actions/runs/32094998702"
+      },
+      "rollback": {
+        "status": "DOCUMENTED",
+        "lastRehearsedAt": null,
+        "evidenceUrl": "https://github.com/vigilanty0x/promptops/blob/d1b76b180d64b655d1fcd76df13427f66e5a8ce0/docs/PORTFOLIO-COMPATIBILITY-AND-ARCHIVE-GATE.md#rollback",
+        "method": "The documented recovery path restores development from the preserved immutable source commits, but no executed rollback rehearsal is recorded."
+      },
+      "serverReadback": {
+        "observedAt": "2026-09-06T14:51:35.617Z",
+        "evidenceUrl": "https://github.com/vigilanty0x/promptops/blob/d1b76b180d64b655d1fcd76df13427f66e5a8ce0/repository-governance.v1.json",
+        "archiveOnlyNoDeletion": true,
+        "repositories": [
+          {
+            "repository": "answer-diff",
+            "archived": true,
+            "headSha": "5c51cdf22afd2e9c55b59b888b1a60ff1b4b3d54",
+            "homepage": "https://github.com/vigilanty0x/promptops/tree/main/packages/answer-diff",
+            "openPullRequestCount": 0,
+            "redirect": {
+              "pullRequest": 2,
+              "mergeSha": "5c51cdf22afd2e9c55b59b888b1a60ff1b4b3d54",
+              "path": "README.md",
+              "ci": "SUCCESS"
+            }
+          },
+          {
+            "repository": "benchmark-run-recorder",
+            "archived": true,
+            "headSha": "c0bfff75d2237bb48b95efa3389fdb6b4c45ccdc",
+            "homepage": "https://github.com/vigilanty0x/promptops/tree/main/packages/benchmark-run-recorder",
+            "openPullRequestCount": 0,
+            "redirect": {
+              "pullRequest": 2,
+              "mergeSha": "c0bfff75d2237bb48b95efa3389fdb6b4c45ccdc",
+              "path": "README.md",
+              "ci": "SUCCESS"
+            }
+          },
+          {
+            "repository": "consensus-engine",
+            "archived": true,
+            "headSha": "5239acbb56d271f86c01162c17c04d1875e83df8",
+            "homepage": "https://github.com/vigilanty0x/promptops/tree/main/packages/consensus-engine",
+            "openPullRequestCount": 0,
+            "redirect": {
+              "pullRequest": 2,
+              "mergeSha": "5239acbb56d271f86c01162c17c04d1875e83df8",
+              "path": "README.md",
+              "ci": "SUCCESS"
+            }
+          },
+          {
+            "repository": "eval-dataset-builder",
+            "archived": true,
+            "headSha": "7bbef9d75115ccc406cc47554cc77e22300c1385",
+            "homepage": "https://github.com/vigilanty0x/promptops/tree/main/packages/eval-dataset-builder",
+            "openPullRequestCount": 0,
+            "redirect": {
+              "pullRequest": 2,
+              "mergeSha": "7bbef9d75115ccc406cc47554cc77e22300c1385",
+              "path": "README.md",
+              "ci": "SUCCESS"
+            }
+          },
+          {
+            "repository": "llm-jury",
+            "archived": true,
+            "headSha": "49d5fc90be79661721c8a89797aafd50bb5fa069",
+            "homepage": "https://github.com/vigilanty0x/promptops/tree/main/packages/llm-jury",
+            "openPullRequestCount": 0,
+            "redirect": {
+              "pullRequest": 2,
+              "mergeSha": "49d5fc90be79661721c8a89797aafd50bb5fa069",
+              "path": "README.md",
+              "ci": "SUCCESS"
+            }
+          },
+          {
+            "repository": "model-scorecard",
+            "archived": true,
+            "headSha": "203870578fac187e97ff6854ea041bd16f815c8b",
+            "homepage": "https://github.com/vigilanty0x/promptops/tree/main/packages/model-scorecard",
+            "openPullRequestCount": 0,
+            "redirect": {
+              "pullRequest": 2,
+              "mergeSha": "203870578fac187e97ff6854ea041bd16f815c8b",
+              "path": "README.md",
+              "ci": "SUCCESS"
+            }
+          },
+          {
+            "repository": "multi-agent-failure-corpus",
+            "archived": true,
+            "headSha": "b541a772943d63d5a37a0dccf3d4631f843885f4",
+            "homepage": "https://github.com/vigilanty0x/promptops/tree/main/packages/multi-agent-failure-corpus",
+            "openPullRequestCount": 0,
+            "redirect": {
+              "pullRequest": 2,
+              "mergeSha": "b541a772943d63d5a37a0dccf3d4631f843885f4",
+              "path": "README.md",
+              "ci": "SUCCESS"
+            }
+          },
+          {
+            "repository": "prompt-package-manager",
+            "archived": true,
+            "headSha": "cff0de7a8a37d992d0079341955f79ca8801ce77",
+            "homepage": "https://github.com/vigilanty0x/promptops/tree/main/packages/prompt-package-manager",
+            "openPullRequestCount": 0,
+            "redirect": {
+              "pullRequest": 2,
+              "mergeSha": "cff0de7a8a37d992d0079341955f79ca8801ce77",
+              "path": "README.md",
+              "ci": "SUCCESS"
+            }
+          },
+          {
+            "repository": "prompt-regression",
+            "archived": true,
+            "headSha": "d877d4487c3322b3cdb68d51b085e1185efcf50d",
+            "homepage": "https://github.com/vigilanty0x/promptops/tree/main/packages/prompt-regression",
+            "openPullRequestCount": 0,
+            "redirect": {
+              "pullRequest": 2,
+              "mergeSha": "d877d4487c3322b3cdb68d51b085e1185efcf50d",
+              "path": "README.md",
+              "ci": "SUCCESS"
+            }
+          }
+        ]
+      },
+      "compliance": {
+        "status": "BLOCKED",
+        "requiredGates": {
+          "decision": "PASS",
+          "import": "PASS",
+          "compatibility": "PASS",
+          "release": "PASS",
+          "consumers": "PASS",
+          "redirect": "BLOCKED",
+          "rollback": "BLOCKED",
+          "humanApproval": "PASS"
+        },
+        "gaps": [
+          {
+            "gate": "redirect",
+            "code": "INCOMPLETE_REDIRECT_NOTICE",
+            "detail": "The nine archived README notices identify PromptOps and preserve package identity, but do not include the centrally required support end date, security reporting path, and explicit migration command."
+          },
+          {
+            "gate": "rollback",
+            "code": "ROLLBACK_NOT_REHEARSED",
+            "detail": "PromptOps documents restoration from preserved source commits, but no executed and timestamped rollback rehearsal artifact is recorded."
+          }
+        ],
+        "authorizesFutureArchives": false
+      }
     }
   ],
   "targets": [
@@ -1079,106 +1300,106 @@
       "maturity": "PROTOTYPE",
       "evidence": {
         "status": "OBSERVED",
-        "source": "public-portfolio-audit-2026-08-17",
-        "observedAt": "2026-08-17T23:59:59Z",
-        "expiresAt": "2026-09-17T23:59:59Z"
+        "source": "https://github.com/vigilanty0x/promptops/blob/d1b76b180d64b655d1fcd76df13427f66e5a8ce0/repository-governance.v1.json",
+        "observedAt": "2026-09-06T14:51:35.617Z",
+        "expiresAt": "2026-10-06T14:21:24.310Z"
       },
-      "risk": "Release preparation exists without a verified release, while the root package retains an older identity.",
+      "risk": "PromptBench remains an active, explicitly unapproved source identity; the nine archived package repositories retain public history, compatibility, and rollback evidence.",
       "decision": {
         "kind": "KEEP_AND_CONSOLIDATE",
-        "status": "PREPARED",
+        "status": "APPROVED",
         "selectedBase": "promptops",
         "candidates": [
           "promptops"
         ],
-        "rationale": "Target mapping is prepared from the dated public portfolio audit; merge and archive decisions remain gated."
+        "rationale": "The authenticated owner approved archive-only consolidation of exactly nine historical package repositories into PromptOps; PromptBench remains active and outside the approval scope."
       },
       "implementationRef": {
-        "kind": "MAIN_OR_DRAFT_UNVERIFIED",
+        "kind": "MAIN",
         "repository": "promptops",
-        "ref": null
+        "ref": "d1b76b180d64b655d1fcd76df13427f66e5a8ce0"
       },
       "sources": [
         {
           "repository": "answer-diff",
           "role": "SOURCE",
-          "state": "ACTIVE_SOURCE",
-          "sourceSha": null,
-          "treeSha": null,
-          "targetPath": null,
-          "importCommit": null
+          "state": "ARCHIVED",
+          "sourceSha": "c637bdb7e2e5d541ee8dbdb5274cc817073242c5",
+          "treeSha": "90ae10d81cd02249cc27798f24bbd48f04b80f02",
+          "targetPath": "packages/answer-diff",
+          "importCommit": "7e173246ddf32ab0a90bed37c09dd03a22a9a5ef"
         },
         {
           "repository": "benchmark-run-recorder",
           "role": "SOURCE",
-          "state": "ACTIVE_SOURCE",
-          "sourceSha": null,
-          "treeSha": null,
-          "targetPath": null,
-          "importCommit": null
+          "state": "ARCHIVED",
+          "sourceSha": "c6da4fb1aea8e6d23167342e6461b3900929a44c",
+          "treeSha": "1386c1cfb7937721a39e65e63d4d18c92d5236ca",
+          "targetPath": "packages/benchmark-run-recorder",
+          "importCommit": "679c914a763b4dece6ba884f70ba489328bf9fea"
         },
         {
           "repository": "consensus-engine",
           "role": "SOURCE",
-          "state": "ACTIVE_SOURCE",
-          "sourceSha": null,
-          "treeSha": null,
-          "targetPath": null,
-          "importCommit": null
+          "state": "ARCHIVED",
+          "sourceSha": "cbacee3dbbec4f1ddaaa9755b53aaa67b1304941",
+          "treeSha": "35f2c46232d47e05f9b1fdca6bfa8339dc802325",
+          "targetPath": "packages/consensus-engine",
+          "importCommit": "7907e3879a1ec61bc26e5a7b72ffcf70b8e82566"
         },
         {
           "repository": "eval-dataset-builder",
           "role": "SOURCE",
-          "state": "ACTIVE_SOURCE",
-          "sourceSha": null,
-          "treeSha": null,
-          "targetPath": null,
-          "importCommit": null
+          "state": "ARCHIVED",
+          "sourceSha": "02d1b132528fceb1688e980b124a2f3c160082a3",
+          "treeSha": "56472a77455b28600656d3d1b42f5c09be18f428",
+          "targetPath": "packages/eval-dataset-builder",
+          "importCommit": "aa74374c19bdcf38fefdd7e01394f7070664a22d"
         },
         {
           "repository": "llm-jury",
           "role": "SOURCE",
-          "state": "ACTIVE_SOURCE",
-          "sourceSha": null,
-          "treeSha": null,
-          "targetPath": null,
-          "importCommit": null
+          "state": "ARCHIVED",
+          "sourceSha": "e44911d87e21725c949d7e742c2b7270b7f67650",
+          "treeSha": "6edb48a2b0fc18c33715890af03daed0679a3ea5",
+          "targetPath": "packages/llm-jury",
+          "importCommit": "195724aa0faf0fc110ae1dd86844269b4377ae16"
         },
         {
           "repository": "model-scorecard",
           "role": "SOURCE",
-          "state": "ACTIVE_SOURCE",
-          "sourceSha": null,
-          "treeSha": null,
-          "targetPath": null,
-          "importCommit": null
+          "state": "ARCHIVED",
+          "sourceSha": "b24b2eb354e67b4791e73cbc346d3850b481fe5c",
+          "treeSha": "612ef76cbd128d1e3f6cd53a50032d79b2af756e",
+          "targetPath": "packages/model-scorecard",
+          "importCommit": "50f8b4e3c3efc5a8360b63076f86449b2cb3a1fc"
         },
         {
           "repository": "multi-agent-failure-corpus",
           "role": "SOURCE",
-          "state": "ACTIVE_SOURCE",
-          "sourceSha": null,
-          "treeSha": null,
-          "targetPath": null,
-          "importCommit": null
+          "state": "ARCHIVED",
+          "sourceSha": "fb75906f8f7dcde4cca8bb16457a2f90ddac6333",
+          "treeSha": "3fb1d1214615bed15c7ed113078f38f510616037",
+          "targetPath": "packages/multi-agent-failure-corpus",
+          "importCommit": "1e0c91b02692b69cd5e0182678a329323b3a3a58"
         },
         {
           "repository": "prompt-package-manager",
           "role": "SOURCE",
-          "state": "ACTIVE_SOURCE",
-          "sourceSha": null,
-          "treeSha": null,
-          "targetPath": null,
-          "importCommit": null
+          "state": "ARCHIVED",
+          "sourceSha": "17fab8db694493c5a08cf27cb683bc3a0f29927d",
+          "treeSha": "ff26e031d5adaa5b08546f1ec803d3442d6c1e5b",
+          "targetPath": "packages/prompt-package-manager",
+          "importCommit": "bf498286fcbc11c32777606aa2e96401d39340de"
         },
         {
           "repository": "prompt-regression",
           "role": "SOURCE",
-          "state": "ACTIVE_SOURCE",
-          "sourceSha": null,
-          "treeSha": null,
-          "targetPath": null,
-          "importCommit": null
+          "state": "ARCHIVED",
+          "sourceSha": "e9111956bbf21ae36b988bb415007048ab28502d",
+          "treeSha": "7036857ed25f786c8caef00d163b464d5446085d",
+          "targetPath": "packages/prompt-regression",
+          "importCommit": "eb72ad88f539805e0574a18a1bd1779583d8c29d"
         },
         {
           "repository": "promptbench",
@@ -1191,39 +1412,50 @@
         }
       ],
       "release": {
-        "status": "NOT_RELEASED",
-        "version": null,
-        "tag": null,
-        "url": null,
-        "artifactSha256": null,
-        "publishedAt": null
+        "status": "VERIFIED",
+        "version": "0.5.0",
+        "tag": "v0.5.0",
+        "url": "https://github.com/vigilanty0x/promptops/releases/tag/v0.5.0",
+        "artifactSha256": "ee91c9f0cf84d928f4119d1125b0393bc8dc57a972e6316b9da659e5b27aaedb",
+        "publishedAt": "2026-08-18T03:13:07Z"
       },
       "consumers": {
-        "status": "NOT_INVENTORIED",
-        "checkedAt": null,
+        "status": "VERIFIED",
+        "checkedAt": "2026-09-06T14:21:24.310Z",
         "repositories": []
       },
       "rollback": {
-        "status": "NOT_PROVEN",
+        "status": "DOCUMENTED",
         "lastRehearsedAt": null,
-        "evidenceUrl": null
+        "evidenceUrl": "https://github.com/vigilanty0x/promptops/blob/d1b76b180d64b655d1fcd76df13427f66e5a8ce0/docs/PORTFOLIO-COMPATIBILITY-AND-ARCHIVE-GATE.md#rollback"
       },
       "humanApproval": {
-        "approved": false,
-        "approver": null,
-        "approvedAt": null,
-        "rationale": null
+        "approved": true,
+        "approver": "vigilanty0x",
+        "approvedAt": "2026-09-06",
+        "rationale": "Archive-only approval applies exactly to the nine historical PromptOps package repositories; deletion is forbidden and PromptBench is excluded.",
+        "repositories": [
+          "answer-diff",
+          "benchmark-run-recorder",
+          "consensus-engine",
+          "eval-dataset-builder",
+          "llm-jury",
+          "model-scorecard",
+          "multi-agent-failure-corpus",
+          "prompt-package-manager",
+          "prompt-regression"
+        ]
       },
       "waivers": [],
       "gates": {
-        "decision": "BLOCKED",
-        "import": "NOT_RUN",
-        "compatibility": "NOT_RUN",
-        "release": "BLOCKED",
-        "consumers": "NOT_RUN",
+        "decision": "PASS",
+        "import": "PASS",
+        "compatibility": "PASS",
+        "release": "PASS",
+        "consumers": "PASS",
         "redirect": "BLOCKED",
-        "rollback": "NOT_RUN",
-        "humanApproval": "BLOCKED"
+        "rollback": "BLOCKED",
+        "humanApproval": "PASS"
       }
     },
     {

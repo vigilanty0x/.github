@@ -40,4 +40,4 @@ Rollback is an executable drill, not a sentence. It must restore the previous su
 
 ## Human gate
 
-No source archive, stable release, or freeze removal is automatic. The registry records approver, time, rationale, and the exact SHA reviewed.
+No source archive, stable release, or freeze removal is automatic. The registry records approver, date or time, rationale, the exact repository scope, and the immutable evidence reviewed. A factual non-compliant archive readback is not approval, a waiver, or precedent for any repository outside that exact scope.

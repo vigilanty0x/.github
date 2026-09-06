@@ -62,6 +62,8 @@ A source may not enter `ARCHIVE_APPROVED` or `ARCHIVED` unless all of the follow
 
 A missing, stale, inaccessible, or waived mandatory proof is not a pass. The counter-proof tests intentionally attempt illegal archive and release states and must fail.
 
+An externally observed archive that violated this transition may be represented only by a bounded `OBSERVED_NONCOMPLIANT` receipt. The receipt must name the exact repositories, approval scope, immutable import and release evidence, consumer observation, server readback, and every blocked gate. It records reality without promoting the target to `VERIFIED`, satisfying the missing gates, or authorizing future archives.
+
 ## Waivers
 
 A waiver requires a named approver, approval date, expiry, and rationale. Waivers never satisfy `humanApproval`, and they cannot transform a target into `VERIFIED`.

@@ -6,7 +6,7 @@ It separates **prepared work** from **merged code**, **tags**, **published relea
 
 ## Files
 
-- `targets.json` — eighteen target products, one hundred source repositories, two standalone decision items, and the complete expected public set of 112 repositories.
+- `targets.json` — eighteen target products, one hundred source repositories, two standalone decision items, the complete expected public set of 112 repositories, and bounded archive readback receipts.
 - `targets.schema.json` — declarative schema for the target registry.
 - `actions.json` — P0/P1 action register with dependencies, counter-proofs, closure evidence, and rollback.
 - `actions.schema.json` — declarative schema for the action register.
@@ -25,7 +25,7 @@ node scripts/check-portfolio.mjs --root .
 node --test test/*.test.mjs
 ```
 
-The validator is deliberately fail-closed. It rejects duplicate membership, contradictory release claims, stale evidence, unapproved waivers, invalid state transitions, and any archive state lacking every required gate.
+The validator is deliberately fail-closed. It rejects duplicate membership, contradictory release claims, stale evidence, unapproved waivers, and invalid state transitions. An archive may lack mandatory gates only when an exact, repository-scoped `OBSERVED_NONCOMPLIANT` server readback records an already-existing condition; that receipt must keep compliance blocked and cannot satisfy or waive any archive gate.
 
 ## Live evidence
 
@@ -38,4 +38,4 @@ GITHUB_TOKEN=... node scripts/live-portfolio.mjs \
   --output-markdown snapshot.md
 ```
 
-Strict mode stops the line when repository coverage drifts, the pull-request backlog exceeds policy, active consolidations exceed review capacity, or live data cannot be collected. It does not close, merge, archive, publish, or modify repositories.
+Strict mode stops the line when repository coverage drifts, an expected archive or its recorded head/homepage/open-PR state drifts, the pull-request backlog exceeds policy, active consolidations exceed review capacity, or live data cannot be collected. It does not close, merge, archive, publish, or modify repositories.
